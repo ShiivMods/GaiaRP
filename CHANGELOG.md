@@ -1,3 +1,9 @@
+## 0.6.dev51
+- Correctif GitHub Pages : le script `build` utilise désormais directement Vite au lieu de lancer `tsc -b` avant la compilation.
+- Cela contourne le blocage TS2882 de TypeScript 7 sur l’import CSS `./styles.css`, qui empêchait toute nouvelle version d’être déployée.
+- Le correctif des chemins d’assets de la dev49/dev50 est conservé : les images utilisent `import.meta.env.BASE_URL` pour fonctionner sous `/GaiaRP/`.
+- Le script `typecheck` reste disponible séparément pour les contrôles TypeScript locaux.
+
 ## 0.6.dev50
 - Correctif de build GitHub Pages : désactivation explicite de `noUncheckedSideEffectImports` pour empêcher TypeScript de bloquer sur `import './styles.css'`.
 - Conservation du correctif dev49 pour les chemins d’assets basés sur `import.meta.env.BASE_URL`.

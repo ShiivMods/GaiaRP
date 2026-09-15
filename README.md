@@ -1,3 +1,7 @@
+# Gaia RP - Prototype 0.6.dev51
+
+Correctif de déploiement GitHub Pages : Vite construit désormais le site sans être bloqué par le contrôle CSS de TypeScript 7.
+
 # Gaia RP - Prototype 0.6.dev49
 
 Correctif de compatibilité GitHub Pages : les images et autres assets utilisent désormais le chemin de base fourni par Vite, afin de fonctionner aussi bien en local que sous `/GaiaRP/`.
