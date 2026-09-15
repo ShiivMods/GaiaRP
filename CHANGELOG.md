@@ -1,3 +1,8 @@
+## 0.6.dev50
+- Correctif de build GitHub Pages : désactivation explicite de `noUncheckedSideEffectImports` pour empêcher TypeScript de bloquer sur `import './styles.css'`.
+- Conservation du correctif dev49 pour les chemins d’assets basés sur `import.meta.env.BASE_URL`.
+- Déclaration CSS conservée dans `src/vite-env.d.ts` pour compatibilité.
+
 ## 0.6.dev49
 - Correction globale des chemins d’assets pour GitHub Pages et les déploiements sous un sous-dossier comme `/GaiaRP/`.
 - Ajout d’un résolveur central basé sur `import.meta.env.BASE_URL` pour les planètes, lunes, stations, avatars, vaisseaux et illustrations du Lore.
