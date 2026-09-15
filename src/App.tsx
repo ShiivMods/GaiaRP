@@ -144,6 +144,19 @@ function App() {
   const [rpInvitedIds, setRpInvitedIds] = useState<string[]>(prototypeRp.invitedIds)
   const [loreInitialView, setLoreInitialView] = useState<LoreInitialView>('history')
   const [lorePageKey, setLorePageKey] = useState(0)
+  const [gameYear, setGameYear] = useState(153)
+  const [gameMonth, setGameMonth] = useState(1)
+
+  const advanceGameMonth = () => {
+    setGameMonth((month) => {
+      if (month >= 12) {
+        setGameYear((year) => year + 1)
+        return 1
+      }
+
+      return month + 1
+    })
+  }
 
   const chapter = chapters.find((item) => item.id === chapterId) ?? chapters.at(-1)!
   const isCurrentChapter = chapterId === currentChapterId
@@ -449,7 +462,31 @@ function App() {
         {screen === 'map' && ['system', 'planet', 'zone', 'interior'].includes(level) && <><span>/</span><button className={level === 'system' ? 'active' : ''} onClick={goSystem}>{selectedSystem.name.toUpperCase()}</button></>}
         {screen === 'map' && ['planet', 'zone', 'interior'].includes(level) && surfaceAstro && <><span>/</span><button className={level === 'planet' || level === 'interior' ? 'active' : ''} onClick={level === 'interior' ? undefined : goPlanet}>{surfaceAstro.name.toUpperCase()}</button></>}
         {screen === 'map' && level === 'zone' && selectedZone && <><span>/</span><button className="active">{selectedZone.name.toUpperCase()}</button></>}
-        <div className="breadcrumb-era">{screen === 'dynasty' ? 'DOSSIER DYNASTIQUE' : screen === 'rp' ? `${activeRp.dateLabel} · ${activeRp.status}` : `${chapter.shortLabel} · ${chapter.dateLabel} · ${chapter.period}`}</div>
+        <div className="breadcrumb-era">
+          {screen !== 'dynasty' && screen !== 'rp' && isCurrentChapter ? (
+            <>
+              {mapViewMode === 'admin' && (
+                <button
+                  className="advance-time-button"
+                  onClick={advanceGameMonth}
+                  title="Avancer le temps d’un mois"
+                >
+                  +1 mois
+                </button>
+              )}
+
+              <span>An {gameYear} - Mois {gameMonth}</span>
+            </>
+          ) : (
+            <span>
+              {screen === 'dynasty'
+                ? 'DOSSIER DYNASTIQUE'
+                : screen === 'rp'
+                  ? `${activeRp.dateLabel} · ${activeRp.status}`
+                  : `${chapter.shortLabel} · ${chapter.dateLabel} · ${chapter.period}`}
+            </span>
+          )}
+        </div>
       </div>}
 
       {screen === 'lore' ? (
