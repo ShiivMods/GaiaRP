@@ -424,7 +424,7 @@ function HistoryLore({ onNavigate }: { onNavigate: () => void }) {
           <div className="history-archives-head">
             <span>FICHES D’ARCHIVES</span>
             <h3>Archives historiques</h3>
-            <p>Une encyclopédie interne pour les figures, événements, institutions et éléments historiques qui méritent d’être développés au-delà de la Chronologie.</p>
+            <p>Une encyclopédie interne pour les figures, événements, institutions et éléments historiques qui méritent d’être développés au-delà de la Chronologie. Sa lecture est purement optionnelle et uniquement dédiée à ceux qui veulent en apprendre plus sur le lore.</p>
           </div>
 
           <div className="history-archive-toolbar">
