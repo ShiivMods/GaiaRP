@@ -1,0 +1,36 @@
+## 0.6.dev48
+- Inversion des illustrations de panneau entre Station Hélios et Argos, comme demandé.
+- Reprise du visuel de Starlight avec l’image validée, mieux intégrée au centre de la carte système.
+- Starlight devient cliquable sur la carte système et affiche désormais sa propre fiche avec type, température et rayon.
+
+## 0.6.dev47
+- Correction de l’affichage du soleil de Starlight sur la carte système : image recentrée, agrandie et découpée proprement en cercle pour supprimer l’effet de carré noir.
+
+## 0.6.dev46
+- Intégration des nouveaux visuels de carte pour Argos, Station Hélios et Bastion Elysia dans le système Starlight.
+- Remplacement du soleil stylisé de Starlight par l’illustration dédiée sur la carte système.
+- Les panneaux détaillés des installations conservent leurs images existantes ; seuls les marqueurs de carte utilisent les nouveaux PNG.
+
+# Changelog dev45
+
+- La zone Lore remonte désormais automatiquement en haut lors de l’ouverture d’une nouvelle page, fiche ou vue de lecture.
+- Le comportement est notamment appliqué aux fiches Archives, aux retours de fiche, aux changements Chronologie / Archives et aux autres sous-pages du Lore.
+- Base : dev44.
+
+# Changelog dev44
+
+## Base
+- Reprise propre depuis la dev41, sans réutiliser la branche cassée suivante.
+
+## Lore > Histoire Galactique > Archives
+- Ajout d’un panneau visuel dans la fiche d’archive.
+- Intégration du portrait validé d’Elias Kern.
+- Ajout d’un placeholder de "mode édition" pour préparer le futur module d’administration.
+- Renommage de la catégorie "Institutions historiques" en "Institutions".
+- Ajout des archives de test : Le Directoire, La Commission, Alecto.
+
+## Factions > Humanis
+- Remplacement du texte générique par un texte d’histoire/société de test basé sur tes consignes.
+
+## Assets
+- Ajout de /public/elias-kern-grand.png.

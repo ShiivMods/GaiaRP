@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<defs><radialGradient id="bg"><stop stop-color="#111724"/><stop offset="1" stop-color="#020408"/></radialGradient><radialGradient id="p"><stop stop-color="#a9d7dc"/><stop offset=".58" stop-color="#527d91"/><stop offset="1" stop-color="#253c53"/></radialGradient><clipPath id="c"><circle cx="512" cy="512" r="390"/></clipPath></defs>
+<rect width="1024" height="1024" fill="url(#bg)"/><g fill="#dbeeff" opacity=".75"><circle cx="90" cy="120" r="1"/><circle cx="210" cy="75" r="1.4"/><circle cx="850" cy="130" r="1.2"/><circle cx="940" cy="330" r="1"/><circle cx="110" cy="780" r="1.1"/><circle cx="790" cy="880" r="1.5"/><circle cx="625" cy="80" r=".9"/><circle cx="350" cy="920" r="1.1"/></g><circle cx="512" cy="512" r="390" fill="url(#p)"/>
+<g clip-path="url(#c)" transform="rotate(-10 512 512)" opacity=".9">
+ <rect x="100" y="230" width="824" height="60" fill="#bdddd7"/><rect x="100" y="300" width="824" height="70" fill="#6ea2ae"/><rect x="100" y="382" width="824" height="48" fill="#d2c9a0"/><rect x="100" y="445" width="824" height="92" fill="#47798a"/><rect x="100" y="550" width="824" height="55" fill="#9fc7c0"/><rect x="100" y="618" width="824" height="72" fill="#325d74"/><rect x="100" y="703" width="824" height="48" fill="#d0b98d"/>
+ <ellipse cx="650" cy="520" rx="95" ry="44" fill="#cf9a72" opacity=".75"/>
+</g><circle cx="512" cy="512" r="390" fill="none" stroke="#b7dce7" stroke-opacity=".24" stroke-width="5"/></svg>

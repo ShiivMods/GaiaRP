@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<defs><radialGradient id="bg"><stop stop-color="#19120b"/><stop offset="1" stop-color="#030406"/></radialGradient><radialGradient id="p" cx="35%" cy="28%"><stop stop-color="#ffd58a"/><stop offset=".48" stop-color="#db8b3f"/><stop offset="1" stop-color="#74401f"/></radialGradient><clipPath id="c"><circle cx="512" cy="512" r="390"/></clipPath></defs>
+<rect width="1024" height="1024" fill="url(#bg)"/><g fill="#dbeeff" opacity=".75"><circle cx="90" cy="120" r="1"/><circle cx="210" cy="75" r="1.4"/><circle cx="850" cy="130" r="1.2"/><circle cx="940" cy="330" r="1"/><circle cx="110" cy="780" r="1.1"/><circle cx="790" cy="880" r="1.5"/><circle cx="625" cy="80" r=".9"/><circle cx="350" cy="920" r="1.1"/></g><circle cx="512" cy="512" r="390" fill="url(#p)"/>
+<g clip-path="url(#c)" fill="none" stroke-linecap="round" opacity=".52">
+ <path d="M110 330c210 80 354-8 515 40 120 36 171 83 292 62" stroke="#ffe7ac" stroke-width="34"/>
+ <path d="M115 475c185 58 326-32 474 14 169 52 212 96 342 72" stroke="#f0bb6c" stroke-width="42"/>
+ <path d="M140 645c160-12 240 62 402 22 153-38 235-12 345 45" stroke="#c36f32" stroke-width="37"/>
+ <path d="M170 756c160-55 290 24 442-26 108-36 183-11 256 19" stroke="#f7c77d" stroke-width="29"/>
+</g><circle cx="512" cy="512" r="390" fill="none" stroke="#ffdca3" stroke-opacity=".25" stroke-width="5"/></svg>

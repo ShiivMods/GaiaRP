@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#172029"/><stop offset="1" stop-color="#090d12"/></linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#11171d"/><stop offset="1" stop-color="#07090c"/></linearGradient>
+    <radialGradient id="windowGlow"><stop stop-color="#3f6b7e" stop-opacity=".38"/><stop offset="1" stop-color="#081018" stop-opacity="0"/></radialGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8c633f" stop-opacity=".08"/><stop offset=".5" stop-color="#d1a06a" stop-opacity=".22"/><stop offset="1" stop-color="#8c633f" stop-opacity=".06"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+    <pattern id="stars" width="130" height="95" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="18" r="1" fill="#d9efff" opacity=".65"/><circle cx="72" cy="40" r=".8" fill="#fff" opacity=".35"/><circle cx="110" cy="12" r="1.2" fill="#d8e8ff" opacity=".45"/><circle cx="42" cy="78" r=".7" fill="#fff" opacity=".3"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#06090d"/>
+  <rect x="0" y="0" width="1600" height="610" fill="url(#wall)"/>
+  <polygon points="0,610 1600,610 1600,900 0,900" fill="url(#floor)"/>
+
+  <!-- panoramic forward viewport -->
+  <path d="M330 70 Q800 5 1270 70 L1195 350 Q800 300 405 350 Z" fill="#050b11" stroke="#334958" stroke-width="6"/>
+  <path d="M352 91 Q800 35 1248 91 L1182 326 Q800 281 418 326 Z" fill="url(#stars)"/>
+  <ellipse cx="800" cy="212" rx="440" ry="190" fill="url(#windowGlow)"/>
+  <path d="M800 42 L800 310 M520 65 L565 330 M1080 65 L1035 330" stroke="#233541" stroke-width="8" opacity=".8"/>
+
+  <!-- structural ribs -->
+  <path d="M0 80 L260 130 L310 610 L0 610 Z" fill="#0b1016" stroke="#26323a" stroke-width="5"/>
+  <path d="M1600 80 L1340 130 L1290 610 L1600 610 Z" fill="#0b1016" stroke="#26323a" stroke-width="5"/>
+  <path d="M250 0 L350 0 L390 610 L305 610 Z" fill="#11171d"/>
+  <path d="M1250 0 L1350 0 L1295 610 L1210 610 Z" fill="#11171d"/>
+
+  <!-- warm indirect lighting -->
+  <rect x="290" y="585" width="1020" height="10" rx="5" fill="#b98a5f" opacity=".35" filter="url(#glow)"/>
+  <rect x="300" y="578" width="1000" height="4" rx="2" fill="#d7a66f" opacity=".62"/>
+
+  <!-- left EXO alcove -->
+  <rect x="75" y="205" width="235" height="380" rx="24" fill="#0b1117" stroke="#2d3d47" stroke-width="4"/>
+  <rect x="95" y="225" width="195" height="340" rx="18" fill="#091017" stroke="#56707f" stroke-opacity=".35"/>
+  <path d="M188 284 q26-34 52 0 l10 55 34 82-34 15-16-56-3 132-44 0-3-132-16 56-34-15 34-82z" fill="#273845" stroke="#7aa1b5" stroke-width="3" opacity=".9"/>
+  <circle cx="214" cy="260" r="31" fill="#273845" stroke="#7aa1b5" stroke-width="3"/>
+  <rect x="139" y="519" width="150" height="22" rx="11" fill="#19303a"/><circle cx="159" cy="530" r="4" fill="#78cadf"/>
+
+  <!-- center holographic table -->
+  <ellipse cx="785" cy="650" rx="300" ry="86" fill="#05080b" stroke="#31434e" stroke-width="5"/>
+  <path d="M560 645 L610 825 L960 825 L1010 645 Z" fill="#0b1116" stroke="#27353d" stroke-width="5"/>
+  <ellipse cx="785" cy="634" rx="254" ry="60" fill="#10202a" stroke="#5ca7bd" stroke-width="3"/>
+  <ellipse cx="785" cy="628" rx="215" ry="48" fill="#4bb7d0" opacity=".12" filter="url(#glow)"/>
+  <ellipse cx="785" cy="615" rx="174" ry="38" fill="none" stroke="#78d6eb" stroke-width="2" opacity=".8"/>
+  <circle cx="785" cy="583" r="73" fill="#63cae2" opacity=".08" stroke="#80d9eb" stroke-width="2"/>
+  <circle cx="785" cy="583" r="48" fill="none" stroke="#a1e8f5" stroke-dasharray="4 7" opacity=".55"/>
+  <path d="M710 583 Q785 535 860 583 Q785 631 710 583" fill="none" stroke="#86dced" opacity=".55"/>
+
+  <!-- right command station -->
+  <path d="M1210 315 L1515 275 L1550 595 L1190 595 Z" fill="#0a1015" stroke="#2f414c" stroke-width="5"/>
+  <rect x="1250" y="330" width="110" height="120" rx="10" fill="#0b1a22" stroke="#4a8499" stroke-width="2"/>
+  <rect x="1380" y="310" width="105" height="100" rx="10" fill="#101a22" stroke="#5c7280" stroke-width="2"/>
+  <path d="M1267 365 h76 M1267 382 h48 M1267 399 h63" stroke="#6fd0e4" stroke-width="4" opacity=".6"/>
+  <circle cx="1408" cy="354" r="20" fill="none" stroke="#d19a63" stroke-width="4" opacity=".7"/>
+  <path d="M1220 490 L1515 455 L1536 565 L1203 577 Z" fill="#111b21" stroke="#344852" stroke-width="3"/>
+  <g fill="#6597aa" opacity=".65"><circle cx="1260" cy="525" r="8"/><circle cx="1290" cy="521" r="8"/><circle cx="1320" cy="518" r="8"/></g>
+  <g fill="#c08a58" opacity=".65"><circle cx="1450" cy="505" r="7"/><circle cx="1476" cy="502" r="7"/></g>
+
+  <!-- floor markings -->
+  <path d="M360 900 L610 690 M1240 900 L970 690 M550 900 L680 725 M1050 900 L900 725" stroke="#1e2a32" stroke-width="3" opacity=".7"/>
+  <ellipse cx="790" cy="770" rx="470" ry="95" fill="url(#warm)" opacity=".35"/>
+</svg>
