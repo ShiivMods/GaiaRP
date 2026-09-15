@@ -259,6 +259,22 @@ function App() {
     setScreen('dynasty')
   }
 
+  const openRpCharacter = (characterId: string) => {
+    setActiveCharacterId(characterId)
+    setScreen('home')
+    setInspectorTab('character')
+  }
+
+  const openRpFaction = (faction: string) => {
+    openLore(faction === 'Humanis' ? 'humanis' : 'factions')
+  }
+
+  const openRpDynasty = (characterId: string) => {
+    setActiveCharacterId(characterId)
+    setDynastyTab('advantages')
+    setScreen('dynasty')
+  }
+
   const returnToCharacter = () => {
     setScreen('home')
     setInspectorTab('character')
@@ -299,6 +315,28 @@ function App() {
       setLevel('system')
       return
     }
+    setPlanetId(activeRp.location.bodyId || null)
+    setZoneId(activeRp.location.zoneId || null)
+    setPlaceId(activeRp.location.placeId || null)
+    setLevel('zone')
+  }
+    const openRpLocation = () => {
+    setScreen('map')
+    setSectorId('tochaku')
+    setSystemId(activeRp.location.systemId || 'starlight')
+    setSystemObjectId(null)
+    setHoveredZoneId(null)
+    setHoveredPlaceId(null)
+    setInspectorTab('map')
+
+    if (activeRp.location.kind === 'space') {
+      setPlanetId(null)
+      setZoneId(null)
+      setPlaceId(null)
+      setLevel('system')
+      return
+    }
+
     setPlanetId(activeRp.location.bodyId || null)
     setZoneId(activeRp.location.zoneId || null)
     setPlaceId(activeRp.location.placeId || null)
@@ -527,7 +565,11 @@ function App() {
           onAccessModeChange={setRpAccessMode}
           onInvitedIdsChange={setRpInvitedIds}
           onBack={returnFromRp}
+          onOpenLocation={openRpLocation}
           onOpenCombat={openCombatPrototype}
+          onOpenCharacter={openRpCharacter}
+          onOpenFaction={openRpFaction}
+          onOpenDynasty={openRpDynasty}
         />
       ) : (
       <main className={`workspace ${inspectorTab === 'character' ? 'character-open' : ''} ${inspectorTab === 'missions' ? 'missions-open' : ''}`}>

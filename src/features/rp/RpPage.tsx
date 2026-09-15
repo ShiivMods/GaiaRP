@@ -115,7 +115,23 @@ function renderRpContent(content: string, author: CharacterProfile) {
   return parts
 }
 
-export function RpPage({ thread, characters, currentCharacter, messages, accessMode, invitedIds, onMessagesChange, onAccessModeChange, onInvitedIdsChange, onBack, onOpenCombat }: {
+export function RpPage({
+  thread,
+  characters,
+  currentCharacter,
+  messages,
+  accessMode,
+  invitedIds,
+  onMessagesChange,
+  onAccessModeChange,
+  onInvitedIdsChange,
+  onBack,
+  onOpenLocation,
+  onOpenCharacter,
+  onOpenFaction,
+  onOpenDynasty,
+  onOpenCombat,
+}: {
   thread: RpThread
   characters: CharacterProfile[]
   currentCharacter: CharacterProfile
@@ -126,12 +142,16 @@ export function RpPage({ thread, characters, currentCharacter, messages, accessM
   onAccessModeChange: (mode: RpAccessMode) => void
   onInvitedIdsChange: (ids: string[]) => void
   onBack: () => void
+  onOpenLocation: () => void
   onOpenCombat: () => void
+  onOpenCharacter: (characterId: string) => void
+  onOpenFaction: (faction: string) => void
+  onOpenDynasty: (characterId: string) => void
 }) {
   const [draft, setDraft] = useState('')
   const [preview, setPreview] = useState(false)
   const [dialoguePaletteOpen, setDialoguePaletteOpen] = useState(false)
-  const [mjPanelOpen, setMjPanelOpen] = useState(false)
+  const [mjTargetMessageId, setMjTargetMessageId] = useState<string | null>(null)
   const [mjQuestionOpen, setMjQuestionOpen] = useState(false)
   const [mjNotice, setMjNotice] = useState('')
   const [mjDraft, setMjDraft] = useState('')
@@ -194,49 +214,47 @@ export function RpPage({ thread, characters, currentCharacter, messages, accessM
           <div className="rp-thread-heading-row">
             <button className="rp-back-button" onClick={onBack}>← Retour au lieu</button>
             <div className="rp-thread-statuses">
-              <span className="rp-status-open">{thread.status}</span>
-              <span className={accessMode === 'invite' ? 'rp-access-invite' : 'rp-access-open'}>{accessMode === 'invite' ? 'Sur invitation' : 'Ouvert à tous'}</span>
-              <button className="rp-mj-trigger" onClick={() => setMjPanelOpen((value) => !value)}>MJ</button>
-            </div>
-          </div>
-          {mjPanelOpen && (
-            <div className="rp-mj-panel">
-              <div className="rp-mj-panel-head"><div><small>CONTACT MJ</small><b>Signaler ce RP à l'équipe</b></div><button onClick={() => setMjPanelOpen(false)}>×</button></div>
-              <div className="rp-mj-actions">
-                {['Action notable', 'En attente de réponse MJ', 'Demande de validation mission', 'Résolution conflit'].map((label) => (
-                  <button key={label} className={label === 'Demande de validation mission' ? 'priority' : ''} onClick={() => setMjNotice(label)}>{label}</button>
-                ))}
-              </div>
-              {mjNotice && <div className="rp-mj-sent">✓ {mjNotice} transmis pour « {thread.title} »</div>}
-              <button className="rp-mj-question-toggle" onClick={() => setMjQuestionOpen((value) => !value)}>Poser une question aux MJ</button>
-              {mjQuestionOpen && (
-                <div className="rp-mj-chat">
-                  <div className="rp-mj-chat-context">Conversation privée · contexte automatiquement lié à ce RP</div>
-                  <div className="rp-mj-chat-feed">
-                    <div className="rp-mj-chat-message staff"><div className="rp-mj-avatar">MJ</div><p><b>Équipe MJ</b><span>Salut. On voit directement le RP concerné ici. Qu'est-ce qu'il te faut ?</span></p></div>
-                    <div className="rp-mj-chat-message user"><p><b>{currentCharacter.name}</b><span>J'avais une question sur la résolution de cette scène.</span></p><img src={currentCharacter.dialogueAvatars[0] ?? currentCharacter.grandAvatar} alt="" /></div>
-                  </div>
-                  <div className="rp-mj-chat-compose"><input value={mjDraft} onChange={(event) => setMjDraft(event.target.value)} placeholder="Écrire un message privé aux MJ…" /><button disabled={!mjDraft.trim()} onClick={() => setMjDraft('')}>Envoyer</button></div>
-                </div>
+              <span className={thread.status === 'Ouvert' ? 'rp-status-open' : 'rp-status-completed'}>
+                {thread.status === 'Ouvert' ? 'Ouvert' : 'Terminé'}
+              </span>
+
+              {accessMode === 'invite' && (
+                <span className="rp-access-invite">Sur invitation</span>
               )}
             </div>
-          )}
+          </div>
+
           <div className="rp-thread-title-row">
             <div>
-              <div className="inspector-kicker">FIL DE ROLEPLAY</div>
               <h2>{thread.title}</h2>
-              <div className="rp-tag-row">{thread.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </div>
             <div className="rp-location-card" title={`${thread.location.sector} / ${thread.location.system} / ${thread.location.body} / ${thread.location.zone} / ${thread.location.place}`}>
-              <small>LIEU</small>
+      <div className="rp-location-card-head">
+        <small>LIEU</small>
+
+        <button
+          type="button"
+          className="rp-location-map-button"
+          aria-label="Voir le lieu sur la carte"
+          title="Voir le lieu sur la carte"
+          onClick={onOpenLocation}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18" />
+            <path d="M12 3a14 14 0 0 1 0 18" />
+            <path d="M12 3a14 14 0 0 0 0 18" />
+          </svg>
+        </button>
+      </div>
               <strong>{thread.location.place}</strong>
               <span>{thread.location.kind === 'space' ? `${thread.location.system} · ${thread.location.sector}` : `${thread.location.zone} · ${thread.location.body} · ${thread.location.system}`}</span>
             </div>
           </div>
           <div className="rp-thread-meta-row">
-            <span>{thread.dateLabel}</span>
             <span>Créé par <b>{creator.name}</b></span>
             <span>{messages.length} messages</span>
+            <span className="rp-thread-date">{thread.dateLabel}</span>
           </div>
         </header>
 
@@ -247,21 +265,113 @@ export function RpPage({ thread, characters, currentCharacter, messages, accessM
               <div className="rp-feed-block" key={message.id}>
                 <article className="rp-message-card">
                   <aside className="rp-message-author">
-                    <img src={author.grandAvatar} alt={`Grand avatar de ${author.name}`} />
-                    <b>{author.name}</b>
-                    <span>{author.faction}</span>
-                    <small>{author.dynasty.replace(/^Dynastie\s+/i, '')}</small>
+                    <img
+                      src={author.grandAvatar}
+                      alt={`Grand avatar de ${author.name}`}
+                    />
+
+                    <button
+                      type="button"
+                      className="rp-author-link rp-author-name"
+                      onClick={() => onOpenCharacter(author.id)}
+                    >
+                      {author.name}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="rp-author-link rp-author-faction"
+                      onClick={() => onOpenFaction(author.faction)}
+                    >
+                      {author.faction}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="rp-author-link rp-author-dynasty"
+                      onClick={() => onOpenDynasty(author.id)}
+                    >
+                      {author.dynasty.replace(/^Dynastie\s+/i, '')}
+                    </button>
                   </aside>
+
                   <div className="rp-message-content">
-                    <header><span>#{String(index + 1).padStart(2, '0')}</span><time>{message.timestamp}</time></header>
-                    <div className="rp-message-body">{renderRpContent(message.content, author)}</div>
+                    <header>
+                      <time>{message.timestamp}</time>
+                    </header>
+
+                    <div className="rp-message-body">
+                      {renderRpContent(message.content, author)}
+                    </div>
+
                     <footer>
-                      <button onClick={() => alert('Prototype : réactions RP à définir.')}>Réagir</button>
-                      <button onClick={() => alert('Prototype : lien direct vers ce message.')}>Lien</button>
+                      <button
+                        onClick={() => alert('Prototype : partage du message à définir.')}
+                      >
+                        Partager
+                      </button>
+
+                      <button
+                        type="button"
+                        className="rp-mj-trigger"
+                        onClick={() =>
+                          setMjTargetMessageId((current) =>
+                            current === message.id ? null : message.id
+                          )
+                        }
+                      >
+                        MJ
+                      </button>
                     </footer>
+
+                    {mjTargetMessageId === message.id && (
+                      <div className="rp-mj-panel">
+                        <div className="rp-mj-panel-head">
+                          <div>
+                            <small>CONTACT MJ</small>
+                            <b>Signaler ce post à l'équipe</b>
+                            <span>{author.name} · {message.timestamp}</span>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setMjTargetMessageId(null)}
+                          >
+                            ×
+                          </button>
+                        </div>
+
+                        <div className="rp-mj-actions">
+                          {[
+                            'Action notable',
+                            'En attente de réponse MJ',
+                            'Demande de validation mission',
+                            'Résolution conflit',
+                          ].map((label) => (
+                            <button
+                              key={label}
+                              type="button"
+                              onClick={() =>
+                                alert(
+                                  `Prototype : ${label} pour le message ${message.id}`
+                                )
+                              }
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </article>
-                {thread.combat?.insertAfterMessageId === message.id && <RpCombatInsert thread={thread} onOpenCombat={onOpenCombat} />}
+
+                {thread.combat?.insertAfterMessageId === message.id && (
+                  <RpCombatInsert
+                    thread={thread}
+                    onOpenCombat={onOpenCombat}
+                  />
+                )}
               </div>
             )
           })}
@@ -315,22 +425,27 @@ export function RpPage({ thread, characters, currentCharacter, messages, accessM
             <button className="rp-publish" disabled={!draft.trim() || !currentCanPost} onClick={publish}>Publier la réponse</button>
           </div>
         </section>
-      </section>
-
+        </section>
       <aside className="rp-thread-sidebar">
-        <section className="rp-side-card">
+                <section className="rp-side-card">
           <div className="inspector-kicker">PARTICIPANTS</div>
+
           <div className="rp-participant-list">
             {participants.map((participant) => (
               <div className="rp-participant" key={participant.id}>
-                <img src={participant.dialogueAvatars[0] ?? participant.grandAvatar} alt="" />
-                <div><b>{participant.name}</b><span>{participant.rank}</span></div>
-                {participant.id === thread.creatorId && <small>CRÉATEUR</small>}
+                <img
+                  src={participant.dialogueAvatars[0] ?? participant.grandAvatar}
+                  alt=""
+                />
+
+                <div>
+                  <b>{participant.name}</b>
+                  <span>{participant.rank}</span>
+                </div>
               </div>
             ))}
           </div>
         </section>
-
         <section className="rp-side-card rp-access-card">
           <div className="inspector-kicker">ACCÈS AU RP</div>
           <div className="rp-access-title"><b>{accessMode === 'invite' ? 'Sur invitation' : 'Ouvert'}</b><span>{isCreator ? 'Tu es le créateur' : `Géré par ${creator.name}`}</span></div>
@@ -352,15 +467,6 @@ export function RpPage({ thread, characters, currentCharacter, messages, accessM
               ))}
             </div>
           )}
-          <div className="rp-mj-override"><b>MJ</b><span>Un maître du jeu peut entrer dans n’importe quel RP, même sans invitation.</span></div>
-        </section>
-
-        <section className="rp-side-card rp-location-side">
-          <div className="inspector-kicker">LOCALISATION</div>
-          <strong>{thread.location.place}</strong>
-          <span>{thread.location.kind === 'space' ? 'Espace interplanétaire' : `${thread.location.zone} · ${thread.location.body}`}</span>
-          <small>{thread.location.system} · {thread.location.sector}</small>
-          <button onClick={onBack}>Voir le lieu sur la carte</button>
         </section>
       </aside>
     </main>

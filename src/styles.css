@@ -1296,8 +1296,10 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 
 /* 0.6-dev11 : page RP */
 .rp-page-shell {
+  width: min(1380px, calc(100% - 32px));
   height: calc(100vh - 160px);
   min-height: 0;
+  margin: 0 auto;
   display: grid;
   overflow: hidden;
   grid-template-columns: minmax(0, 1fr) 330px;
@@ -1335,6 +1337,9 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-message-author small { margin-top: 4px; color: #8196a1; font-size: 13px; font-weight: 560; }
 .rp-message-content { min-width: 0; padding: 14px 18px 12px; }
 .rp-message-content > header { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 9px; border-bottom: 1px solid rgba(121,160,178,.06); color: #5e7480; font-size: 13px; }
+.rp-message-content > header time {
+  margin-left: auto;
+}
 .rp-message-body { padding-top: 2px; }
 .rp-prose-centered { text-align: center; }
 .rp-prose strong { color: #e6eff1; font-weight: 700; }
@@ -1342,8 +1347,8 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-dialogue-block strong { font-weight: 700; }
 .rp-dialogue-block em { font-style: italic; }
 .rp-prose { margin: 17px 0; color: #b4c6cd; font-family: Georgia, 'Times New Roman', serif; font-size: 14px; line-height: 1.78; white-space: pre-wrap; }
-.rp-dialogue-block { display: grid; grid-template-columns: 58px minmax(0,1fr); gap: 15px; align-items: center; margin: 20px 0; padding: 10px 15px 10px 10px; border-left: 2px solid rgba(103,194,216,.28); border-radius: 4px 10px 10px 4px; background: linear-gradient(90deg, rgba(226,235,238,.085), rgba(226,235,238,.035)); }
-.rp-dialogue-block img { width: 54px; height: 54px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(116,190,209,.28); box-shadow: 0 6px 18px rgba(0,0,0,.22); }
+.rp-dialogue-block { display: grid; grid-template-columns: 68px minmax(0,1fr); gap: 15px; align-items: center; margin: 20px 0; padding: 10px 15px 10px 10px; border-left: 2px solid rgba(103,194,216,.28); border-radius: 4px 10px 10px 4px; background: linear-gradient(90deg, rgba(226,235,238,.085), rgba(226,235,238,.035)); }
+.rp-dialogue-block img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(116,190,209,.28); box-shadow: 0 6px 18px rgba(0,0,0,.22); }
 .rp-dialogue-block div { color: #d2dde0; font-family: Georgia, 'Times New Roman', serif; font-size: 14px; line-height: 1.62; }
 .rp-dialogue-block div span { color: #8299a4; }
 .rp-message-content footer { display: flex; justify-content: flex-end; gap: 6px; }
@@ -1352,7 +1357,7 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-composer { margin: 0 28px 30px; overflow: hidden; border: 1px solid rgba(110,183,202,.13); border-radius: 14px; background: linear-gradient(180deg, rgba(18,27,34,.92), rgba(9,13,18,.98)); }
 .rp-composer-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; border-bottom: 1px solid rgba(121,161,178,.08); }
 .rp-composer-avatar { display: flex; align-items: center; gap: 10px; }
-.rp-composer-avatar img { width: 38px; height: 38px; object-fit: cover; border-radius: 7px; }
+.rp-composer-avatar img { width: 54px; height: 54px; object-fit: cover; border-radius: 7px; }
 .rp-composer-avatar small { display: block; color: #607985; font-size: 13px; letter-spacing: .12em; }
 .rp-composer-avatar b { display: block; margin-top: 2px; color: #cfe0e5; font-size: 13px; }
 .rp-composer-head > span { color: #6f8792; font-size: 13px; }
@@ -1366,7 +1371,7 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-dialogue-avatar-row { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 8px 14px; border-bottom: 1px solid rgba(121,161,178,.08); background: linear-gradient(90deg, rgba(66,124,140,.075), rgba(255,255,255,.008)); }
 .rp-dialogue-avatar-row > span { color: #879da7; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; }
 .rp-dialogue-avatar-row > div { display: flex; flex-wrap: wrap; gap: 6px; }
-.rp-dialogue-avatar-row button { width: 40px; height: 40px; overflow: hidden; border: 1px solid rgba(118,183,201,.15); border-radius: 7px; padding: 0; background: rgba(4,8,11,.7); }
+.rp-dialogue-avatar-row button { width: 64px; height: 64px; overflow: hidden; border: 1px solid rgba(118,183,201,.15); border-radius: 7px; padding: 0; background: rgba(4,8,11,.7); }
 .rp-dialogue-avatar-row button:hover { border-color: rgba(108,208,231,.5); box-shadow: 0 0 0 2px rgba(95,183,204,.08); }
 .rp-dialogue-avatar-row img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .rp-dialogue-avatar-row small { max-width: 270px; color: #5f7782; font-size: 13px; line-height: 1.35; text-align: right; }
@@ -1388,8 +1393,8 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-thread-sidebar { min-height: 0; padding: 18px; overflow-y: auto; overscroll-behavior: contain; background: linear-gradient(180deg, rgba(15,22,28,.99), rgba(8,11,15,.998)); }
 .rp-side-card { margin-bottom: 12px; padding: 14px; border: 1px solid rgba(123,164,182,.09); border-radius: 12px; background: rgba(255,255,255,.012); }
 .rp-participant-list { display: grid; gap: 8px; margin-top: 10px; }
-.rp-participant { display: grid; grid-template-columns: 42px minmax(0,1fr) auto; gap: 9px; align-items: center; padding: 7px; border: 1px solid rgba(122,163,181,.07); border-radius: 8px; background: rgba(5,9,12,.46); }
-.rp-participant img { width: 42px; height: 42px; object-fit: cover; border-radius: 7px; }
+.rp-participant { display: grid; grid-template-columns: 64px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 7px; border: 1px solid rgba(122,163,181,.07); border-radius: 8px; background: rgba(5,9,12,.46); }
+.rp-participant img { width: 64px; height: 64px; object-fit: cover; border-radius: 7px; }
 .rp-participant b, .rp-participant span { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rp-participant b { color: #d2e2e6; font-size: 13px; }
 .rp-participant span { margin-top: 2px; color: #687f8b; font-size: 13px; }
@@ -1402,10 +1407,10 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-access-switch button.active { color: #e3f0f3; background: rgba(66,128,144,.14); box-shadow: inset 0 0 0 1px rgba(105,190,211,.12); }
 .rp-invite-list { display: grid; gap: 7px; }
 .rp-invite-list > small { color: #5d7480; font-size: 13px; letter-spacing: .12em; }
-.rp-invite-list label { display: grid; grid-template-columns: auto 34px minmax(0,1fr); gap: 8px; align-items: center; padding: 6px 7px; border: 1px solid rgba(121,159,176,.06); border-radius: 7px; background: rgba(4,8,11,.35); }
+.rp-invite-list label { display: grid; grid-template-columns: auto 64px minmax(0,1fr); gap: 10px; align-items: center; min-height: 76px; padding: 6px 9px; border: 1px solid rgba(121,159,176,.06); border-radius: 7px; background: rgba(4,8,11,.35); }
 .rp-invite-list label.checked { border-color: rgba(104,188,207,.14); background: rgba(54,111,126,.06); }
 .rp-invite-list input { accent-color: #62bdd3; }
-.rp-invite-list img { width: 34px; height: 34px; object-fit: cover; border-radius: 6px; }
+.rp-invite-list img { width: 64px; height: 64px; object-fit: cover; border-radius: 7px; }
 .rp-invite-list span b, .rp-invite-list span small { display: block; }
 .rp-invite-list span b { color: #bdced4; font-size: 13px; }
 .rp-invite-list span small { margin-top: 2px; color: #627985; font-size: 13px; }
@@ -2611,18 +2616,6 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
   letter-spacing: .08em;
 }
 .rp-mj-trigger:hover { border-color: rgba(213, 157, 237, .42); color: #ead6f3; }
-.rp-mj-panel {
-  position: absolute;
-  top: 54px;
-  right: 20px;
-  z-index: 20;
-  width: min(430px, calc(100% - 40px));
-  padding: 13px;
-  border: 1px solid rgba(154, 121, 177, .2);
-  border-radius: 12px;
-  background: linear-gradient(155deg, rgba(17, 21, 29, .995), rgba(10, 13, 18, .995));
-  box-shadow: 0 18px 48px rgba(0,0,0,.38);
-}
 .rp-mj-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 9px; border-bottom: 1px solid rgba(143, 119, 163, .12); }
 .rp-mj-panel-head > div { display: grid; gap: 3px; }
 .rp-mj-panel-head small { color: #8d74a0; font-size: 13px; letter-spacing: .14em; }
@@ -2643,7 +2636,7 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .rp-mj-chat-message.user p { order: 0; border-radius: 12px 12px 4px 12px; background: rgba(82, 122, 139, .16); text-align: right; }
 .rp-mj-chat-message b { display: block; margin-bottom: 3px; color: #b5c7cf; font-size: 13px; }
 .rp-mj-chat-message span { display: block; color: #8297a1; font-size: 13px; line-height: 1.45; }
-.rp-mj-avatar, .rp-mj-chat-message img { width: 34px; height: 34px; flex: 0 0 34px; border: 1px solid rgba(143, 169, 186, .18); border-radius: 9px; object-fit: cover; }
+.rp-mj-avatar, .rp-mj-chat-message img { width: 54px; height: 54px; flex: 0 0 54px; border: 1px solid rgba(143, 169, 186, .18); border-radius: 9px; object-fit: cover; }
 .rp-mj-avatar { display: grid; place-items: center; background: linear-gradient(145deg, #281c31, #15111a); color: #c69fd8; font-size: 13px; font-weight: 700; }
 .rp-mj-chat-compose { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px; padding: 9px; border-top: 1px solid rgba(115, 148, 165, .09); }
 .rp-mj-chat-compose input { min-width: 0; border: 1px solid rgba(126, 158, 174, .12); border-radius: 7px; background: #0c141a; color: #aebdc5; padding: 8px 9px; font-size: 13px; outline: none; }
@@ -2680,7 +2673,6 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
 .discovery-directory .anomaly-card:hover { background: rgba(255,255,255,.018) !important; }
 
 @media (max-width: 760px) {
-  .rp-mj-panel { position: static; width: 100%; margin-top: 8px; }
   .rp-mj-actions { grid-template-columns: 1fr; }
   .combat-completed-summary { grid-template-columns: 1fr; }
   .combat-completed-metrics { grid-template-columns: 1fr 1fr 1fr; }
@@ -2948,6 +2940,11 @@ dt, dd { font-size: 14px; }
   border-color: rgba(105,210,166,.28);
   background: rgba(44,119,88,.095);
 }
+.rp-status-completed {
+  color: #a8b2b8;
+  border-color: rgba(168, 178, 184, 0.22);
+  background: rgba(100, 110, 116, 0.08);
+}
 .rp-access-invite {
   color: #edca7c;
   border-color: rgba(226,184,92,.27);
@@ -3042,7 +3039,6 @@ textarea:focus,
 .rp-participant b { font-size: 13px; }
 .rp-participant span { font-size: 13px; }
 .rp-access-title span { font-size: 13px; }
-.rp-mj-panel { border-radius: 13px; }
 
 /* Combat */
 .combat-page-head,
@@ -3357,7 +3353,7 @@ html {
 /* RP : corps de texte volontairement différent du chrome de l'interface. */
 .rp-message-content { padding-left: 22px; padding-right: 22px; }
 .rp-message-body {
-  max-width: 82ch;
+  max-width: 100ch;
 }
 .rp-prose,
 .rp-draft-preview .rp-prose {
@@ -4123,3 +4119,80 @@ html {
 
 .system-sun-image { filter: drop-shadow(0 0 12px rgba(255, 214, 122, .42)); }
 .system-sun-ring { stroke: rgba(255, 236, 178, .52); stroke-width: 1.1; }
+
+.rp-location-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rp-location-map-button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid rgba(92, 170, 255, 0.24);
+  border-radius: 7px;
+  background: rgba(9, 22, 31, 0.72);
+  color: #86cce8;
+  cursor: pointer;
+}
+
+.rp-location-map-button:hover {
+  border-color: rgba(120, 205, 255, 0.42);
+  background: rgba(15, 34, 45, 0.9);
+  color: #c5efff;
+}
+
+.rp-location-map-button svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rp-message-content > footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.rp-thread-date {
+  margin-left: auto;
+  text-align: right;
+}
+
+.rp-author-link {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rp-author-link:hover {
+  text-decoration: underline;
+}
+
+.rp-author-name {
+  font-weight: 700;
+}
+
+.rp-author-faction,
+.rp-author-dynasty {
+  color: inherit;
+}
