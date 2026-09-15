@@ -1,6 +1,6 @@
-# Gaia RP - Prototype 0.6.dev47
+# Gaia RP - Prototype 0.6.dev49
 
-Correction visuelle du soleil de Starlight sur la carte du système.
+Correctif de compatibilité GitHub Pages : les images et autres assets utilisent désormais le chemin de base fourni par Vite, afin de fonctionner aussi bien en local que sous `/GaiaRP/`.
 
 # Gaia RP - Prototype 0.6.dev46
 Cette version intègre les nouveaux visuels de Starlight sur la carte système : soleil dédié, station ordinaire pour Hélios, station militaire pour Bastion Elysia, et astéroïde industriel pour Argos.

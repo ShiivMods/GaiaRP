@@ -107,7 +107,7 @@ h2 { margin: 8px 0 10px; font-family: Bahnschrift, "Segoe UI Variable Display", 
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-image: linear-gradient(180deg, rgba(2, 7, 12, .22), rgba(2, 7, 12, .54)), url('/ship-bridge.svg');
+  background-image: linear-gradient(180deg, rgba(2, 7, 12, .22), rgba(2, 7, 12, .54)), url('./assets/ship-bridge.svg');
   background-size: cover;
   background-position: center;
 }
@@ -751,7 +751,7 @@ dd { margin: 0; color: #d5deea; font-size: 13.5px; text-align: right; }
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-image: linear-gradient(180deg, rgba(5,8,12,.05), rgba(4,6,9,.22)), url('/ship-interior.svg');
+  background-image: linear-gradient(180deg, rgba(5,8,12,.05), rgba(4,6,9,.22)), url('./assets/ship-interior.svg');
   background-size: cover;
   background-position: center;
 }

@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 // DONNÉES ÉDITABLES : contenu Lore actuellement utilisé par l’interface.
 export type LoreTab = 'history' | 'factions' | 'species' | 'religions' | 'discoveries'
 export type SpeciesMode = 'conscious' | 'fauna'
@@ -484,7 +485,7 @@ export const historyArchives: HistoryArchiveEntry[] = [
       "Même après la stabilisation du régime, l’empreinte d’Elias Kern demeure immense. Son héritage politique, idéologique et dynastique continue d’influencer durablement l’histoire humaine bien au-delà de sa propre époque.",
     ],
     related: ['Humanis', 'Guerre d’Unification', 'Les Six', 'Le Directoire'],
-    image: '/elias-kern-grand.png',
+    image: assetUrl('/elias-kern-grand.png'),
     imageAlt: 'Portrait d’Elias Kern à l’apogée de sa carrière',
   },
   {
@@ -529,7 +530,7 @@ export const historyArchives: HistoryArchiveEntry[] = [
       "Au-delà de sa fonction pénale, Alecto est aussi un symbole politique. Son existence rappelle à tous que **la Commission** et **Humanis** ne tolèrent ni l’indiscipline ni la contestation lorsqu’elles estiment leurs intérêts menacés.",
     ],
     related: ['Humanis', 'La Commission', 'Redium'],
-    image: '/alecto-realistic.png',
+    image: assetUrl('/alecto-realistic.png'),
     imageAlt: 'Vue illustrative d’Alecto',
   },
 ]

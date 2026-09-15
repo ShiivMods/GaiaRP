@@ -1,3 +1,10 @@
+## 0.6.dev49
+- Correction globale des chemins d’assets pour GitHub Pages et les déploiements sous un sous-dossier comme `/GaiaRP/`.
+- Ajout d’un résolveur central basé sur `import.meta.env.BASE_URL` pour les planètes, lunes, stations, avatars, vaisseaux et illustrations du Lore.
+- Les deux décors CSS du vaisseau sont désormais gérés comme assets Vite afin de respecter automatiquement le chemin de base du déploiement.
+- Ajout de `src/vite-env.d.ts` dans la version distribuée pour que le build TypeScript/Vite fonctionne aussi sur GitHub Actions.
+- Aucun contenu de jeu ni placement de la carte n’a été modifié.
+
 ## 0.6.dev48
 - Inversion des illustrations de panneau entre Station Hélios et Argos, comme demandé.
 - Reprise du visuel de Starlight avec l’image validée, mieux intégrée au centre de la carte système.

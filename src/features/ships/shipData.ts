@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 // DONNÉES ÉDITABLES : modèles de vaisseaux, slots, composants et bonus.
 import type { CharacterProfile } from '../characters/characterData'
 
@@ -50,7 +51,7 @@ export type ShipBlueprint = {
 const emptyModule: ShipComponentOption = { id: 'empty', name: 'Emplacement vide', description: 'Aucun module installé.', powerUse: 0 }
 
 export const explorationBlueprint: ShipBlueprint = {
-  id: 'exploration-t1', role: 'Exploration', tier: 'Tier I', image: '/ship-lysa-exploration.png', accent: '#69c4d9',
+  id: 'exploration-t1', role: 'Exploration', tier: 'Tier I', image: assetUrl('/ship-lysa-exploration.png'), accent: '#69c4d9',
   base: { firepower: 2, speed: 40, dodge: 35, shield: 6000, shieldRegen: 0, hull: 3000, armor: 0, armorRegen: 0, crew: 4, firingPosts: 0 },
   slots: [
     { id: 'engine', label: 'Moteur', kind: 'engine', required: true, area: 'left', defaultId: 'engine-horizon-1', options: [
@@ -96,7 +97,7 @@ export const explorationBlueprint: ShipBlueprint = {
 }
 
 export const combatBlueprint: ShipBlueprint = {
-  id: 'combat-t2', role: 'Combat', tier: 'Tier II', image: '/ship-seris-combat.png', accent: '#cf6f78',
+  id: 'combat-t2', role: 'Combat', tier: 'Tier II', image: assetUrl('/ship-seris-combat.png'), accent: '#cf6f78',
   base: { firepower: 70, speed: 80, dodge: 55, shield: 7000, shieldRegen: 100, hull: 12000, armor: 2500, armorRegen: 0, crew: 6, firingPosts: 1 },
   slots: [
     { id: 'engine', label: 'Moteur', kind: 'engine', required: true, area: 'left', defaultId: 'engine-warcore', options: [

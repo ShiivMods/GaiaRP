@@ -1,3 +1,4 @@
+import { assetUrl } from '../utils/assets'
 // DONNÉES MONDE : chronologie, secteurs, systèmes, astres, installations et routes.
 import type { Chapter, GalaxyStats, NewsItem, Planet, Route, Sector, StarSystem, SystemObject } from './types'
 
@@ -83,7 +84,7 @@ export const systems: StarSystem[] = [
     faction: 'Humanis',
     description: 'Premier système humain majeur de Gaïa. Starlight concentre la capitale historique, une industrie orbitale dense et plusieurs mondes d’exploitation.',
     planets: 5, population: '6,17 millions', characters: 13, crews: 5, activeScenes: 8,
-    anomalies: ['Aucune anomalie connue'], starColor: '#f6dfa0', starImage: '/starlight-star.png',
+    anomalies: ['Aucune anomalie connue'], starColor: '#f6dfa0', starImage: assetUrl('/starlight-star.png'),
     starType: 'Naine jaune (type G)', starTemperature: '5 780 K', starRadius: '696 000 km',
     starDescription: 'Étoile principale de Starlight, très proche du Soleil de l’ancienne Terre. Stable et relativement calme, elle a permis l’implantation durable d’Humanis dans tout le système.',
     systemTheme: { primary: '#f6dfa0', secondary: '#765f35', deep: '#100d08' },
@@ -186,31 +187,31 @@ export const planets: Planet[] = [
   {
     id: 'stl-1', systemId: 'starlight', name: 'Vespera', orbit: 90, angle: -35, radius: 11, color: '#d78c4a',
     type: 'Monde tellurique à atmosphère dense', population: '82 000', faction: 'Humanis', gravity: '0,91 G', atmosphere: 'CO₂ dense, soufre et aérosols', temperature: '71 °C', satellites: 0,
-    characters: 1, crews: 0, activeScenes: 1, firstVisibleChapter: 'pre', image: '/vespera-realistic-v2.png', mapImage: '/map-vespera.png', labelDx: 16, labelDy: 4, labelAnchor: 'start',
+    characters: 1, crews: 0, activeScenes: 1, firstVisibleChapter: 'pre', image: assetUrl('/vespera-realistic-v2.png'), mapImage: assetUrl('/map-vespera.png'), labelDx: 16, labelDy: 4, labelAnchor: 'start',
     description: 'Premier monde de Starlight. Son atmosphère chaude et corrosive évoque l’ancienne Vénus, mais les hauts plateaux restent exploitables grâce à des complexes pressurisés et à quelques habitats suspendus. Le prototype adopte désormais pour Vespera un rendu visuel plus réaliste, cohérent avec Elysia.',
   },
   {
     id: 'stl-2', systemId: 'starlight', name: 'Elysia', orbit: 145, angle: 38, radius: 15, color: '#7ba6be',
     type: 'Monde continental habitable', population: '5,18 millions', faction: 'Humanis', gravity: '1,02 G', atmosphere: 'Respirable', temperature: '16 °C', satellites: 1,
-    characters: 10, crews: 4, activeScenes: 6, firstVisibleChapter: 'pre', image: '/elysia.png', mapImage: '/map-elysia.png', labelDx: 0, labelDy: 30, labelAnchor: 'middle',
+    characters: 10, crews: 4, activeScenes: 6, firstVisibleChapter: 'pre', image: assetUrl('/elysia.png'), mapImage: assetUrl('/map-elysia.png'), labelDx: 0, labelDy: 30, labelAnchor: 'middle',
     description: 'Première grande colonie humaine de Gaïa et cœur historique de Starlight. Elysia concentre l’administration, la recherche et l’essentiel de la population du système, sans pour autant abriter à elle seule toute l’humanité.',
   },
   {
     id: 'stl-3', systemId: 'starlight', name: 'Alecto', orbit: 205, angle: 168, radius: 12, color: '#b5654c',
     type: 'Monde aride à forte inclinaison axiale', population: '612 000', faction: 'Humanis', gravity: '0,78 G', atmosphere: 'Respirable sous assistance', temperature: '-6 °C à 28 °C', satellites: 2,
-    characters: 3, crews: 1, activeScenes: 2, firstVisibleChapter: 'pre', image: '/silex-realistic.png', mapImage: '/map-alecto.png', labelDx: -16, labelDy: 4, labelAnchor: 'end',
+    characters: 3, crews: 1, activeScenes: 2, firstVisibleChapter: 'pre', image: assetUrl('/silex-realistic.png'), mapImage: assetUrl('/map-alecto.png'), labelDx: -16, labelDy: 4, labelAnchor: 'end',
     description: 'Monde rouge et froid dont l’axe de rotation est fortement incliné par rapport au plan orbital. Sur la projection standard de navigation, la calotte septentrionale apparaît donc sur le flanc gauche du globe tandis que les terres arides dominent la moitié droite. Son visuel reprend désormais ce contraste en style réaliste.',
   },
   {
     id: 'stl-4', systemId: 'starlight', name: 'Caelus', orbit: 270, angle: 245, radius: 22, color: '#7ca6b3',
     type: 'Géante gazeuse', population: 'Aucune surface habitable', faction: 'Humanis', gravity: '2,14 G', atmosphere: 'Hydrogène, hélium et traces d’ammoniac', temperature: '-126 °C', satellites: 7,
-    characters: 0, crews: 0, activeScenes: 0, firstVisibleChapter: 'pre', image: '/caelus-realistic.png', mapImage: '/map-caelus.png', labelDx: 0, labelDy: -30, labelAnchor: 'middle',
+    characters: 0, crews: 0, activeScenes: 0, firstVisibleChapter: 'pre', image: assetUrl('/caelus-realistic.png'), mapImage: assetUrl('/map-caelus.png'), labelDx: 0, labelDy: -30, labelAnchor: 'middle',
     description: 'Géante gazeuse froide entourée de sept lunes exploitées. Caelus n’est pas elle-même colonisable, mais son environnement orbital constitue le principal complexe minier de Starlight.',
   },
   {
     id: 'stl-5', systemId: 'starlight', name: 'Nivéa', orbit: 330, angle: 305, radius: 9, color: '#a8c6d9',
     type: 'Monde glacé extérieur', population: '3 600', faction: 'Humanis', gravity: '0,41 G', atmosphere: 'Très ténue', temperature: '-176 °C', satellites: 1,
-    characters: 0, crews: 0, activeScenes: 0, firstVisibleChapter: 'c2', image: '/nivea-realistic.png', mapImage: '/map-nivea.png', labelDx: 15, labelDy: 4, labelAnchor: 'start',
+    characters: 0, crews: 0, activeScenes: 0, firstVisibleChapter: 'c2', image: assetUrl('/nivea-realistic.png'), mapImage: assetUrl('/map-nivea.png'), labelDx: 15, labelDy: 4, labelAnchor: 'start',
     description: 'Petit monde glacé situé aux marges du système. Sa colonisation demeure limitée à quelques stations scientifiques et à une infrastructure de ravitaillement. Son rendu adopte désormais une direction visuelle réaliste, dans la continuité d’Elysia.',
   },
   {
@@ -296,48 +297,48 @@ export const planets: Planet[] = [
 export const systemObjects: SystemObject[] = [
   {
     id: 'stl-2-m1', systemId: 'starlight', name: 'Néréa', kind: 'moon', type: 'Satellite naturel',
-    parentPlanetId: 'stl-2', orbit: 34, angle: 215, radius: 4.8, color: '#abb4c0', firstVisibleChapter: 'pre', image: '/nerea-realistic.png', mapImage: '/map-nerea.png', labelDx: -10, labelDy: -11, labelAnchor: 'end',
+    parentPlanetId: 'stl-2', orbit: 34, angle: 215, radius: 4.8, color: '#abb4c0', firstVisibleChapter: 'pre', image: assetUrl('/nerea-realistic.png'), mapImage: assetUrl('/map-nerea.png'), labelDx: -10, labelDy: -11, labelAnchor: 'end',
     description: 'Unique lune d’Elysia. Son sous-sol stable et sa proximité avec la capitale en ont fait un site privilégié pour les observatoires, la logistique et les infrastructures de secours.',
     population: '86 000', faction: 'Humanis', gravity: '0,18 G', atmosphere: 'Aucune', temperature: '-42 °C', characters: 2, crews: 1, activeScenes: 1,
   },
   {
     id: 'elysia-defense', systemId: 'starlight', name: 'Bastion Elysia', kind: 'station', type: 'Station de défense orbitale',
-    parentPlanetId: 'stl-2', orbit: 53, angle: 42, radius: 7.5, color: '#82d3e5', firstVisibleChapter: 'pre', image: '/bastion-elysia-realistic.png', mapImage: '/bastion-elysia-map.png', labelDx: 12, labelDy: 13, labelAnchor: 'start',
+    parentPlanetId: 'stl-2', orbit: 53, angle: 42, radius: 7.5, color: '#82d3e5', firstVisibleChapter: 'pre', image: assetUrl('/bastion-elysia-realistic.png'), mapImage: assetUrl('/bastion-elysia-map.png'), labelDx: 12, labelDy: 13, labelAnchor: 'start',
     description: 'Principal verrou défensif de l’orbite d’Elysia. Le Bastion concentre des batteries lourdes, des hangars d’interception et un centre de coordination militaire.',
     population: '18 500', faction: 'Humanis', characters: 3, crews: 2, activeScenes: 2,
   },
   {
     id: 'stl-3-m1', systemId: 'starlight', name: 'Iria', kind: 'moon', type: 'Satellite naturel',
-    parentPlanetId: 'stl-3', orbit: 29, angle: 65, radius: 3.6, color: '#b7a99c', firstVisibleChapter: 'pre', image: '/alecto-realistic.png', mapImage: '/map-iria.png', labelDx: 8, labelDy: 11, labelAnchor: 'start',
+    parentPlanetId: 'stl-3', orbit: 29, angle: 65, radius: 3.6, color: '#b7a99c', firstVisibleChapter: 'pre', image: assetUrl('/alecto-realistic.png'), mapImage: assetUrl('/map-iria.png'), labelDx: 8, labelDy: 11, labelAnchor: 'start',
     description: 'Lune intérieure d’Alecto, sèche et fortement cratérisée. Elle accueille plusieurs installations de prospection.', population: '14 600', faction: 'Humanis', gravity: '0,09 G', atmosphere: 'Aucune', temperature: '-82 °C', characters: 0, crews: 0, activeScenes: 0,
   },
   {
     id: 'stl-3-m2', systemId: 'starlight', name: 'Tarsis', kind: 'moon', type: 'Satellite naturel',
-    parentPlanetId: 'stl-3', orbit: 46, angle: 228, radius: 4.4, color: '#d2c1a8', firstVisibleChapter: 'pre', image: '/silex-fantasy.png', mapImage: '/map-silex.png', labelDx: -8, labelDy: -9, labelAnchor: 'end',
+    parentPlanetId: 'stl-3', orbit: 46, angle: 228, radius: 4.4, color: '#d2c1a8', firstVisibleChapter: 'pre', image: assetUrl('/silex-fantasy.png'), mapImage: assetUrl('/map-silex.png'), labelDx: -8, labelDy: -9, labelAnchor: 'end',
     description: 'Satellite extérieur d’Alecto. Sa faible gravité et ses cavités naturelles ont facilité l’installation de dépôts souterrains.', population: '8 900', faction: 'Humanis', gravity: '0,12 G', atmosphere: 'Très ténue', temperature: '-101 °C', characters: 0, crews: 0, activeScenes: 0,
   },
-  { id: 'stl-4-m1', systemId: 'starlight', name: 'Bronté', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 34, angle: 15, radius: 4.0, color: '#c7bfae', firstVisibleChapter: 'pre', image: '/rocky-moon-realistic.png', mapImage: '/map-rocky.png', labelDx: 9, labelDy: -6, labelAnchor: 'start', description: 'Lune intérieure riche en iridium.', population: '18 000', faction: 'Humanis', gravity: '0,10 G', atmosphere: 'Aucune', temperature: '-138 °C' },
-  { id: 'stl-4-m2', systemId: 'starlight', name: 'Kora', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 45, angle: 62, radius: 3.4, color: '#9fa8ad', firstVisibleChapter: 'pre', image: '/moon-dark-metallic.png', mapImage: '/map-dark.png', labelDx: 8, labelDy: 8, labelAnchor: 'start', description: 'Petite lune de Caelus exploitée pour ses veines de cobalt.', population: '22 000', faction: 'Humanis', gravity: '0,08 G', atmosphere: 'Aucune', temperature: '-146 °C' },
-  { id: 'stl-4-m3', systemId: 'starlight', name: 'Mélia', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 58, angle: 117, radius: 5.0, color: '#b8a18a', firstVisibleChapter: 'pre', image: '/moon-beige-cratered.png', mapImage: '/map-beige.png', labelDx: -10, labelDy: 10, labelAnchor: 'end', description: 'Lune rocheuse riche en titane.', population: '16 000', faction: 'Humanis', gravity: '0,14 G', atmosphere: 'Très ténue', temperature: '-151 °C' },
-  { id: 'stl-4-m4', systemId: 'starlight', name: 'Téthra', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 69, angle: 169, radius: 3.0, color: '#c8d0d4', firstVisibleChapter: 'pre', image: '/rocky-moon-realistic.png', mapImage: '/map-rocky.png', labelDx: -9, labelDy: 5, labelAnchor: 'end', description: 'Petit satellite à forte concentration de palladium.', population: '11 000', faction: 'Humanis', gravity: '0,07 G', atmosphere: 'Aucune', temperature: '-159 °C' },
-  { id: 'stl-4-m5', systemId: 'starlight', name: 'Oros', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 81, angle: 220, radius: 3.8, color: '#98948d', firstVisibleChapter: 'pre', image: '/moon-dark-metallic.png', mapImage: '/map-dark.png', labelDx: -10, labelDy: -6, labelAnchor: 'end', description: 'Lune sombre dont les gisements d’osmium sont exploités en profondeur.', population: '13 000', faction: 'Humanis', gravity: '0,09 G', atmosphere: 'Aucune', temperature: '-165 °C' },
-  { id: 'stl-4-m6', systemId: 'starlight', name: 'Varda', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 93, angle: 275, radius: 4.4, color: '#d0c3ad', firstVisibleChapter: 'pre', image: '/moon-beige-cratered.png', mapImage: '/map-beige.png', labelDx: 0, labelDy: -11, labelAnchor: 'middle', description: 'Satellite de Caelus exploité pour le vanadium.', population: '9 000', faction: 'Humanis', gravity: '0,11 G', atmosphere: 'Aucune', temperature: '-171 °C' },
-  { id: 'stl-4-m7', systemId: 'starlight', name: 'Calix', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 105, angle: 331, radius: 3.2, color: '#adb9c1', firstVisibleChapter: 'pre', image: '/nerea-realistic.png', mapImage: '/map-nerea.png', labelDx: 10, labelDy: -8, labelAnchor: 'start', description: 'Lune extérieure froide et riche en tungstène.', population: '6 000', faction: 'Humanis', gravity: '0,07 G', atmosphere: 'Aucune', temperature: '-179 °C' },
+  { id: 'stl-4-m1', systemId: 'starlight', name: 'Bronté', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 34, angle: 15, radius: 4.0, color: '#c7bfae', firstVisibleChapter: 'pre', image: assetUrl('/rocky-moon-realistic.png'), mapImage: assetUrl('/map-rocky.png'), labelDx: 9, labelDy: -6, labelAnchor: 'start', description: 'Lune intérieure riche en iridium.', population: '18 000', faction: 'Humanis', gravity: '0,10 G', atmosphere: 'Aucune', temperature: '-138 °C' },
+  { id: 'stl-4-m2', systemId: 'starlight', name: 'Kora', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 45, angle: 62, radius: 3.4, color: '#9fa8ad', firstVisibleChapter: 'pre', image: assetUrl('/moon-dark-metallic.png'), mapImage: assetUrl('/map-dark.png'), labelDx: 8, labelDy: 8, labelAnchor: 'start', description: 'Petite lune de Caelus exploitée pour ses veines de cobalt.', population: '22 000', faction: 'Humanis', gravity: '0,08 G', atmosphere: 'Aucune', temperature: '-146 °C' },
+  { id: 'stl-4-m3', systemId: 'starlight', name: 'Mélia', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 58, angle: 117, radius: 5.0, color: '#b8a18a', firstVisibleChapter: 'pre', image: assetUrl('/moon-beige-cratered.png'), mapImage: assetUrl('/map-beige.png'), labelDx: -10, labelDy: 10, labelAnchor: 'end', description: 'Lune rocheuse riche en titane.', population: '16 000', faction: 'Humanis', gravity: '0,14 G', atmosphere: 'Très ténue', temperature: '-151 °C' },
+  { id: 'stl-4-m4', systemId: 'starlight', name: 'Téthra', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 69, angle: 169, radius: 3.0, color: '#c8d0d4', firstVisibleChapter: 'pre', image: assetUrl('/rocky-moon-realistic.png'), mapImage: assetUrl('/map-rocky.png'), labelDx: -9, labelDy: 5, labelAnchor: 'end', description: 'Petit satellite à forte concentration de palladium.', population: '11 000', faction: 'Humanis', gravity: '0,07 G', atmosphere: 'Aucune', temperature: '-159 °C' },
+  { id: 'stl-4-m5', systemId: 'starlight', name: 'Oros', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 81, angle: 220, radius: 3.8, color: '#98948d', firstVisibleChapter: 'pre', image: assetUrl('/moon-dark-metallic.png'), mapImage: assetUrl('/map-dark.png'), labelDx: -10, labelDy: -6, labelAnchor: 'end', description: 'Lune sombre dont les gisements d’osmium sont exploités en profondeur.', population: '13 000', faction: 'Humanis', gravity: '0,09 G', atmosphere: 'Aucune', temperature: '-165 °C' },
+  { id: 'stl-4-m6', systemId: 'starlight', name: 'Varda', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 93, angle: 275, radius: 4.4, color: '#d0c3ad', firstVisibleChapter: 'pre', image: assetUrl('/moon-beige-cratered.png'), mapImage: assetUrl('/map-beige.png'), labelDx: 0, labelDy: -11, labelAnchor: 'middle', description: 'Satellite de Caelus exploité pour le vanadium.', population: '9 000', faction: 'Humanis', gravity: '0,11 G', atmosphere: 'Aucune', temperature: '-171 °C' },
+  { id: 'stl-4-m7', systemId: 'starlight', name: 'Calix', kind: 'moon', type: 'Satellite minier', parentPlanetId: 'stl-4', orbit: 105, angle: 331, radius: 3.2, color: '#adb9c1', firstVisibleChapter: 'pre', image: assetUrl('/nerea-realistic.png'), mapImage: assetUrl('/map-nerea.png'), labelDx: 10, labelDy: -8, labelAnchor: 'start', description: 'Lune extérieure froide et riche en tungstène.', population: '6 000', faction: 'Humanis', gravity: '0,07 G', atmosphere: 'Aucune', temperature: '-179 °C' },
   {
     id: 'helios-station', systemId: 'starlight', name: 'Station Hélios', kind: 'station', type: 'Station spatiale',
-    x: 760, y: 248, radius: 9, color: '#7fe0ee', firstVisibleChapter: 'pre', image: '/argos-realistic.png', mapImage: '/helios-station-map.png', labelDx: 15, labelDy: 5, labelAnchor: 'start',
+    x: 760, y: 248, radius: 9, color: '#7fe0ee', firstVisibleChapter: 'pre', image: assetUrl('/argos-realistic.png'), mapImage: assetUrl('/helios-station-map.png'), labelDx: 15, labelDy: 5, labelAnchor: 'start',
     description: 'Grande station de transit et de services placée à l’écart des orbites planétaires. Hélios sert de carrefour aux équipages civils, commerciaux et militaires.',
     population: '21 000', faction: 'Humanis', characters: 4, crews: 3, activeScenes: 2,
   },
   {
     id: 'argos-depot', systemId: 'starlight', name: 'Argos', kind: 'habitat', type: 'Astéroïde-dépôt industriel',
-    parentPlanetId: 'stl-4', orbit: 126, angle: 41, radius: 8.5, color: '#d19a57', firstVisibleChapter: 'pre', image: '/helios-station-realistic.png', mapImage: '/argos-map.png', labelDx: 14, labelDy: 4, labelAnchor: 'start',
+    parentPlanetId: 'stl-4', orbit: 126, angle: 41, radius: 8.5, color: '#d19a57', firstVisibleChapter: 'pre', image: assetUrl('/helios-station-realistic.png'), mapImage: assetUrl('/argos-map.png'), labelDx: 14, labelDy: 4, labelAnchor: 'start',
     description: 'Astéroïde évidé et transformé en centre logistique. Argos centralise le fret, le raffinage, les équipages et le stockage de toute l’opération minière menée sur les lunes de Caelus.',
     population: '44 000', faction: 'Humanis', characters: 5, crews: 4, activeScenes: 3,
   },
   {
     id: 'stl-5-m1', systemId: 'starlight', name: 'Silex', kind: 'moon', type: 'Satellite glacé',
-    parentPlanetId: 'stl-5', orbit: 31, angle: 145, radius: 3.6, color: '#c9d8e0', firstVisibleChapter: 'c2', image: '/silex-fantasy.png', mapImage: '/map-silex.png', labelDx: -9, labelDy: 8, labelAnchor: 'end',
+    parentPlanetId: 'stl-5', orbit: 31, angle: 145, radius: 3.6, color: '#c9d8e0', firstVisibleChapter: 'c2', image: assetUrl('/silex-fantasy.png'), mapImage: assetUrl('/map-silex.png'), labelDx: -9, labelDy: 8, labelAnchor: 'end',
     description: 'Petit satellite glacé de Nivéa, presque entièrement désert.', population: '0', faction: 'Humanis', gravity: '0,06 G', atmosphere: 'Aucune', temperature: '-192 °C', characters: 0, crews: 0, activeScenes: 0,
   },
   {

@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { CharacterProfile } from '../characters/characterData'
@@ -143,7 +144,7 @@ export function DynastyPage({ currentCharacter, characters, tab, onTabChange, on
     rank: 'Cartographe civil',
     faction: 'Humanis',
     species: 'Humain',
-    avatar: '/character-dialogue-avatar.png',
+    avatar: assetUrl('/character-dialogue-avatar.png'),
   } : null
   const dynastyMemberCount = dynastyMembers.length + (distantDynastyMember ? 1 : 0)
 

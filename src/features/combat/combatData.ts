@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 export type CombatAction = {
   id: string
   label: string
@@ -51,7 +52,7 @@ export type CombatArchiveTurn = {
 export const playerCombatShip: CombatShipState = {
   name: 'VVF Raviolo',
   role: 'Exploration · Tier I',
-  image: '/ship-lysa-exploration.png',
+  image: assetUrl('/ship-lysa-exploration.png'),
   accent: '#69c4d9',
   hull: { current: 3000, max: 3000 },
   shield: { current: 4950, max: 5000 },
@@ -72,7 +73,7 @@ export const playerCombatShip: CombatShipState = {
 export const enemyCombatShip: CombatShipState = {
   name: 'Contact hostile K-17',
   role: 'Combat · Modèle inconnu',
-  image: '/ship-seris-combat.png',
+  image: assetUrl('/ship-seris-combat.png'),
   accent: '#cf6f78',
   hull: { current: 7600, max: 7600 },
   shield: { current: 4200, max: 4200 },
@@ -123,10 +124,10 @@ export const previousTurnEvents = [
 ]
 
 export const combatRpMessages: CombatRpMessage[] = [
-  { id: 'combat-rp-1', author: 'Lysa Arven', mention: 'Passerelle', text: 'Ils ont anticipé nos tirs. Rechargez et préparez-moi une autre approche.', side: 'ally', avatar: '/lysa-dialogue-realistic.png' },
-  { id: 'combat-rp-2', author: 'Nael Coris', mention: 'Intercom', text: 'Leur poussée latérale est supérieure à nos relevés. Je peux les forcer à corriger leur trajectoire.', side: 'ally', avatar: '/character-dialogue-avatar.png' },
-  { id: 'combat-rp-3', author: 'Contact K-17', mention: 'Canal externe', text: 'VVF Raviolo, coupez vos armes et dérivez en attente d’inspection.', side: 'enemy', avatar: '/character-grand-avatar.png' },
-  { id: 'combat-rp-4', author: 'Lysa Arven', mention: 'Canal externe', text: 'Vaisseau non identifié, coupez vos armes et transmettez votre identification.', side: 'ally', avatar: '/lysa-dialogue-realistic.png' },
+  { id: 'combat-rp-1', author: 'Lysa Arven', mention: 'Passerelle', text: 'Ils ont anticipé nos tirs. Rechargez et préparez-moi une autre approche.', side: 'ally', avatar: assetUrl('/lysa-dialogue-realistic.png') },
+  { id: 'combat-rp-2', author: 'Nael Coris', mention: 'Intercom', text: 'Leur poussée latérale est supérieure à nos relevés. Je peux les forcer à corriger leur trajectoire.', side: 'ally', avatar: assetUrl('/character-dialogue-avatar.png') },
+  { id: 'combat-rp-3', author: 'Contact K-17', mention: 'Canal externe', text: 'VVF Raviolo, coupez vos armes et dérivez en attente d’inspection.', side: 'enemy', avatar: assetUrl('/character-grand-avatar.png') },
+  { id: 'combat-rp-4', author: 'Lysa Arven', mention: 'Canal externe', text: 'Vaisseau non identifié, coupez vos armes et transmettez votre identification.', side: 'ally', avatar: assetUrl('/lysa-dialogue-realistic.png') },
 ]
 
 export const completedCombatTurns: CombatArchiveTurn[] = [
@@ -140,8 +141,8 @@ export const completedCombatTurns: CombatArchiveTurn[] = [
       { side: 'player', label: 'Scanner', text: 'Premières données tactiques obtenues sur le contact hostile.' },
     ],
     messages: [
-      { id: 'archive-1-a', author: 'Lysa Arven', mention: 'Passerelle', text: 'Gardez-le dans l’axe. Je veux savoir ce qu’on a devant nous avant de recommencer.', side: 'ally', avatar: '/lysa-dialogue-realistic.png' },
-      { id: 'archive-1-b', author: 'Contact K-17', mention: 'Canal externe', text: 'Dernier avertissement. Réduisez votre poussée et coupez vos systèmes offensifs.', side: 'enemy', avatar: '/character-grand-avatar.png' },
+      { id: 'archive-1-a', author: 'Lysa Arven', mention: 'Passerelle', text: 'Gardez-le dans l’axe. Je veux savoir ce qu’on a devant nous avant de recommencer.', side: 'ally', avatar: assetUrl('/lysa-dialogue-realistic.png') },
+      { id: 'archive-1-b', author: 'Contact K-17', mention: 'Canal externe', text: 'Dernier avertissement. Réduisez votre poussée et coupez vos systèmes offensifs.', side: 'enemy', avatar: assetUrl('/character-grand-avatar.png') },
     ],
   },
   {
@@ -154,8 +155,8 @@ export const completedCombatTurns: CombatArchiveTurn[] = [
       { side: 'system', label: 'État', text: 'Raviolo : 4 410 boucliers. K-17 : 3 000 boucliers.' },
     ],
     messages: [
-      { id: 'archive-2-a', author: 'Nael Coris', mention: 'Intercom', text: 'Ils compensent mal sur bâbord. Donnez-moi quelques secondes et je les maintiens devant les canons.', side: 'ally', avatar: '/character-dialogue-avatar.png' },
-      { id: 'archive-2-b', author: 'Lysa Arven', mention: 'Passerelle', text: 'Fais-le. Systèmes, gardez le bouclier stable.', side: 'ally', avatar: '/lysa-dialogue-realistic.png' },
+      { id: 'archive-2-a', author: 'Nael Coris', mention: 'Intercom', text: 'Ils compensent mal sur bâbord. Donnez-moi quelques secondes et je les maintiens devant les canons.', side: 'ally', avatar: assetUrl('/character-dialogue-avatar.png') },
+      { id: 'archive-2-b', author: 'Lysa Arven', mention: 'Passerelle', text: 'Fais-le. Systèmes, gardez le bouclier stable.', side: 'ally', avatar: assetUrl('/lysa-dialogue-realistic.png') },
     ],
   },
   {
@@ -168,8 +169,8 @@ export const completedCombatTurns: CombatArchiveTurn[] = [
       { side: 'system', label: 'Reddition', text: 'Le Contact K-17 transmet un signal de reddition. L’attaque est interrompue et la reddition est acceptée.' },
     ],
     messages: [
-      { id: 'archive-3-a', author: 'Contact K-17', mention: 'Canal externe', text: 'Nous cessons le feu. Nos armes sont coupées. Confirmez réception.', side: 'enemy', avatar: '/character-grand-avatar.png' },
-      { id: 'archive-3-b', author: 'Lysa Arven', mention: 'Canal externe', text: 'Reddition reçue. Maintenez vos systèmes offensifs hors ligne et attendez nos instructions.', side: 'ally', avatar: '/lysa-dialogue-realistic.png' },
+      { id: 'archive-3-a', author: 'Contact K-17', mention: 'Canal externe', text: 'Nous cessons le feu. Nos armes sont coupées. Confirmez réception.', side: 'enemy', avatar: assetUrl('/character-grand-avatar.png') },
+      { id: 'archive-3-b', author: 'Lysa Arven', mention: 'Canal externe', text: 'Reddition reçue. Maintenez vos systèmes offensifs hors ligne et attendez nos instructions.', side: 'ally', avatar: assetUrl('/lysa-dialogue-realistic.png') },
     ],
   },
 ]

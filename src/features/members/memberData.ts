@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 // DONNÉES ÉDITABLES : annuaire Joueurs / PNJ de démonstration.
 export type DirectoryKind = 'players' | 'npcs'
 export type MemberSort = 'lastSeen' | 'oldest' | 'newest' | 'rpDesc' | 'rpAsc' | 'bountyDesc' | 'loreImportanceDesc'
@@ -23,9 +24,9 @@ export type MemberDirectoryEntry = {
 }
 
 export const memberDirectory: MemberDirectoryEntry[] = [
-  { id: 'm-lysa', kind: 'players', firstName: 'Lysa', dynastyName: 'Arven', species: 'Humain', faction: 'Humanis', crew: 'VVF Raviolo', lastSeen: 2, lastSeenLabel: 'Il y a 2 min', joinedAt: 20251103, rpCount: 31, bounty: 0, activeRps: 2, avatarImage: '/lysa-dialogue-realistic.png', avatarLabel: 'LA', profileId: 'lysa' },
-  { id: 'm-seris', kind: 'players', firstName: 'Seris', dynastyName: 'Vaelor', species: 'Humain', faction: 'Primordia', crew: 'VVF Mnémosyne', lastSeen: 18, lastSeenLabel: 'Il y a 18 min', joinedAt: 20251216, rpCount: 18, bounty: 1200, activeRps: 0, avatarImage: '/character-dialogue-avatar.png', avatarLabel: 'SV', profileId: 'seris' },
-  { id: 'm-nael', kind: 'players', firstName: 'Nael', dynastyName: 'Coris', species: 'Humain', faction: 'Humanis', crew: 'VVF Azur', lastSeen: 34, lastSeenLabel: 'Il y a 34 min', joinedAt: 20260108, rpCount: 22, bounty: 350, activeRps: 1, avatarImage: '/character-dialogue-avatar.png', avatarLabel: 'NC', profileId: 'nael' },
+  { id: 'm-lysa', kind: 'players', firstName: 'Lysa', dynastyName: 'Arven', species: 'Humain', faction: 'Humanis', crew: 'VVF Raviolo', lastSeen: 2, lastSeenLabel: 'Il y a 2 min', joinedAt: 20251103, rpCount: 31, bounty: 0, activeRps: 2, avatarImage: assetUrl('/lysa-dialogue-realistic.png'), avatarLabel: 'LA', profileId: 'lysa' },
+  { id: 'm-seris', kind: 'players', firstName: 'Seris', dynastyName: 'Vaelor', species: 'Humain', faction: 'Primordia', crew: 'VVF Mnémosyne', lastSeen: 18, lastSeenLabel: 'Il y a 18 min', joinedAt: 20251216, rpCount: 18, bounty: 1200, activeRps: 0, avatarImage: assetUrl('/character-dialogue-avatar.png'), avatarLabel: 'SV', profileId: 'seris' },
+  { id: 'm-nael', kind: 'players', firstName: 'Nael', dynastyName: 'Coris', species: 'Humain', faction: 'Humanis', crew: 'VVF Azur', lastSeen: 34, lastSeenLabel: 'Il y a 34 min', joinedAt: 20260108, rpCount: 22, bounty: 350, activeRps: 1, avatarImage: assetUrl('/character-dialogue-avatar.png'), avatarLabel: 'NC', profileId: 'nael' },
   { id: 'm-tarek', kind: 'players', firstName: 'Tarek', dynastyName: 'Solan', species: 'Humain', faction: 'Humanis', crew: 'VVF Raviolo', lastSeen: 61, lastSeenLabel: 'Il y a 1 h', joinedAt: 20251201, rpCount: 7, bounty: 0, activeRps: 0, avatarLabel: 'TS' },
   { id: 'm-irae', kind: 'players', firstName: 'Irae', dynastyName: 'Nemor', species: 'Aural (test)', faction: 'Primordia', crew: 'VVF Mnémosyne', lastSeen: 143, lastSeenLabel: 'Il y a 2 h', joinedAt: 20260212, rpCount: 12, bounty: 9400, activeRps: 3, avatarLabel: 'IN' },
   { id: 'm-kael', kind: 'players', firstName: 'Kael', dynastyName: 'Orven', species: 'Syréen (test)', faction: 'Vestiges', crew: 'Éclat Gris', lastSeen: 225, lastSeenLabel: 'Il y a 4 h', joinedAt: 20260303, rpCount: 4, bounty: 28000, activeRps: 0, avatarLabel: 'KO' },

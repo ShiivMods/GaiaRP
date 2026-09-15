@@ -1,3 +1,4 @@
+import { assetUrl } from '../../utils/assets'
 // DONNÉES ÉDITABLES : personnages de démonstration du prototype.
 export type CharacterProfile = {
   id: string
@@ -35,8 +36,8 @@ export const characterProfiles: CharacterProfile[] = [
     weight: '64 kg',
     bio: 'Capitaine d’exploration affectée aux routes périphériques de Starlight. Texte entièrement temporaire pour tester le volume de la fiche.',
     personality: 'Curieuse, pragmatique et très attachée à son équipage. Cette zone accueillera plus tard le texte libre du joueur.',
-    grandAvatar: '/lysa-grand-realistic.png',
-    dialogueAvatars: ['/lysa-dialogue-realistic.png'],
+    grandAvatar: assetUrl('/lysa-grand-realistic.png'),
+    dialogueAvatars: [assetUrl('/lysa-dialogue-realistic.png')],
     personalFunds: 3240,
     shipFunds: 18450,
     isCaptain: true,
@@ -55,7 +56,7 @@ export const characterProfiles: CharacterProfile[] = [
     weight: '58 kg',
     bio: 'Archiviste de terrain spécialisée dans les vestiges et relevés de bordure. Fiche de démonstration destinée au test du switch de personnage.',
     personality: 'Réservée, méticuleuse et fascinée par les anomalies. Elle parle peu, mais observe tout.',
-    grandAvatar: '/character-grand-avatar.png',
+    grandAvatar: assetUrl('/character-grand-avatar.png'),
     dialogueAvatars: [],
     personalFunds: 1710,
     shipFunds: 9200,
@@ -75,8 +76,8 @@ export const characterProfiles: CharacterProfile[] = [
     weight: '73 kg',
     bio: 'Pilote d’escorte intégré à une cellule de reconnaissance. Profil test servant à vérifier plusieurs personnages sur le même compte.',
     personality: 'Impulsif, sociable et volontaire. Il aime les approches directes et les décisions rapides.',
-    grandAvatar: '/character-grand-avatar.png',
-    dialogueAvatars: ['/character-dialogue-avatar.png'],
+    grandAvatar: assetUrl('/character-grand-avatar.png'),
+    dialogueAvatars: [assetUrl('/character-dialogue-avatar.png')],
     personalFunds: 860,
     shipFunds: 6300,
     isCaptain: false,
