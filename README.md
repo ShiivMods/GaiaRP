@@ -1,17 +1,5 @@
 # Gaïa RP
 
-Prototype d'un forum Roleplay de science-fiction développé autour de l'univers de **Gaïa RP**.
-
-Le projet vise à réunir dans une même interface le RP écrit, la gestion des personnages et dynasties, l'exploration galactique, les vaisseaux, le lore et, à terme, plusieurs systèmes de jeu interactifs.
-
-## 🌐 Version en ligne
-
-Une version de développement est automatiquement publiée via GitHub Pages :
-
-https://shiivmods.github.io/GaiaRP/
-
-Cette version correspond à l'état actuel de la branche `main`.
-
 ## 🚧 État du projet
 
 Gaïa RP est actuellement en **développement actif**.
@@ -99,7 +87,7 @@ La section Lore regroupe notamment :
 - Religions
 - Découvertes et Technologies
 
-Les archives ont vocation à devenir une véritable encyclopédie interne, avec des liens entre personnages historiques, événements, institutions, lieux et autres éléments du lore.
+Les archives ont vocation à devenir une véritable encyclopédie interne, avec des liens entre personnages historiques, événements, institutions, lieux et autres éléments du lore. Ils demeurent toutefois totalement optionnels.
 
 ## 🕒 Temps de jeu
 
