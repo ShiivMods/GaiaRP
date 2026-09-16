@@ -32,6 +32,7 @@ import { planetZones, placesForObject, zonesForObject, zonesForPlanet } from './
 import type { PlanetZone, RpPlace } from './world/planetNavigation'
 import { LorePage } from './features/lore/LorePage'
 import type { LoreInitialView } from './features/lore/LorePage'
+import { assetUrl } from './utils/assets'
 
 const MAP_W = 1240
 const MAP_H = 760
@@ -121,6 +122,7 @@ const galaxyStars = makeGalaxyStars(300, 98437)
 
 function App() {
   const [screen, setScreen] = useState<ScreenMode>('home')
+  const [homeView, setHomeView] = useState<'visitor' | 'bridge'>('visitor')
   const [level, setLevel] = useState<'galaxy' | 'sector' | 'system' | 'planet' | 'zone' | 'interior'>('galaxy')
   const [chapterId, setChapterId] = useState(currentChapterId)
   const [sectorId, setSectorId] = useState('tochaku')
@@ -237,9 +239,9 @@ function App() {
     setHoveredPlaceId(null)
   }
 
-  const goHome = () => { setScreen('home'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
+  const goHome = () => { setHomeView('visitor'); setScreen('home'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
   const openShipConfiguration = () => setScreen('shipconfig')
-  const closeShipConfiguration = () => { setScreen('home'); setInspectorTab('ship') }
+  const closeShipConfiguration = () => { setHomeView('bridge'); setScreen('home'); setInspectorTab('ship') }
   const openMembers = () => { setScreen('members'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
   const openLore = (view: LoreInitialView = 'history') => {
     setLoreInitialView(view)
@@ -261,6 +263,7 @@ function App() {
 
   const openRpCharacter = (characterId: string) => {
     setActiveCharacterId(characterId)
+    setHomeView('bridge')
     setScreen('home')
     setInspectorTab('character')
   }
@@ -276,6 +279,7 @@ function App() {
   }
 
   const returnToCharacter = () => {
+    setHomeView('bridge')
     setScreen('home')
     setInspectorTab('character')
   }
@@ -396,6 +400,8 @@ function App() {
       clearPlanetNavigation()
       return
     }
+    setHomeView('bridge')
+    setScreen('home')
     setInspectorTab(target)
   }
 
@@ -457,12 +463,14 @@ function App() {
     '--system-accent': selectedSystem.starColor ?? selectedSector.theme.primary,
   } as CSSProperties
 
+  const isVisitorHome = screen === 'home' && homeView === 'visitor'
+
   return (
     <div className="app-shell">
       <header className={`topbar ${screen === 'members' || screen === 'lore' || screen === 'shipconfig' || screen === 'combat' ? 'standalone-topbar' : ''}`}>
         <div className="brand-block">
           <div className="eyebrow">GAÏA // INTERFACE DE NAVIGATION</div>
-          <h1>{screen === 'members' ? 'Membres' : screen === 'lore' ? 'Lore' : screen === 'shipconfig' ? `Vaisseau · ${currentCharacter.shipName}` : screen === 'combat' ? 'Combat spatial' : screen === 'dynasty' ? currentCharacter.dynasty : screen === 'rp' ? `RP · ${activeRp.title}` : screen === 'home' ? 'Pont du VVF Raviolo' : level === 'galaxy' ? 'Carte Galactique' : level === 'sector' ? `Carte Secteur · ${selectedSector.name}` : level === 'system' ? `Carte Système · ${selectedSystem.name}` : level === 'planet' ? surfaceAstro?.name ?? 'Astre' : level === 'interior' ? selectedSystemObject?.name ?? 'Installation' : selectedZone?.name ?? 'Zone planétaire'}</h1>
+          <h1>{screen === 'members' ? 'Membres' : screen === 'lore' ? 'Lore' : screen === 'shipconfig' ? `Vaisseau · ${currentCharacter.shipName}` : screen === 'combat' ? 'Combat spatial' : screen === 'dynasty' ? currentCharacter.dynasty : screen === 'rp' ? `RP · ${activeRp.title}` : isVisitorHome ? 'Bienvenue, futur explorateur' : screen === 'home' ? 'Pont du VVF Raviolo' : level === 'galaxy' ? 'Carte Galactique' : level === 'sector' ? `Carte Secteur · ${selectedSector.name}` : level === 'system' ? `Carte Système · ${selectedSystem.name}` : level === 'planet' ? surfaceAstro?.name ?? 'Astre' : level === 'interior' ? selectedSystemObject?.name ?? 'Installation' : selectedZone?.name ?? 'Zone planétaire'}</h1>
         </div>
 
         <nav className="global-nav" aria-label="Navigation principale">
@@ -473,25 +481,29 @@ function App() {
           <button className="signup" onClick={() => alert('Prototype : inscription à venir.')}>S’inscrire <span className="signup-ship">➤</span></button>
         </nav>
 
-        {screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && <div className="chapter-control">
-          <label htmlFor="chapter-select">ÉPOQUE</label>
-          <select id="chapter-select" value={chapterId} onChange={(event) => changeChapter(event.target.value)}>
-            {chapters.map((item) => <option key={item.id} value={item.id}>{item.shortLabel}</option>)}
-          </select>
-          <div className={`timeline-state ${isCurrentChapter ? 'present' : 'archive'}`}>
-            {isCurrentChapter ? 'PRÉSENT' : 'ÉPOQUE PASSÉE'}
+        {isVisitorHome ? (
+          <VisitorTopbarPresence characters={characterProfiles.slice(0, 3)} />
+        ) : screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' ? (
+          <div className="chapter-control">
+            <label htmlFor="chapter-select">ÉPOQUE</label>
+            <select id="chapter-select" value={chapterId} onChange={(event) => changeChapter(event.target.value)}>
+              {chapters.map((item) => <option key={item.id} value={item.id}>{item.shortLabel}</option>)}
+            </select>
+            <div className={`timeline-state ${isCurrentChapter ? 'present' : 'archive'}`}>
+              {isCurrentChapter ? 'PRÉSENT' : 'ÉPOQUE PASSÉE'}
+            </div>
           </div>
-        </div>}
+        ) : null}
       </header>
 
-      {screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && (isCurrentChapter ? <NewsTicker /> : (
+      {!isVisitorHome && screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && (isCurrentChapter ? <NewsTicker /> : (
         <div className="archive-strip">
           <span>MODE HISTORIQUE · {chapter.shortLabel.toUpperCase()}</span>
           <button onClick={() => changeChapter(currentChapterId)}>Retour au présent</button>
         </div>
       ))}
 
-      {screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && <div className="breadcrumb-bar">
+      {!isVisitorHome && screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && <div className="breadcrumb-bar">
         <button className={screen === 'home' ? 'active' : ''} onClick={goHome}>VAISSEAU</button>
         {screen === 'dynasty' && <><span>/</span><button className="active">{currentCharacter.dynasty.toUpperCase()}</button></>}
         {screen === 'rp' && <><span>/</span><button onClick={returnFromRp}>RP</button><span>/</span><button className="active">{activeRp.title.toUpperCase()}</button></>}
@@ -527,7 +539,9 @@ function App() {
         </div>
       </div>}
 
-      {screen === 'lore' ? (
+      {isVisitorHome ? (
+        <VisitorHomePage />
+      ) : screen === 'lore' ? (
         <LorePage key={lorePageKey} initialView={loreInitialView} />
       ) : screen === 'combat' ? (
         <CombatPage currentCharacter={currentCharacter} onBack={returnToRpFromCombat} completed={activeRp.combat?.status === 'completed'} />
@@ -541,6 +555,7 @@ function App() {
           onOpenCharacter={(entry) => {
             if (entry.profileId && characterProfiles.some((profile) => profile.id === entry.profileId)) {
               setActiveCharacterId(entry.profileId)
+              setHomeView('bridge')
               setScreen('home')
               setInspectorTab('character')
               return
@@ -573,10 +588,7 @@ function App() {
         />
       ) : (
       <main className={`workspace ${inspectorTab === 'character' ? 'character-open' : ''} ${inspectorTab === 'missions' ? 'missions-open' : ''}`}>
-        <section className={`map-card ${screen === 'home' ? 'view-home' : `view-${level}`}`}>
-          {screen === 'home' && (
-            <ShipHome onOpen={openHomeTarget} />
-          )}
+        <section className={`map-card view-${level}`}>
           {screen === 'map' && level === 'galaxy' && (
             <div className="ship-room">
               <div className="bridge-vignette" />
@@ -832,33 +844,87 @@ function App() {
 
 
 
-function ShipHome({ onOpen }: { onOpen: (target: 'map' | 'ship' | 'character') => void }) {
+
+function VisitorTopbarPresence({ characters }: { characters: CharacterProfile[] }) {
   return (
-    <div className="ship-home">
-      <div className="ship-home-vignette" />
-      <div className="ship-home-copy">
-        <div className="eyebrow">VVF RAVIOLO · PONT PRINCIPAL</div>
-        <h2>Bienvenue à bord</h2>
-        <p>Sélectionne un élément du vaisseau ou utilise le panneau de droite.</p>
+    <div className="visitor-presence" aria-label="Derniers personnages en ligne">
+      <div className="visitor-presence-copy">
+        <span>Derniers personnages en ligne</span>
       </div>
 
-      <button className="ship-hotspot hotspot-exo" onClick={() => onOpen('character')} aria-label="Ouvrir les informations du personnage">
-        <span className="hotspot-ring" />
-        <span className="hotspot-label"><b>Équipement personnel</b><small>Personnage · Exo-combinaison</small></span>
-      </button>
-
-      <button className="ship-hotspot hotspot-map" onClick={() => onOpen('map')} aria-label="Ouvrir la carte galactique">
-        <span className="hotspot-ring" />
-        <span className="hotspot-label"><b>Navigation</b><small>Carte galactique · Gaïa</small></span>
-      </button>
-
-      <button className="ship-hotspot hotspot-command" onClick={() => onOpen('ship')} aria-label="Ouvrir les informations du vaisseau">
-        <span className="hotspot-ring" />
-        <span className="hotspot-label"><b>Poste de commandement</b><small>État et gestion du vaisseau</small></span>
-      </button>
-
-      <div className="ship-home-hint">Survole un poste pour l’identifier · Les mêmes accès restent disponibles à droite</div>
+      <div className="visitor-presence-list">
+        {characters.map((character) => (
+          <button
+            key={character.id}
+            type="button"
+            className="visitor-presence-chip"
+            title={`${character.name} · ${character.faction}`}
+          >
+            <img src={character.dialogueAvatars[0] ?? character.grandAvatar} alt={character.name} />
+          </button>
+        ))}
+      </div>
     </div>
+  )
+}
+
+function VisitorHomePage() {
+  const highlights = [
+    {
+      title: 'Une navigation unique',
+      text: 'Le design de Gaïa et sa manière de sélectionner les lieux où jouer offrent une approche immédiatement identifiable, pensée pour explorer l’univers avant même de commencer à écrire.',
+    },
+    {
+      title: 'Une histoire vivante',
+      text: 'Les choix des joueurs affectent réellement l’état de Gaïa grâce à une narration active et à un monde qui évolue au fil des événements.',
+    },
+    {
+      title: 'Des systèmes de progression liés au RP',
+      text: 'Dynastie, compétences, niveau social et réputation se développent au fil des actions de votre personnage et structurent durablement sa place dans l’univers.',
+    },
+    {
+      title: 'Une vraie vie en communauté',
+      text: 'Le système d’équipage a été conçu pour favoriser la coopération, créer des dynamiques de groupe et encourager les aventures collectives.',
+    },
+    {
+      title: 'Un lore simple à découvrir, profond à explorer',
+      text: 'L’univers reste accessible dès les premiers pas, mais dévoile progressivement toute sa richesse à travers les découvertes, les lieux, les factions et les technologies.',
+    },
+    {
+      title: 'Des voyages, des vaisseaux et des combats',
+      text: 'De nombreux vaisseaux peuvent être obtenus au fil du temps, tandis que des systèmes de combat au tour par tour existent aussi bien sur terre que dans l’espace.',
+    },
+  ]
+
+  return (
+    <main className="visitor-home-page">
+      <section className="visitor-hero cozy-panel">
+        <div className="visitor-hero-backdrop" style={{ backgroundImage: `url(${assetUrl('/visitor-galaxy-bg.png')})` }} />
+        <div className="visitor-hero-overlay" />
+
+        <div className="visitor-hero-content">
+          <div className="visitor-hero-intro">
+            <div className="inspector-kicker">FORUM RP / JDR SCIENCE-FICTION</div>
+            <h2>Explorez un univers qui évolue avec ses joueurs</h2>
+            <p className="visitor-lead">
+              Gaïa ne se contente pas de présenter ses lieux. Vous les explorez. La navigation fait partie de l’expérience RP, et c’est précisément ce qui rend le forum différent de presque tout ce qui existe ailleurs.
+            </p>
+            <p className="visitor-closing">
+              L’histoire de Gaïa s’écrit avec ses joueurs, leurs découvertes, leurs choix et les conséquences qui en découlent.
+            </p>
+          </div>
+
+          <div className="visitor-highlights-grid">
+            {highlights.map((item) => (
+              <article key={item.title} className="visitor-highlight-card">
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   )
 }
 
