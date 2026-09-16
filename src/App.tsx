@@ -496,6 +496,23 @@ function App() {
         ) : null}
       </header>
 
+            {screen === 'home' && (
+        <button
+          type="button"
+          className="dev-home-switch"
+          onClick={() =>
+            setHomeView((current) =>
+              current === 'visitor' ? 'bridge' : 'visitor'
+            )
+          }
+        >
+          <span>DEV</span>
+          {homeView === 'visitor'
+            ? 'Voir l’accueil joueur'
+            : 'Voir l’accueil visiteur'}
+        </button>
+      )}
+
       {!isVisitorHome && screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && (isCurrentChapter ? <NewsTicker /> : (
         <div className="archive-strip">
           <span>MODE HISTORIQUE · {chapter.shortLabel.toUpperCase()}</span>
@@ -588,7 +605,10 @@ function App() {
         />
       ) : (
       <main className={`workspace ${inspectorTab === 'character' ? 'character-open' : ''} ${inspectorTab === 'missions' ? 'missions-open' : ''}`}>
-        <section className={`map-card view-${level}`}>
+        <section className={`map-card ${screen === 'home' ? 'view-home' : `view-${level}`}`}>
+          {screen === 'home' && (
+            <ShipHome onOpen={openHomeTarget} />
+          )}
           {screen === 'map' && level === 'galaxy' && (
             <div className="ship-room">
               <div className="bridge-vignette" />
@@ -842,8 +862,65 @@ function App() {
   )
 }
 
+function ShipHome({
+  onOpen,
+}: {
+  onOpen: (target: 'map' | 'ship' | 'character') => void
+}) {
+  return (
+    <div className="ship-home">
+      <div className="ship-home-vignette" />
 
+      <div className="ship-home-copy">
+        <div className="eyebrow">VVF RAVIOLO · PONT PRINCIPAL</div>
+        <h2>Bienvenue à bord</h2>
+        <p>
+          Sélectionne un élément du vaisseau ou utilise le panneau de droite.
+        </p>
+      </div>
 
+      <button
+        className="ship-hotspot hotspot-exo"
+        onClick={() => onOpen('character')}
+        aria-label="Ouvrir les informations du personnage"
+      >
+        <span className="hotspot-ring" />
+        <span className="hotspot-label">
+          <b>Équipement personnel</b>
+          <small>Personnage · Exo-combinaison</small>
+        </span>
+      </button>
+
+      <button
+        className="ship-hotspot hotspot-map"
+        onClick={() => onOpen('map')}
+        aria-label="Ouvrir la carte galactique"
+      >
+        <span className="hotspot-ring" />
+        <span className="hotspot-label">
+          <b>Navigation</b>
+          <small>Carte galactique · Gaïa</small>
+        </span>
+      </button>
+
+      <button
+        className="ship-hotspot hotspot-command"
+        onClick={() => onOpen('ship')}
+        aria-label="Ouvrir les informations du vaisseau"
+      >
+        <span className="hotspot-ring" />
+        <span className="hotspot-label">
+          <b>Poste de commandement</b>
+          <small>État et gestion du vaisseau</small>
+        </span>
+      </button>
+
+      <div className="ship-home-hint">
+        Survole un poste pour l’identifier · Les mêmes accès restent disponibles à droite
+      </div>
+    </div>
+  )
+}
 
 function VisitorTopbarPresence({ characters }: { characters: CharacterProfile[] }) {
   return (

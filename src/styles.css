@@ -4474,3 +4474,62 @@ html {
     font-size: 16px;
   }
 }
+
+.dev-home-switch {
+  position: fixed;
+  z-index: 9999;
+  right: 22px;
+  bottom: 22px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 11px 15px;
+
+  border: 1px solid rgba(209, 133, 255, .55);
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(106, 45, 142, .96),
+      rgba(42, 23, 67, .96)
+    );
+
+  color: #f2e5ff;
+
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .04em;
+
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, .4),
+    0 0 22px rgba(177, 79, 230, .18);
+
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.dev-home-switch span {
+  padding: 3px 6px;
+
+  border-radius: 5px;
+
+  background: rgba(255, 255, 255, .13);
+
+  color: #ffffff;
+
+  font-size: 11px;
+  letter-spacing: .14em;
+}
+
+.dev-home-switch:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(224, 166, 255, .8);
+
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, .45),
+    0 0 28px rgba(185, 87, 235, .3);
+}
