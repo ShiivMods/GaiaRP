@@ -1,3 +1,10 @@
+## 0.6.dev52
+- Ajout d'une page Évènements avec un état vide lorsqu'aucun évènement n'est actif.
+- Ajout d'une page Compte présentant le futur cycle de 7 bonus de connexion sur une fenêtre de 11 jours et le bonus du premier RP du jour, sans inventer les récompenses encore non définies.
+- Les personnages peuvent désormais enregistrer jusqu'à deux Grands Avatars ; le Grand Avatar choisi au moment de publier un RP est mémorisé avec le message.
+- Mise en place d'un routing léger basé sur l'History API : Accueil, pont joueur, carte, Membres, personnages, dynasties, vaisseaux, RP, combat, Lore, Évènements, Compte et accès admin disposent désormais d'URL dédiées.
+- Les boutons précédent/suivant du navigateur restaurent les pages principales et les liens directs sont compatibles avec GitHub Pages grâce à une page 404 de redirection vers la SPA.
+
 ## 0.6.dev51
 - Correctif GitHub Pages : le script `build` utilise désormais directement Vite au lieu de lancer `tsc -b` avant la compilation.
 - Cela contourne le blocage TS2882 de TypeScript 7 sur l’import CSS `./styles.css`, qui empêchait toute nouvelle version d’être déployée.

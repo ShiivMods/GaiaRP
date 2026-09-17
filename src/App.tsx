@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { characterProfiles } from './features/characters/characterData'
 import type { CharacterProfile } from './features/characters/characterData'
@@ -33,6 +33,9 @@ import type { PlanetZone, RpPlace } from './world/planetNavigation'
 import { LorePage } from './features/lore/LorePage'
 import type { LoreInitialView } from './features/lore/LorePage'
 import { assetUrl } from './utils/assets'
+import { AccountPage } from './features/account/AccountPage'
+import { EventsPage } from './features/events/EventsPage'
+import { getAppPath, pushAppRoute, replaceAppRoute, routeSlug } from './router'
 
 const MAP_W = 1240
 const MAP_H = 760
@@ -76,7 +79,7 @@ function populationAtChapter(value: string | undefined, chapterId: string) {
 type Point = { x: number; y: number }
 type StarPoint = { x: number; y: number; r: number; opacity: number }
 type MapViewMode = 'player' | 'admin'
-type ScreenMode = 'home' | 'map' | 'dynasty' | 'rp' | 'combat' | 'members' | 'lore' | 'shipconfig'
+type ScreenMode = 'home' | 'map' | 'dynasty' | 'rp' | 'combat' | 'members' | 'lore' | 'shipconfig' | 'events' | 'account'
 type InspectorTab = 'map' | 'ship' | 'character' | 'rps' | 'myrps' | 'missions'
 
 const stateLabel: Record<DiscoveryState, string> = {
@@ -205,10 +208,224 @@ function App() {
 
   const systemById = useMemo(() => new Map(visibleSystems.map((system) => [system.id, system])), [visibleSystems])
 
+  const loreRoute = (view: LoreInitialView) => {
+    if (view === 'humanis') return '/lore/factions/humanis'
+    if (view === 'humans') return '/lore/especes/humains'
+    if (view === 'fauna') return '/lore/especes/faune'
+    if (view === 'fauna-terrestrial') return '/lore/especes/faune/terrestre'
+    if (view === 'fauna-spatial') return '/lore/especes/faune/spatiale'
+    if (view === 'factions') return '/lore/factions'
+    if (view === 'species') return '/lore/especes'
+    if (view === 'religions') return '/lore/religions'
+    if (view === 'discoveries') return '/lore/technologies'
+    return '/lore/histoire'
+  }
+
+  const characterDynastyRoute = (character: CharacterProfile) => `/dynasties/${routeSlug(character.dynasty.replace(/^Dynastie\s+/i, ''))}`
+  const characterShipRoute = (character: CharacterProfile) => `/vaisseaux/${routeSlug(character.shipName)}`
+  const mapObjectRoute = (system: StarSystem, objectId: string) => `/carte/systemes/${system.id}/objets/${objectId}`
+
+  const loadRpThread = (thread: RpThread) => {
+    setActiveRpId(thread.id)
+    setRpMessages(thread.messages)
+    setRpAccessMode(thread.accessMode)
+    setRpInvitedIds(thread.invitedIds)
+    setChapterId(thread.chapterId)
+  }
+
+  const applyRoute = (path: string) => {
+    const parts = path.split('/').filter(Boolean).map((part) => decodeURIComponent(part))
+
+    if (parts.length === 0) {
+      setScreen('home')
+      setHomeView('visitor')
+      return true
+    }
+
+    if (parts[0] === 'pont') {
+      setScreen('home')
+      setHomeView('bridge')
+      setInspectorTab('map')
+      return true
+    }
+
+    if (parts[0] === 'evenements') {
+      setScreen('events')
+      return true
+    }
+
+    if (parts[0] === 'compte') {
+      setScreen('account')
+      return true
+    }
+
+    if (parts[0] === 'membres') {
+      setScreen('members')
+      return true
+    }
+
+    if (parts[0] === 'personnages' && parts[1]) {
+      const character = characterProfiles.find((item) => item.id === parts[1])
+      if (!character) return false
+      setActiveCharacterId(character.id)
+      setHomeView('bridge')
+      setScreen('home')
+      setInspectorTab('character')
+      return true
+    }
+
+    if (parts[0] === 'dynasties' && parts[1]) {
+      const character = characterProfiles.find((item) => routeSlug(item.dynasty.replace(/^Dynastie\s+/i, '')) === parts[1] || item.id === parts[1])
+      if (!character) return false
+      setActiveCharacterId(character.id)
+      setDynastyTab('advantages')
+      setScreen('dynasty')
+      return true
+    }
+
+    if (parts[0] === 'vaisseaux' && parts[1]) {
+      const character = characterProfiles.find((item) => routeSlug(item.shipName) === parts[1] || item.id === parts[1])
+      if (!character) return false
+      setActiveCharacterId(character.id)
+      setHomeView('bridge')
+      setInspectorTab('ship')
+      setScreen(parts[2] === 'configuration' ? 'shipconfig' : 'home')
+      return true
+    }
+
+    if (parts[0] === 'rp' && parts[1]) {
+      const thread = rpThreads.find((item) => item.id === parts[1])
+      if (!thread) return false
+      loadRpThread(thread)
+      setScreen('rp')
+      return true
+    }
+
+    if (parts[0] === 'combat' && parts[1]) {
+      const thread = rpThreads.find((item) => item.id === parts[1] && item.combat)
+      if (!thread) return false
+      loadRpThread(thread)
+      setScreen('combat')
+      return true
+    }
+
+    if (parts[0] === 'lore') {
+      let view: LoreInitialView = 'history'
+      if (parts[1] === 'factions') view = parts[2] === 'humanis' ? 'humanis' : 'factions'
+      else if (parts[1] === 'especes') {
+        if (parts[2] === 'humains') view = 'humans'
+        else if (parts[2] === 'faune' && parts[3] === 'terrestre') view = 'fauna-terrestrial'
+        else if (parts[2] === 'faune' && parts[3] === 'spatiale') view = 'fauna-spatial'
+        else if (parts[2] === 'faune') view = 'fauna'
+        else view = 'species'
+      } else if (parts[1] === 'religions') view = 'religions'
+      else if (parts[1] === 'technologies') view = 'discoveries'
+      setLoreInitialView(view)
+      setLorePageKey((value) => value + 1)
+      setScreen('lore')
+      return true
+    }
+
+    if (parts[0] === 'admin') {
+      setMapViewMode('admin')
+      setScreen('map')
+      setLevel('galaxy')
+      setInspectorTab('map')
+      return true
+    }
+
+    if (parts[0] === 'carte') {
+      setScreen('map')
+      setInspectorTab('map')
+      setHoveredZoneId(null)
+      setHoveredPlaceId(null)
+
+      if (!parts[1]) {
+        setLevel('galaxy')
+        setPlanetId(null)
+        setSystemObjectId(null)
+        setZoneId(null)
+        setPlaceId(null)
+        return true
+      }
+
+      if (parts[1] === 'secteurs' && parts[2]) {
+        const sector = sectors.find((item) => item.id === parts[2])
+        if (!sector) return false
+        setSectorId(sector.id)
+        setLevel('sector')
+        setPlanetId(null)
+        setSystemObjectId(null)
+        setZoneId(null)
+        setPlaceId(null)
+        return true
+      }
+
+      if (parts[1] === 'systemes' && parts[2]) {
+        const system = systems.find((item) => item.id === parts[2])
+        if (!system) return false
+        setSystemId(system.id)
+        setSectorId(system.sectorId)
+        setPlanetId(null)
+        setSystemObjectId(null)
+        setZoneId(null)
+        setPlaceId(null)
+
+        if (!parts[3]) {
+          setLevel('system')
+          return true
+        }
+
+        if (parts[3] === 'objets' && parts[4]) {
+          const planet = planets.find((item) => item.id === parts[4] && item.systemId === system.id)
+          const object = systemObjects.find((item) => item.id === parts[4] && item.systemId === system.id)
+          if (!planet && !object) return false
+          if (planet) setPlanetId(planet.id)
+          if (object) setSystemObjectId(object.id)
+
+          if (parts[5] === 'zones' && parts[6]) {
+            const zone = planetZones.find((item) => item.id === parts[6])
+            if (!zone) return false
+            setZoneId(zone.id)
+            setPlaceId(parts[7] === 'lieux' && parts[8] ? parts[8] : null)
+            setLevel(zone.explored === false ? 'planet' : 'zone')
+            return true
+          }
+
+          if (parts[5] === 'lieux' && parts[6] && object) {
+            setPlaceId(parts[6])
+            setLevel('interior')
+            return true
+          }
+
+          setLevel(object && zonesForObject(object.id).length === 0 && placesForObject(object.id).length > 0 ? 'interior' : 'planet')
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  useEffect(() => {
+    const syncFromBrowser = () => {
+      const path = getAppPath()
+      if (!applyRoute(path)) {
+        replaceAppRoute('/')
+        applyRoute('/')
+      }
+    }
+
+    syncFromBrowser()
+    window.addEventListener('popstate', syncFromBrowser)
+    return () => window.removeEventListener('popstate', syncFromBrowser)
+  }, [])
+
   const openSector = (sector: Sector) => {
-    setScreen('map')
     const state = sector.states[chapterId] ?? 'fogged'
     if (state === 'fogged' && mapViewMode === 'player') return
+    pushAppRoute(`/carte/secteurs/${sector.id}`)
+    setScreen('map')
     setSectorId(sector.id)
     setPlanetId(null)
     setSystemObjectId(null)
@@ -221,6 +438,7 @@ function App() {
 
   const openSystem = (system: StarSystem) => {
     if (system.explorable === false) return
+    pushAppRoute(`/carte/systemes/${system.id}`)
     setScreen('map')
     setSystemId(system.id)
     setPlanetId(null)
@@ -239,11 +457,14 @@ function App() {
     setHoveredPlaceId(null)
   }
 
-  const goHome = () => { setHomeView('visitor'); setScreen('home'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
-  const openShipConfiguration = () => setScreen('shipconfig')
-  const closeShipConfiguration = () => { setHomeView('bridge'); setScreen('home'); setInspectorTab('ship') }
-  const openMembers = () => { setScreen('members'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
+  const goHome = () => { pushAppRoute('/'); setHomeView('visitor'); setScreen('home'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
+  const openShipConfiguration = () => { pushAppRoute(`${characterShipRoute(currentCharacter)}/configuration`); setScreen('shipconfig') }
+  const closeShipConfiguration = () => { pushAppRoute(characterShipRoute(currentCharacter)); setHomeView('bridge'); setScreen('home'); setInspectorTab('ship') }
+  const openMembers = () => { pushAppRoute('/membres'); setScreen('members'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation() }
+  const openEvents = () => { pushAppRoute('/evenements'); setScreen('events') }
+  const openAccount = () => { pushAppRoute('/compte'); setScreen('account') }
   const openLore = (view: LoreInitialView = 'history') => {
+    pushAppRoute(loreRoute(view))
     setLoreInitialView(view)
     setLorePageKey((value) => value + 1)
     setScreen('lore')
@@ -251,17 +472,19 @@ function App() {
     setSystemObjectId(null)
     clearPlanetNavigation()
   }
-  const goGalaxy = () => { setScreen('map'); setLevel('galaxy'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
-  const goSector = () => { setScreen('map'); setLevel('sector'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
-  const goSystem = () => { setScreen('map'); setLevel('system'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
-  const goPlanet = () => { if (!surfaceAstro) return; setScreen('map'); setLevel('planet'); setZoneId(null); setPlaceId(null); setHoveredZoneId(null); setHoveredPlaceId(null); setInspectorTab('map') }
+  const goGalaxy = () => { pushAppRoute('/carte'); setScreen('map'); setLevel('galaxy'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
+  const goSector = () => { pushAppRoute(`/carte/secteurs/${selectedSector.id}`); setScreen('map'); setLevel('sector'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
+  const goSystem = () => { pushAppRoute(`/carte/systemes/${selectedSystem.id}`); setScreen('map'); setLevel('system'); setPlanetId(null); setSystemObjectId(null); clearPlanetNavigation(); setInspectorTab('map') }
+  const goPlanet = () => { if (!surfaceAstro) return; pushAppRoute(mapObjectRoute(selectedSystem, surfaceAstro.id)); setScreen('map'); setLevel('planet'); setZoneId(null); setPlaceId(null); setHoveredZoneId(null); setHoveredPlaceId(null); setInspectorTab('map') }
 
   const openDynasty = () => {
+    pushAppRoute(characterDynastyRoute(currentCharacter))
     setDynastyTab('advantages')
     setScreen('dynasty')
   }
 
   const openRpCharacter = (characterId: string) => {
+    pushAppRoute(`/personnages/${characterId}`)
     setActiveCharacterId(characterId)
     setHomeView('bridge')
     setScreen('home')
@@ -273,23 +496,23 @@ function App() {
   }
 
   const openRpDynasty = (characterId: string) => {
+    const character = characterProfiles.find((item) => item.id === characterId) ?? currentCharacter
+    pushAppRoute(characterDynastyRoute(character))
     setActiveCharacterId(characterId)
     setDynastyTab('advantages')
     setScreen('dynasty')
   }
 
   const returnToCharacter = () => {
+    pushAppRoute(`/personnages/${currentCharacter.id}`)
     setHomeView('bridge')
     setScreen('home')
     setInspectorTab('character')
   }
 
   const openRpThread = (thread: RpThread) => {
-    setActiveRpId(thread.id)
-    setRpMessages(thread.messages)
-    setRpAccessMode(thread.accessMode)
-    setRpInvitedIds(thread.invitedIds)
-    setChapterId(thread.chapterId)
+    pushAppRoute(`/rp/${thread.id}`)
+    loadRpThread(thread)
     setScreen('rp')
   }
   const openPrototypeRp = () => openRpThread(prototypeRp)
@@ -300,11 +523,18 @@ function App() {
       alert('Un combat spatial ne peut être ouvert que depuis un RP situé dans l’espace.')
       return
     }
+    pushAppRoute(`/combat/${activeRp.id}`)
     setScreen('combat')
   }
-  const returnToRpFromCombat = () => setScreen('rp')
+  const returnToRpFromCombat = () => { pushAppRoute(`/rp/${activeRp.id}`); setScreen('rp') }
+
+  const routeForRpLocation = (thread: RpThread) => {
+    if (thread.location.kind === 'space') return `/carte/systemes/${thread.location.systemId || 'starlight'}`
+    return `/carte/systemes/${thread.location.systemId || 'starlight'}/objets/${thread.location.bodyId}/zones/${thread.location.zoneId}/lieux/${thread.location.placeId}`
+  }
 
   const returnFromRp = () => {
+    pushAppRoute(routeForRpLocation(activeRp))
     setScreen('map')
     setSectorId('tochaku')
     setSystemId(activeRp.location.systemId || 'starlight')
@@ -324,7 +554,8 @@ function App() {
     setPlaceId(activeRp.location.placeId || null)
     setLevel('zone')
   }
-    const openRpLocation = () => {
+  const openRpLocation = () => {
+    pushAppRoute(routeForRpLocation(activeRp))
     setScreen('map')
     setSectorId('tochaku')
     setSystemId(activeRp.location.systemId || 'starlight')
@@ -348,6 +579,7 @@ function App() {
   }
 
   const explorePlanet = (planet: Planet) => {
+    pushAppRoute(mapObjectRoute(selectedSystem, planet.id))
     setPlanetId(planet.id)
     setSystemObjectId(null)
     setZoneId(null)
@@ -359,6 +591,7 @@ function App() {
   }
 
   const exploreSystemObject = (object: SystemObject) => {
+    pushAppRoute(mapObjectRoute(selectedSystem, object.id))
     setSystemObjectId(object.id)
     setPlanetId(null)
     setZoneId(null)
@@ -376,6 +609,7 @@ function App() {
   }
 
   const openPlanetZone = (zone: PlanetZone) => {
+    if (surfaceAstro) pushAppRoute(`${mapObjectRoute(selectedSystem, surfaceAstro.id)}/zones/${zone.id}`)
     setZoneId(zone.id)
     setPlaceId(null)
     setHoveredPlaceId(null)
@@ -392,6 +626,7 @@ function App() {
 
   const openHomeTarget = (target: 'map' | 'ship' | 'character') => {
     if (target === 'map') {
+      pushAppRoute('/carte')
       setInspectorTab('map')
       setScreen('map')
       setLevel('galaxy')
@@ -400,9 +635,38 @@ function App() {
       clearPlanetNavigation()
       return
     }
+    pushAppRoute(target === 'character' ? `/personnages/${currentCharacter.id}` : characterShipRoute(currentCharacter))
     setHomeView('bridge')
     setScreen('home')
     setInspectorTab(target)
+  }
+
+  const changeInspectorTab = (tab: InspectorTab) => {
+    setInspectorTab(tab)
+    if (screen !== 'home' || homeView !== 'bridge') return
+    if (tab === 'character') pushAppRoute(`/personnages/${currentCharacter.id}`)
+    else if (tab === 'ship') pushAppRoute(characterShipRoute(currentCharacter))
+    else if (tab === 'map') pushAppRoute('/pont')
+  }
+
+  const changeActiveCharacter = (characterId: string) => {
+    const character = characterProfiles.find((item) => item.id === characterId)
+    if (!character) return
+    setActiveCharacterId(character.id)
+    if (screen === 'home' && inspectorTab === 'character') pushAppRoute(`/personnages/${character.id}`)
+    if (screen === 'home' && inspectorTab === 'ship') pushAppRoute(characterShipRoute(character))
+  }
+
+  const selectPlanetPlace = (nextPlaceId: string | null) => {
+    setPlaceId(nextPlaceId)
+    if (!nextPlaceId || !surfaceAstro || !zoneId) return
+    pushAppRoute(`${mapObjectRoute(selectedSystem, surfaceAstro.id)}/zones/${zoneId}/lieux/${nextPlaceId}`)
+  }
+
+  const selectInteriorPlace = (nextPlaceId: string | null) => {
+    setPlaceId(nextPlaceId)
+    if (!nextPlaceId || !selectedSystemObject) return
+    pushAppRoute(`${mapObjectRoute(selectedSystem, selectedSystemObject.id)}/lieux/${nextPlaceId}`)
   }
 
   const changeChapter = (nextChapterId: string) => {
@@ -464,26 +728,29 @@ function App() {
   } as CSSProperties
 
   const isVisitorHome = screen === 'home' && homeView === 'visitor'
+  const isStandalonePage = screen === 'members' || screen === 'lore' || screen === 'shipconfig' || screen === 'combat' || screen === 'events' || screen === 'account'
 
   return (
     <div className="app-shell">
-      <header className={`topbar ${screen === 'members' || screen === 'lore' || screen === 'shipconfig' || screen === 'combat' ? 'standalone-topbar' : ''}`}>
+      <header className={`topbar ${isStandalonePage ? 'standalone-topbar' : ''}`}>
         <div className="brand-block">
           <div className="eyebrow">GAÏA // INTERFACE DE NAVIGATION</div>
-          <h1>{screen === 'members' ? 'Membres' : screen === 'lore' ? 'Lore' : screen === 'shipconfig' ? `Vaisseau · ${currentCharacter.shipName}` : screen === 'combat' ? 'Combat spatial' : screen === 'dynasty' ? currentCharacter.dynasty : screen === 'rp' ? `RP · ${activeRp.title}` : isVisitorHome ? 'Bienvenue, futur explorateur' : screen === 'home' ? 'Pont du VVF Raviolo' : level === 'galaxy' ? 'Carte Galactique' : level === 'sector' ? `Carte Secteur · ${selectedSector.name}` : level === 'system' ? `Carte Système · ${selectedSystem.name}` : level === 'planet' ? surfaceAstro?.name ?? 'Astre' : level === 'interior' ? selectedSystemObject?.name ?? 'Installation' : selectedZone?.name ?? 'Zone planétaire'}</h1>
+          <h1>{screen === 'members' ? 'Membres' : screen === 'events' ? 'Évènements' : screen === 'account' ? 'Compte' : screen === 'lore' ? 'Lore' : screen === 'shipconfig' ? `Vaisseau · ${currentCharacter.shipName}` : screen === 'combat' ? 'Combat spatial' : screen === 'dynasty' ? currentCharacter.dynasty : screen === 'rp' ? `RP · ${activeRp.title}` : isVisitorHome ? 'Bienvenue, futur explorateur' : screen === 'home' ? 'Pont du VVF Raviolo' : level === 'galaxy' ? 'Carte Galactique' : level === 'sector' ? `Carte Secteur · ${selectedSector.name}` : level === 'system' ? `Carte Système · ${selectedSystem.name}` : level === 'planet' ? surfaceAstro?.name ?? 'Astre' : level === 'interior' ? selectedSystemObject?.name ?? 'Installation' : selectedZone?.name ?? 'Zone planétaire'}</h1>
         </div>
 
         <nav className="global-nav" aria-label="Navigation principale">
           <button className={screen === 'home' ? 'active' : ''} onClick={goHome}>Accueil</button>
+          <button className={screen === 'events' ? 'active' : ''} onClick={openEvents}>Évènements</button>
           <button className={screen === 'lore' ? 'active' : ''} onClick={() => openLore('history')}>Lore</button>
           <button className={screen === 'members' ? 'active' : ''} onClick={openMembers}>Membres</button>
+          <button className={screen === 'account' ? 'active quiet' : 'quiet'} onClick={openAccount}>Compte</button>
           <button className="quiet" onClick={() => alert('Prototype : écran de connexion à venir.')}>Se connecter</button>
           <button className="signup" onClick={() => alert('Prototype : inscription à venir.')}>S’inscrire <span className="signup-ship">➤</span></button>
         </nav>
 
         {isVisitorHome ? (
           <VisitorTopbarPresence characters={characterProfiles.slice(0, 3)} />
-        ) : screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' ? (
+        ) : !isStandalonePage ? (
           <div className="chapter-control">
             <label htmlFor="chapter-select">ÉPOQUE</label>
             <select id="chapter-select" value={chapterId} onChange={(event) => changeChapter(event.target.value)}>
@@ -500,27 +767,31 @@ function App() {
         <button
           type="button"
           className="dev-home-switch"
-          onClick={() =>
-            setHomeView((current) =>
-              current === 'visitor' ? 'bridge' : 'visitor'
-            )
-          }
+          onClick={() => {
+            if (homeView === 'visitor') {
+              pushAppRoute('/pont')
+              setHomeView('bridge')
+              setInspectorTab('map')
+            } else {
+              goHome()
+            }
+          }}
         >
           <span>DEV</span>
           {homeView === 'visitor'
-            ? 'Voir l’accueil joueur'
+            ? 'Voir le pont joueur'
             : 'Voir l’accueil visiteur'}
         </button>
       )}
 
-      {!isVisitorHome && screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && (isCurrentChapter ? <NewsTicker /> : (
+      {!isVisitorHome && !isStandalonePage && (isCurrentChapter ? <NewsTicker /> : (
         <div className="archive-strip">
           <span>MODE HISTORIQUE · {chapter.shortLabel.toUpperCase()}</span>
           <button onClick={() => changeChapter(currentChapterId)}>Retour au présent</button>
         </div>
       ))}
 
-      {!isVisitorHome && screen !== 'members' && screen !== 'lore' && screen !== 'shipconfig' && screen !== 'combat' && <div className="breadcrumb-bar">
+      {!isVisitorHome && !isStandalonePage && <div className="breadcrumb-bar">
         <button className={screen === 'home' ? 'active' : ''} onClick={goHome}>VAISSEAU</button>
         {screen === 'dynasty' && <><span>/</span><button className="active">{currentCharacter.dynasty.toUpperCase()}</button></>}
         {screen === 'rp' && <><span>/</span><button onClick={returnFromRp}>RP</button><span>/</span><button className="active">{activeRp.title.toUpperCase()}</button></>}
@@ -558,8 +829,12 @@ function App() {
 
       {isVisitorHome ? (
         <VisitorHomePage />
+      ) : screen === 'events' ? (
+        <EventsPage />
+      ) : screen === 'account' ? (
+        <AccountPage />
       ) : screen === 'lore' ? (
-        <LorePage key={lorePageKey} initialView={loreInitialView} />
+        <LorePage key={lorePageKey} initialView={loreInitialView} onViewChange={(view) => pushAppRoute(loreRoute(view))} />
       ) : screen === 'combat' ? (
         <CombatPage currentCharacter={currentCharacter} onBack={returnToRpFromCombat} completed={activeRp.combat?.status === 'completed'} />
       ) : screen === 'shipconfig' ? (
@@ -571,6 +846,7 @@ function App() {
           entries={memberDirectory}
           onOpenCharacter={(entry) => {
             if (entry.profileId && characterProfiles.some((profile) => profile.id === entry.profileId)) {
+              pushAppRoute(`/personnages/${entry.profileId}`)
               setActiveCharacterId(entry.profileId)
               setHomeView('bridge')
               setScreen('home')
@@ -579,7 +855,17 @@ function App() {
             }
             alert(`Prototype : ouvrir la fiche personnage de ${entry.firstName} ${entry.dynastyName}.`)
           }}
-          onOpenDynasty={(entry) => alert(`Prototype : ouvrir la dynastie ${entry.dynastyName}.`)}
+          onOpenDynasty={(entry) => {
+            const character = entry.profileId ? characterProfiles.find((profile) => profile.id === entry.profileId) : null
+            if (character) {
+              pushAppRoute(characterDynastyRoute(character))
+              setActiveCharacterId(character.id)
+              setDynastyTab('advantages')
+              setScreen('dynasty')
+              return
+            }
+            alert(`Prototype : ouvrir la dynastie ${entry.dynastyName}.`)
+          }}
           onOpenSpecies={(entry) => openLore(entry.species === 'Humain' ? 'humans' : 'species')}
           onOpenFaction={(entry) => openLore(entry.faction === 'Humanis' ? 'humanis' : 'factions')}
         />
@@ -808,7 +1094,7 @@ function App() {
               selectedPlaceId={placeId}
               hoveredPlaceId={hoveredPlaceId}
               onHoverPlace={setHoveredPlaceId}
-              onSelectPlace={setPlaceId}
+              onSelectPlace={selectPlanetPlace}
             />
           )}
 
@@ -819,17 +1105,17 @@ function App() {
               selectedPlaceId={placeId}
               hoveredPlaceId={hoveredPlaceId}
               onHoverPlace={setHoveredPlaceId}
-              onSelectPlace={setPlaceId}
+              onSelectPlace={selectInteriorPlace}
             />
           )}
           <DiscordDock />
           <RpListCard chapterId={chapterId} />
         </section>
 
-        {inspectorTab === 'character' && <CharacterVisualRail currentCharacter={currentCharacter} characters={characterProfiles} onChangeCharacter={setActiveCharacterId} />}
+        {inspectorTab === 'character' && <CharacterVisualRail currentCharacter={currentCharacter} characters={characterProfiles} onChangeCharacter={changeActiveCharacter} />}
 
         <aside className="inspector">
-          <InspectorTabs active={inspectorTab} onChange={setInspectorTab} />
+          <InspectorTabs active={inspectorTab} onChange={changeInspectorTab} />
           {inspectorTab === 'map' && (
             <>
               <EraPanel chapterId={chapterId} onReturnPresent={() => changeChapter(currentChapterId)} />

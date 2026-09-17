@@ -4533,3 +4533,260 @@ html {
     0 10px 32px rgba(0, 0, 0, .45),
     0 0 28px rgba(185, 87, 235, .3);
 }
+/* === Évènements / Compte ================================================ */
+.global-nav {
+  max-width: 780px;
+}
+
+.simple-page {
+  height: calc(100vh - 84px);
+  padding: 30px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(55, 112, 137, .11), transparent 32%),
+    radial-gradient(circle at 85% 86%, rgba(103, 72, 126, .08), transparent 30%),
+    linear-gradient(180deg, rgba(9, 13, 18, .99), rgba(5, 7, 10, 1));
+}
+
+.simple-page-card {
+  width: min(980px, 100%);
+  margin: 6vh auto 0;
+  padding: 48px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.simple-page-card h2 {
+  margin-top: 14px;
+  color: #eef8fb;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.simple-page-card p {
+  margin: 10px 0 0;
+  color: #9fb5c0;
+  font-size: 17px;
+}
+
+.account-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.account-heading {
+  margin-bottom: 22px;
+}
+
+.account-heading h2 {
+  margin-bottom: 8px;
+}
+
+.account-heading p {
+  max-width: 760px;
+  margin: 0;
+  color: #91a8b4;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.account-bonus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.account-bonus-card {
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.account-bonus-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.account-bonus-head small {
+  display: block;
+  color: #6f9eaf;
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+
+.account-bonus-head h3 {
+  margin: 6px 0 0;
+  color: #e8f5f8;
+  font-size: 22px;
+}
+
+.account-bonus-head > span {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid rgba(119, 195, 214, .18);
+  border-radius: 999px;
+  background: rgba(70, 145, 165, .08);
+  color: #9bc9d5;
+  font-size: 12px;
+}
+
+.account-bonus-card > p {
+  margin: 18px 0;
+  color: #a7bac3;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.account-streak-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.account-streak-slot {
+  display: grid;
+  place-items: center;
+  min-height: 70px;
+  border: 1px solid rgba(123, 184, 201, .14);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .018);
+}
+
+.account-streak-slot span {
+  color: #d9eef3;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.account-streak-slot small {
+  color: #708a96;
+  font-size: 11px;
+}
+
+.account-daily-state {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+  border: 1px solid rgba(141, 121, 202, .18);
+  border-radius: 10px;
+  background: rgba(90, 66, 148, .07);
+}
+
+.account-daily-state strong {
+  color: #d9c9f2;
+}
+
+.account-daily-state span {
+  color: #978eaa;
+  font-size: 13px;
+}
+
+/* === Choix du Grand Avatar lors d'un post RP ============================ */
+.rp-grand-avatar-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(121, 161, 178, .08);
+  background: rgba(5, 10, 14, .28);
+}
+
+.rp-grand-avatar-selector > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.rp-grand-avatar-selector small {
+  color: #6f9eaf;
+  font-size: 11px;
+  letter-spacing: .13em;
+}
+
+.rp-grand-avatar-selector > div:first-child span {
+  max-width: 590px;
+  color: #8399a4;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.rp-grand-avatar-options {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.rp-grand-avatar-options button {
+  display: grid;
+  grid-template-columns: 38px auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 9px 5px 5px;
+  border: 1px solid rgba(126, 169, 187, .12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .018);
+  color: #8399a4;
+}
+
+.rp-grand-avatar-options button.active {
+  border-color: rgba(104, 199, 220, .42);
+  background: rgba(63, 145, 166, .12);
+  color: #dff4f8;
+  box-shadow: 0 0 16px rgba(67, 173, 197, .08);
+}
+
+.rp-grand-avatar-options img {
+  width: 38px;
+  aspect-ratio: 3 / 7;
+  display: block;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 4px;
+}
+
+.rp-grand-avatar-options span {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .account-bonus-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rp-grand-avatar-selector {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 620px) {
+  .simple-page {
+    padding: 18px;
+  }
+
+  .simple-page-card {
+    padding: 30px 20px;
+  }
+
+  .account-streak-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.rp-grand-avatar-options button.empty {
+  opacity: .48;
+  cursor: default;
+}
+
+.rp-grand-avatar-empty-mark {
+  width: 38px;
+  aspect-ratio: 3 / 7;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(126, 169, 187, .28);
+  border-radius: 4px;
+  color: #69818d;
+  font-size: 20px;
+}

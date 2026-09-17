@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { CharacterProfile } from '../characters/characterData'
 import { currentChapterId } from '../../world/data'
@@ -151,6 +151,7 @@ export function RpPage({
   const [draft, setDraft] = useState('')
   const [preview, setPreview] = useState(false)
   const [dialoguePaletteOpen, setDialoguePaletteOpen] = useState(false)
+  const [grandAvatarIndex, setGrandAvatarIndex] = useState(0)
   const [mjTargetMessageId, setMjTargetMessageId] = useState<string | null>(null)
   const [mjQuestionOpen, setMjQuestionOpen] = useState(false)
   const [mjNotice, setMjNotice] = useState('')
@@ -160,6 +161,11 @@ export function RpPage({
   const participants = thread.participantIds.map((id) => characters.find((character) => character.id === id)).filter(Boolean) as CharacterProfile[]
   const isCreator = currentCharacter.id === thread.creatorId
   const currentCanPost = thread.status === 'Ouvert' && (accessMode === 'open' || thread.participantIds.includes(currentCharacter.id) || invitedIds.includes(currentCharacter.id) || isCreator)
+  const grandAvatarChoices = (currentCharacter.grandAvatars?.length ? currentCharacter.grandAvatars : [currentCharacter.grandAvatar]).slice(0, 2)
+
+  useEffect(() => {
+    setGrandAvatarIndex(0)
+  }, [currentCharacter.id])
 
   const toggleInvitation = (characterId: string) => {
     if (!isCreator) return
@@ -200,6 +206,7 @@ export function RpPage({
     onMessagesChange([...messages, {
       id: `rp-msg-${Date.now()}`,
       authorId: currentCharacter.id,
+      grandAvatarIndex,
       timestamp: 'Maintenant',
       content,
     }])
@@ -261,12 +268,14 @@ export function RpPage({
         <section className="rp-message-feed">
           {messages.map((message, index) => {
             const author = characters.find((character) => character.id === message.authorId) ?? characters[0]
+            const authorGrandAvatars = author.grandAvatars?.length ? author.grandAvatars : [author.grandAvatar]
+            const authorGrandAvatar = authorGrandAvatars[message.grandAvatarIndex ?? 0] ?? author.grandAvatar
             return (
               <div className="rp-feed-block" key={message.id}>
                 <article className="rp-message-card">
                   <aside className="rp-message-author">
                     <img
-                      src={author.grandAvatar}
+                      src={authorGrandAvatar}
                       alt={`Grand avatar de ${author.name}`}
                     />
 
@@ -380,11 +389,39 @@ export function RpPage({
         <section className="rp-composer">
           <div className="rp-composer-head">
             <div className="rp-composer-avatar">
-              <img src={currentCharacter.dialogueAvatars[0] ?? currentCharacter.grandAvatar} alt="Avatar sélectionné" />
+              <img src={currentCharacter.dialogueAvatars[0] ?? currentCharacter.grandAvatar} alt="Avatar de réponse" />
               <div><small>RÉPONDRE AVEC</small><b>{currentCharacter.name}</b></div>
             </div>
             <span>{currentCanPost ? 'Tu peux répondre à ce RP' : 'Accès requis pour répondre'}</span>
           </div>
+          {grandAvatarChoices.length > 0 && (
+            <div className="rp-grand-avatar-selector">
+              <div>
+                <small>GRAND AVATAR DU POST</small>
+                <span>Choisis l'avatar affiché avec cette réponse. Jusqu'à 2 Grands Avatars peuvent être enregistrés par personnage.</span>
+              </div>
+              <div className="rp-grand-avatar-options">
+                {grandAvatarChoices.map((avatar, index) => (
+                  <button
+                    key={`${avatar}-${index}`}
+                    type="button"
+                    className={grandAvatarIndex === index ? 'active' : ''}
+                    onClick={() => setGrandAvatarIndex(index)}
+                    title={`Utiliser le Grand Avatar ${index + 1}`}
+                  >
+                    <img src={avatar} alt={`Grand Avatar ${index + 1} de ${currentCharacter.name}`} />
+                    <span>Avatar {index + 1}</span>
+                  </button>
+                ))}
+                {grandAvatarChoices.length < 2 && (
+                  <button type="button" className="empty" disabled title="Aucun second Grand Avatar enregistré">
+                    <span className="rp-grand-avatar-empty-mark">+</span>
+                    <span>Avatar 2 libre</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
           <div className="rp-format-toolbar" aria-label="Mise en forme RP">
             <button title="Gras" onClick={() => insertTag('[b]', '[/b]')} disabled={!currentCanPost}><b>B</b></button>
             <button title="Italique" onClick={() => insertTag('[i]', '[/i]')} disabled={!currentCanPost}><i>I</i></button>

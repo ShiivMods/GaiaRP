@@ -6,6 +6,7 @@ export type RpAccessMode = 'open' | 'invite'
 export type RpMessage = {
   id: string
   authorId: string
+  grandAvatarIndex?: number
   timestamp: string
   content: string
 }

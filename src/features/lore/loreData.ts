@@ -51,6 +51,7 @@ export type LoreInitialView =
 
 export type LorePageProps = {
   initialView?: LoreInitialView
+  onViewChange?: (view: LoreInitialView) => void
 }
 
 export type HistorySubsection = {

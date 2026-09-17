@@ -132,6 +132,25 @@ Cette distinction doit rester disponible dans les interfaces où elle est pertin
 
 Certains panneaux, notamment ceux liés aux vaisseaux, doivent permettre de basculer facilement entre PJ et PNJ.
 
+## 4.3 Grands Avatars en RP
+
+Un personnage peut enregistrer jusqu'à **deux Grands Avatars**.
+
+Lors de la publication d'un post RP, le joueur choisit lequel utiliser pour cette réponse. Le choix est enregistré avec le post afin qu'un ancien message conserve l'avatar sélectionné au moment de sa publication.
+
+L'usage est libre. Le cas courant attendu est notamment de pouvoir alterner entre une tenue civile et une exocombinaison selon le contexte du RP.
+
+Les Grands Avatars restent distincts des avatars de dialogue.
+
+## 4.4 Bonus de compte
+
+Le compte prévoit deux types de bonus d'activité :
+
+* une série de **7 bonus de connexion** pouvant être validés sur une fenêtre de **11 jours** ;
+* un bonus déclenché par le **premier RP publié de la journée**.
+
+Les valeurs et récompenses exactes ne sont pas encore définies et ne doivent pas être inventées lors de l'implémentation.
+
 ---
 
 # 5. Âge et formation
@@ -523,6 +542,8 @@ Principales sections :
 * Dynasties ;
 * Vaisseaux ;
 * Lore ;
+* Évènements ;
+* Compte ;
 * Missions ;
 * systèmes liés au gameplay ;
 * administration / MJ.
@@ -541,11 +562,19 @@ Exemples de structure cible :
 
 ```text
 /
+├── /pont
+├── /carte
+│   ├── /secteurs/:id
+│   └── /systemes/:id/...
 ├── /membres
 ├── /membres/:id
 ├── /personnages/:id
 ├── /dynasties/:id
 ├── /vaisseaux/:id
+├── /rp/:id
+├── /combat/:id
+├── /evenements
+├── /compte
 ├── /lore
 │   ├── /histoire
 │   ├── /factions
@@ -761,7 +790,7 @@ Les systèmes doivent rester suffisamment flexibles pour accueillir de nouvelles
 * Voyages : conception en cours ;
 * Combat spatial : règles principales en cours de définition ;
 * Administration MJ : développement progressif ;
-* Routing : à mettre en place.
+* Routing : première version fonctionnelle, à étendre avec les futures pages détaillées.
 
 ---
 

@@ -24,7 +24,7 @@ function initialState(view: LoreInitialView) {
   }
 }
 
-export function LorePage({ initialView = 'history' }: LorePageProps) {
+export function LorePage({ initialView = 'history', onViewChange }: LorePageProps) {
   const initial = useMemo(() => initialState(initialView), [initialView])
   const [tab, setTab] = useState<LoreTab | null>(initial.tab)
   const [detail, setDetail] = useState<string | null>(initial.detail)
@@ -53,6 +53,13 @@ export function LorePage({ initialView = 'history' }: LorePageProps) {
     setBestiary(null)
     resetReligion()
     if (nextTab === 'species') setSpeciesMode('conscious')
+    onViewChange?.(
+      nextTab === 'history' ? 'history'
+        : nextTab === 'factions' ? 'factions'
+          : nextTab === 'species' ? 'species'
+            : nextTab === 'religions' ? 'religions'
+              : 'discoveries',
+    )
   }
 
   const breadcrumb = useMemo(() => {
@@ -99,25 +106,25 @@ export function LorePage({ initialView = 'history' }: LorePageProps) {
         <div className="lore-content" ref={loreContentRef}>
           {!tab && <LoreLanding />}
           {tab === 'history' && <HistoryLore onNavigate={scrollLoreToTop} />}
-          {tab === 'factions' && detail !== 'humanis' && <FactionDirectory onOpenHumanis={() => setDetail('humanis')} />}
+          {tab === 'factions' && detail !== 'humanis' && <FactionDirectory onOpenHumanis={() => { setDetail('humanis'); onViewChange?.('humanis') }} />}
           {tab === 'factions' && detail === 'humanis' && (
             <HumanisDetail
-              onBack={() => setDetail(null)}
-              onOpenHumans={() => { setTab('species'); setDetail('humans'); setSpeciesMode('conscious'); setBestiary(null) }}
+              onBack={() => { setDetail(null); onViewChange?.('factions') }}
+              onOpenHumans={() => { setTab('species'); setDetail('humans'); setSpeciesMode('conscious'); setBestiary(null); onViewChange?.('humans') }}
             />
           )}
           {tab === 'species' && detail !== 'humans' && !bestiary && (
             <SpeciesDirectory
               mode={speciesMode}
               onModeChange={(mode) => { setSpeciesMode(mode); setDetail(null); setBestiary(null) }}
-              onOpenHumans={() => setDetail('humans')}
+              onOpenHumans={() => { setDetail('humans'); onViewChange?.('humans') }}
               onOpenBestiary={setBestiary}
             />
           )}
           {tab === 'species' && detail === 'humans' && (
             <HumansDetail
-              onBack={() => { setDetail(null); setSpeciesMode('conscious') }}
-              onOpenHumanis={() => { setTab('factions'); setDetail('humanis'); setBestiary(null) }}
+              onBack={() => { setDetail(null); setSpeciesMode('conscious'); onViewChange?.('species') }}
+              onOpenHumanis={() => { setTab('factions'); setDetail('humanis'); setBestiary(null); onViewChange?.('humanis') }}
             />
           )}
           {tab === 'species' && bestiary && (

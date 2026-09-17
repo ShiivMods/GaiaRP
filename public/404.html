@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaïa RP</title>
+  </head>
+  <body>
+    <script>
+      ;(() => {
+        const { hostname, pathname, search, hash, protocol, host } = window.location
+        const githubPages = hostname.endsWith('.github.io')
+        const segments = pathname.split('/').filter(Boolean)
+        const base = githubPages && segments.length > 0 ? `/${segments[0]}/` : '/'
+        const routePath = githubPages ? `/${segments.slice(1).join('/')}` : pathname
+        const route = `${routePath || '/'}${search}${hash}`
+        window.location.replace(`${protocol}//${host}${base}?__route=${encodeURIComponent(route)}`)
+      })()
+    </script>
+  </body>
+</html>

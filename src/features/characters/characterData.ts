@@ -15,6 +15,7 @@ export type CharacterProfile = {
   bio: string
   personality: string
   grandAvatar: string
+  grandAvatars?: string[]
   dialogueAvatars: string[]
   personalFunds: number
   shipFunds: number
@@ -37,6 +38,7 @@ export const characterProfiles: CharacterProfile[] = [
     bio: 'Capitaine d’exploration affectée aux routes périphériques de Starlight. Texte entièrement temporaire pour tester le volume de la fiche.',
     personality: 'Curieuse, pragmatique et très attachée à son équipage. Cette zone accueillera plus tard le texte libre du joueur.',
     grandAvatar: assetUrl('/lysa-grand-realistic.png'),
+    grandAvatars: [assetUrl('/lysa-grand-realistic.png')],
     dialogueAvatars: [assetUrl('/lysa-dialogue-realistic.png')],
     personalFunds: 3240,
     shipFunds: 18450,
@@ -57,6 +59,7 @@ export const characterProfiles: CharacterProfile[] = [
     bio: 'Archiviste de terrain spécialisée dans les vestiges et relevés de bordure. Fiche de démonstration destinée au test du switch de personnage.',
     personality: 'Réservée, méticuleuse et fascinée par les anomalies. Elle parle peu, mais observe tout.',
     grandAvatar: assetUrl('/character-grand-avatar.png'),
+    grandAvatars: [assetUrl('/character-grand-avatar.png')],
     dialogueAvatars: [],
     personalFunds: 1710,
     shipFunds: 9200,
@@ -77,6 +80,7 @@ export const characterProfiles: CharacterProfile[] = [
     bio: 'Pilote d’escorte intégré à une cellule de reconnaissance. Profil test servant à vérifier plusieurs personnages sur le même compte.',
     personality: 'Impulsif, sociable et volontaire. Il aime les approches directes et les décisions rapides.',
     grandAvatar: assetUrl('/character-grand-avatar.png'),
+    grandAvatars: [assetUrl('/character-grand-avatar.png')],
     dialogueAvatars: [assetUrl('/character-dialogue-avatar.png')],
     personalFunds: 860,
     shipFunds: 6300,
