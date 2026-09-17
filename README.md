@@ -1,106 +1,63 @@
-# Gaïa RP
+# RP SF
 
-## 🚧 État du projet
+RP SF est une application web conçue comme support à un jeu de rôle écrit de science-fiction.
 
-Gaïa RP est actuellement en **développement actif**.
+Le projet vise à réunir au même endroit les principaux outils nécessaires au fonctionnement du RP : gestion des membres et personnages, dynasties, vaisseaux, lore, progression, économie, missions, voyages et, à terme, combats spatiaux.
 
-Il s'agit encore d'un prototype : plusieurs pages utilisent des données temporaires, certaines fonctionnalités sont simulées et une partie de l'interface sera encore profondément retravaillée.
+Le site est actuellement en développement.
 
-L'objectif actuel est principalement de construire et tester l'architecture générale du futur forum.
+## Objectif
 
-## ✨ Fonctionnalités actuellement visibles
+RP SF ne cherche pas à automatiser entièrement le jeu.
 
-### Carte galactique
+L'application sert avant tout de support aux joueurs et aux Maîtres du Jeu en automatisant les tâches répétitives, les calculs et la gestion des données, tout en laissant au RP et aux MJ le contrôle des décisions qui nécessitent une interprétation.
 
-Navigation progressive entre :
+## Fonctionnalités
 
-- secteurs
-- systèmes stellaires
-- planètes
-- zones
-- lieux de RP
-- stations et installations spatiales
+Le projet comprend ou prévoit notamment :
 
-La carte évolue selon le chapitre et permet de représenter les lieux découverts ou accessibles aux joueurs.
+* gestion des membres, PJ et PNJ ;
+* fiches de personnages ;
+* dynasties ;
+* gestion des vaisseaux et équipages ;
+* progression et compétences ;
+* lore structuré ;
+* factions et espèces ;
+* économie ;
+* missions et récompenses ;
+* déplacements spatiaux ;
+* technologies ;
+* combat spatial ;
+* outils de gestion pour les MJ.
 
-### Roleplay
+## État du projet
 
-Les fils de RP disposent notamment de :
+RP SF est encore en développement actif.
 
-- messages avec avatar du personnage
-- dialogues intégrés
-- participants
-- système d'accès ouvert ou sur invitation
-- lien direct vers le lieu concerné
-- outils destinés aux Maîtres du Jeu
-- informations temporelles liées au calendrier du jeu
-- intégration prévue avec les personnages, factions et dynasties
+Certaines parties sont déjà utilisables tandis que d'autres ne disposent encore que de leur interface ou de leurs premières fondations.
 
-### Personnages
+Les fonctionnalités peuvent évoluer considérablement jusqu'à leur intégration dans une version stable.
 
-Le prototype comprend :
+## Structure
 
-- fiches personnage
-- informations générales
-- faction
-- dynastie
-- réputation
-- compétences
-- statut
-- localisation
+Le projet est développé de manière modulaire afin que ses différents systèmes puissent évoluer progressivement sans nécessiter une reconstruction complète de l'application.
 
-Une fiche résumé destinée à la consultation rapide est prévue.
+Les règles de conception, d'architecture et de développement sont documentées dans :
 
-### Dynasties
+**`PROJECT.md`**
 
-Les dynasties disposent d'un espace dédié permettant notamment de regrouper :
+Ce fichier constitue la référence interne du projet et doit être consulté avant toute modification importante.
 
-- membres
-- progression
-- avantages
-- informations dynastiques
+## Versions
 
-Un mode de consultation distinct pour les visiteurs est prévu.
+Le projet distingue les versions de développement des versions stables.
 
-### Vaisseaux
+Les versions de développement servent à intégrer et tester les nouvelles fonctionnalités.
 
-Le système de vaisseaux comprend déjà une partie de l'architecture prévue :
+Une version stable constitue une base validée du projet. Une version de développement plus récente mais invalidée ne remplace pas automatiquement la dernière base fonctionnelle.
 
-- informations techniques
-- équipage
-- localisation
-- configuration
-- modules
-- postes
-- contrats et permissions
+## Développement
 
-Les systèmes d'exploration et de combat spatial seront progressivement intégrés à cette base.
+Le projet est actuellement développé dans le cadre d'un projet personnel de jeu de rôle.
 
-### Lore
-
-La section Lore regroupe notamment :
-
-- Histoire Galactique
-- Archives
-- Factions
-- Espèces
-- Religions
-- Découvertes et Technologies
-
-Les archives ont vocation à devenir une véritable encyclopédie interne, avec des liens entre personnages historiques, événements, institutions, lieux et autres éléments du lore. Ils demeurent toutefois totalement optionnels.
-
-## 🕒 Temps de jeu
-
-Le temps de Gaïa RP avance **mois par mois**, sur décision du MJ.
-
-Le format général utilisé est :
-
-`An X - Mois X`
-
-Les RPs utilisent un niveau de précision supplémentaire :
-
-`An X - Mois X - Semaine X - Heure`
-
-## 🛠️ Développement local
-
-Le projet utilise **React, TypeScript et Vite**.
+L'architecture, les mécaniques et les interfaces continueront d'évoluer au fur et à mesure du développement et des tests.
