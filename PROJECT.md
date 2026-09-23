@@ -1,805 +1,1080 @@
-# Instructions de lecture
+# PROJECT.md — RP SF / Gaïa RP
 
-Ce document constitue la **référence de conception du projet RP SF**. Il est principalement destiné à l'IA assistant au développement et doit être consulté avant toute modification importante du projet.
-
-Les règles et décisions présentes dans ce document doivent être considérées comme **validées**, sauf indication contraire explicite de l'utilisateur.
-
-Lors d'une intervention sur le projet :
-
-* Ne pas contredire ou remplacer silencieusement une règle définie dans ce document.
-* Si une demande semble entrer en contradiction avec une règle existante, signaler la contradiction avant de modifier le comportement concerné.
-* Une demande ciblée ne constitue pas une autorisation à modifier, simplifier ou refondre les systèmes adjacents.
-* Conserver les fonctionnalités et comportements existants qui ne sont pas explicitement concernés par la demande.
-* Ne pas considérer le code existant comme plus fiable que ce document concernant le fonctionnement attendu du projet.
-* Ne pas considérer une fonctionnalité indiquée comme **prévue**, **future**, **à développer** ou **en réflexion** comme une autorisation à l'implémenter.
-* Ne pas inventer une règle manquante. Si une décision de conception est nécessaire et qu'elle n'est définie ni dans ce document ni par l'utilisateur, demander ou proposer des possibilités avant de l'intégrer.
-* Lorsqu'une nouvelle décision importante est validée pendant le développement, déterminer si elle doit être ajoutée à ce document afin de conserver une référence à jour.
-* Privilégier une modification minimale et maîtrisée lorsqu'elle permet de répondre au besoin sans dégrader l'architecture.
-* Avant une refonte importante, expliquer pourquoi elle est nécessaire et identifier les conséquences probables sur les systèmes existants.
-* **Ne jamais lancer une génération, création ou modification de fichier, de code, de contenu, d'image ou de tout autre élément si cela n'a pas été explicitement demandé par l'utilisateur.** Une discussion, une analyse, une suggestion ou une validation de principe ne constitue pas une demande d'exécution.
-
-Ce document décrit **ce que le projet doit être**. Le code décrit uniquement **l'état actuel de son implémentation**.
-
-En cas d'écart entre les deux, ne pas corriger automatiquement l'un ou l'autre : identifier l'écart et déterminer avec l'utilisateur quelle version correspond au comportement réellement souhaité.
-
-# RP SF - Cadre du projet
-
-## 1. Présentation du projet
-
-RP SF est une application web destinée à servir de support à un jeu de rôle écrit de science-fiction.
-
-Le site ne remplace pas le RP écrit. Il fournit les systèmes nécessaires à son fonctionnement : personnages, membres, dynasties, vaisseaux, économie, progression, voyages, missions, lore et outils de gestion pour les MJ.
-
-Le projet est conçu progressivement. Les fonctionnalités doivent pouvoir évoluer sans nécessiter de reconstruire les systèmes déjà fonctionnels.
+**Projet :** RP SF / Gaïa RP  
+**Type :** Projet personnel — application web de support à un jeu de rôle écrit de science-fiction  
+**Dépôt de référence :** `ShiivMods/GaiaRP`  
+**Branche de référence :** `main`  
+**Statut :** Développement actif  
+**Dernière restructuration documentaire :** 23 septembre 2026
 
 ---
 
-# 2. Principes généraux
+# 1. Rôle de ce document
 
-## 2.1 Priorité au RP
+Ce fichier constitue le cadre général et durable du projet.
 
-Les mécaniques du site servent le RP et non l'inverse.
+Il est notamment destiné à permettre à l’assistant de reprendre correctement le développement lors de conversations futures sans dépendre exclusivement de l’historique des échanges.
 
-Une mécanique ne doit pas être automatisée simplement parce qu'elle peut l'être. Certaines décisions restent volontairement sous le contrôle du MJ lorsqu'une interprétation RP est nécessaire.
+Il doit documenter principalement :
 
-L'automatisation doit principalement servir à :
+- le contexte général ;
+- les objectifs du projet ;
+- l’état et l’architecture générale de l’application ;
+- les technologies utilisées ;
+- les conventions structurelles ;
+- les règles permanentes de développement ;
+- les principes UX/UI généraux ;
+- l’organisation de la documentation ;
+- les consignes à respecter pendant toute intervention sur le projet.
 
-* réduire les tâches répétitives ;
-* éviter les erreurs de calcul ;
-* conserver un état cohérent du monde ;
-* faciliter la consultation des informations ;
-* appliquer automatiquement les conséquences déjà validées.
+`PROJECT.md` ne doit pas devenir la documentation exhaustive de toutes les mécaniques du jeu.
 
-## 2.2 Contrôle du MJ
-
-Le MJ conserve le contrôle des éléments structurants du monde.
-
-Il peut notamment :
-
-* faire avancer le temps ;
-* valider certaines actions ;
-* valider les missions ;
-* déclencher ou gérer des événements ;
-* intervenir dans les systèmes économiques ;
-* gérer les conséquences RP qui ne sont pas codées en dur.
-
-Le site doit faciliter ces interventions plutôt que chercher à les remplacer.
-
-## 2.3 Ne pas coder inutilement les règles RP
-
-Certaines règles existent uniquement comme cadre RP.
-
-Exemple : l'économie d'une faction peut évoluer à la suite d'événements, de missions ou de décisions des joueurs, mais toutes ces variations n'ont pas besoin d'être calculées automatiquement par un algorithme complexe.
-
-Il faut distinguer :
-
-* les règles nécessitant une mécanique informatique ;
-* les règles servant uniquement de cadre aux joueurs et MJ.
+Lorsqu’un système possède suffisamment de règles propres, celles-ci doivent être placées dans un fichier spécialisé.
 
 ---
 
-# 3. Temps et chronologie
+# 2. Référence technique absolue : GitHub
 
-Le temps du jeu avance **mois par mois**.
+Le projet est versionné sur GitHub.
 
-Le passage au mois suivant est décidé par le MJ.
+La référence technique actuelle est toujours :
 
-Un RP est identifié selon la structure :
+**la version présente sur la branche `main` du dépôt `ShiivMods/GaiaRP`.**
 
-**Chapitre - Année - Mois**
+Cette règle prime sur :
 
-Le temps réel et le temps RP sont indépendants.
+- les anciennes archives ZIP ;
+- les anciennes versions de développement ;
+- les numéros de version mémorisés dans les conversations ;
+- les anciennes branches ;
+- les anciennes copies locales ;
+- les souvenirs de l’état du projet.
 
-Plusieurs RP peuvent avoir lieu durant une même période de jeu.
+Lorsqu’une intervention nécessite de connaître l’état actuel du code, **consulter le dépôt GitHub avant de travailler**.
 
-Des mini-RP peuvent également avoir lieu entre les tours ou dans certains contextes particuliers, notamment à bord d'un vaisseau ou pendant une action collective.
+Ne jamais choisir automatiquement une ancienne version comme base simplement parce qu’elle a précédemment été considérée comme stable.
 
----
+Ne jamais supposer non plus qu’un ancien numéro de développement reste la version actuelle.
 
-# 4. Membres et personnages
+## 2.1 État audité lors de la rédaction
 
-## 4.1 Membres
+Au 23 septembre 2026, l’état présent sur `main` correspond notamment à :
 
-Un membre peut posséder plusieurs personnages.
+- version déclarée : `0.6.0-dev.52` ;
+- dernier commit observé : `Routing v1 + ajouts` ;
+- routing v1 fonctionnel ;
+- déploiement automatisé sur GitHub Pages.
 
-La page Membres doit permettre de consulter et filtrer les personnages et joueurs selon différents critères.
+Ces informations constituent uniquement une photographie de l’état actuel au moment de la rédaction.
 
-Filtres prévus ou existants :
-
-* dynastie ;
-* personnage ;
-* statut ;
-* âge ;
-* sexe ;
-* faction ;
-* système ;
-* monde ;
-* équipage ;
-* rang social ;
-* réputation ;
-* PJ / PNJ ;
-* présence ou absence de RP actif.
-
-Le système doit également permettre le tri des résultats.
-
-Une fiche détaillée permet de consulter les informations pertinentes d'un membre.
-
-## 4.2 PJ et PNJ
-
-Le système distingue les personnages joueurs et les personnages non-joueurs.
-
-Cette distinction doit rester disponible dans les interfaces où elle est pertinente.
-
-Certains panneaux, notamment ceux liés aux vaisseaux, doivent permettre de basculer facilement entre PJ et PNJ.
-
-## 4.3 Grands Avatars en RP
-
-Un personnage peut enregistrer jusqu'à **deux Grands Avatars**.
-
-Lors de la publication d'un post RP, le joueur choisit lequel utiliser pour cette réponse. Le choix est enregistré avec le post afin qu'un ancien message conserve l'avatar sélectionné au moment de sa publication.
-
-L'usage est libre. Le cas courant attendu est notamment de pouvoir alterner entre une tenue civile et une exocombinaison selon le contexte du RP.
-
-Les Grands Avatars restent distincts des avatars de dialogue.
-
-## 4.4 Bonus de compte
-
-Le compte prévoit deux types de bonus d'activité :
-
-* une série de **7 bonus de connexion** pouvant être validés sur une fenêtre de **11 jours** ;
-* un bonus déclenché par le **premier RP publié de la journée**.
-
-Les valeurs et récompenses exactes ne sont pas encore définies et ne doivent pas être inventées lors de l'implémentation.
+**Elles ne doivent jamais être utilisées pour revenir à cette version si `main` a évolué depuis.**
 
 ---
 
-# 5. Âge et formation
+# 3. Distinction entre état technique et comportement souhaité
 
-Les personnages âgés de **0 à 13 ans** ne gagnent pas de points de compétence.
+Deux questions différentes doivent toujours être distinguées.
 
-À partir de **14 ans**, un personnage peut entrer en académie.
+## Que contient actuellement le projet ?
 
-Pendant sa formation, ses gains de progression sont réduits de **75 %** jusqu'à l'obtention de son diplôme.
+Pour répondre à cette question, la référence est :
 
-Les personnages mineurs peuvent néanmoins générer des points liés à leur dynastie.
+**le code actuel de `main` sur GitHub.**
 
-Deux seuils importants existent :
+## Comment le projet doit-il fonctionner ?
 
-### 18 ans
+Pour répondre à cette question, utiliser en priorité :
 
-Le personnage devient juridiquement responsable dans certaines situations, mais reste soumis à certaines limitations.
+1. les instructions les plus récentes de l’utilisateur ;
+2. les décisions explicitement validées ;
+3. la documentation spécialisée du système concerné ;
+4. `SCOPE.md` ;
+5. `PROJECT.md` ;
+6. les autres documents du projet ;
+7. le comportement actuel du code ;
+8. les anciennes conversations.
 
-Avant cet âge, la responsabilité relève notamment des parents ou de l'organisation compétente.
+Une décision récente remplace une décision ancienne incompatible.
 
-### 21 ans
+Si le comportement actuel du code et la documentation validée divergent, ne pas corriger silencieusement l’un ou l’autre.
 
-Le personnage peut notamment obtenir les autorisations nécessaires pour piloter ou posséder certains vaisseaux lorsque les autres conditions sont remplies.
-
-Les règles exactes peuvent varier selon la faction.
-
----
-
-# 6. Factions
-
-Les factions ne constituent pas uniquement des éléments narratifs.
-
-Elles peuvent posséder leurs propres :
-
-* règles ;
-* systèmes économiques ;
-* arbres de compétences ;
-* technologies ;
-* rangs sociaux ;
-* systèmes de réputation ;
-* restrictions ;
-* autorisations ;
-* institutions.
-
-## Humanis
-
-Humanis constitue la faction de référence au début du projet.
-
-Son arbre de progression sert d'arbre de référence.
-
-Humanis est une société fortement autoritaire.
-
-Les ordres de mission peuvent être obligatoires.
-
-Certaines activités ou possessions nécessitent des permis dépendant notamment du niveau social.
-
-**Réputation et niveau social sont deux valeurs différentes et ne doivent pas être confondus.**
-
-D'autres factions disposeront à terme de leurs propres systèmes.
+Identifier la divergence et déterminer quel comportement doit être conservé.
 
 ---
 
-# 7. Compétences individuelles
+# 4. Principe fondamental de la restructuration documentaire
 
-Chaque faction possède son propre arbre de progression.
+RP SF est un projet existant et déjà largement développé.
 
-L'arbre de référence initial est celui d'Humanis.
+La restructuration actuelle de la documentation **n’est pas une refonte du projet**.
 
-Un personnage choisit une spécialisation principale lors de son inscription afin de représenter son background.
+Par défaut :
 
-Il peut ensuite progresser dans plusieurs branches et devenir polyvalent.
+- conserver les fonctionnalités existantes ;
+- conserver les données existantes ;
+- conserver les comportements non concernés par une demande ;
+- ne pas supprimer une fonctionnalité simplement parce qu’elle n’est pas encore documentée ;
+- ne pas réinterpréter une mécanique existante sans raison ;
+- ne pas implémenter automatiquement une idée découverte pendant la documentation.
 
-Il est techniquement possible de progresser fortement dans plusieurs domaines.
+L’objectif actuel est d’obtenir progressivement une documentation fidèle au projet réel.
 
-Cependant, un personnage ne peut posséder qu'**une seule surspécialisation**.
-
-## Arbre Humanis
-
-### Scientifique
-
-Orientation vers l'exploration, la recherche et les technologies associées.
-
-Surspécialisations :
-
-* Explorateur ;
-* Médecin.
-
-### Officiel
-
-Orientation vers les institutions, la négociation, le commerce et le renseignement.
-
-Surspécialisations :
-
-* Marchandeur ;
-* Espion.
-
-### Soldat
-
-Orientation militaire et tactique.
-
-Surspécialisations :
-
-* Tireur ;
-* Stratège.
-
-### Technicien
-
-Orientation vers les systèmes techniques et les vaisseaux.
-
-Surspécialisations :
-
-* Ingénieur ;
-* Pilote.
+Une suggestion reste une suggestion jusqu’à validation explicite.
 
 ---
 
-# 8. Dynasties
+# 5. Présentation du projet
 
-Les dynasties constituent un système distinct des personnages individuels.
+RP SF / Gaïa RP est une application web destinée à servir de support à un jeu de rôle écrit de science-fiction.
 
-Elles possèdent leur propre progression et leurs propres avantages.
+Le site ne remplace pas le RP écrit.
 
-Certains avantages dynastiques peuvent être utilisés un nombre limité de fois par tour.
+Il fournit l’environnement et les outils nécessaires à son fonctionnement.
 
-Les valeurs de référence actuellement envisagées sont :
+Le projet comprend ou doit progressivement permettre de gérer notamment :
 
-* niveau faible : 0,3 utilisation/tour ;
-* niveau intermédiaire : 0,6 utilisation/tour ;
-* niveau élevé : 1 utilisation/tour.
-
-Le panneau Dynastie doit rester indépendant du panneau Personnage tout en permettant de naviguer facilement entre les deux.
-
----
-
-# 9. Économie
-
-Chaque faction peut disposer de sa propre économie.
-
-Les prix ne sont pas nécessairement universels.
-
-Ils peuvent évoluer selon :
-
-* l'état économique de la faction ;
-* les événements ;
-* les missions ;
-* les décisions majeures ;
-* les actions des joueurs ;
-* les interventions du MJ.
-
-Les fluctuations économiques restent principalement un outil RP et ne doivent pas nécessairement être simulées intégralement.
-
-Des événements importants peuvent provoquer des périodes de :
-
-* croissance ;
-* crise ;
-* pénurie ;
-* faillite ;
-* boom économique.
-
-## Dette
-
-La dette ne produit pas automatiquement d'intérêts.
-
-Les conséquences dépendent notamment :
-
-* du montant ;
-* de la durée ;
-* du contexte.
-
-Des saisies peuvent avoir lieu lorsque la situation le justifie.
-
-## Missions et récompenses
-
-Le fonctionnement général d'une mission est :
-
-**Sélection de la mission → RP lié → Demande de validation → Vérification MJ → Validation → Attribution des gains**
-
-Les gains ne sont donc pas accordés automatiquement simplement parce qu'une condition technique a été remplie.
-
-Après validation par le MJ, le site peut appliquer automatiquement les récompenses.
-
-Lorsqu'une mission implique plusieurs PJ, la récompense est répartie selon un système de **parts** défini dans le contrat établi avec le capitaine.
+- les membres / joueurs ;
+- les personnages joueurs et non-joueurs ;
+- les dynasties ;
+- les vaisseaux ;
+- les équipages ;
+- les RP ;
+- la carte galactique ;
+- les lieux ;
+- les missions ;
+- les événements ;
+- la progression ;
+- l’économie ;
+- les voyages ;
+- les combats ;
+- le lore ;
+- les factions ;
+- les espèces ;
+- les religions ;
+- les découvertes et technologies ;
+- les outils nécessaires aux MJ et à l’administration.
 
 ---
 
-# 10. Vaisseaux
+# 6. Philosophie générale
 
-Les vaisseaux possèdent leur propre panneau de consultation et de gestion.
+## 6.1 Le RP reste prioritaire
 
-Une page distincte est prévue pour leur modification.
+Les mécaniques du site servent le RP.
 
-Le système doit distinguer notamment :
+Le site ne doit pas chercher à automatiser tout ce qui pourrait techniquement l’être.
 
-* exploration ;
-* combat ;
-* taille ;
-* Tier ;
-* équipage ;
-* capitaine ;
-* localisation ;
-* état ;
-* systèmes embarqués.
+Certaines décisions doivent rester sous contrôle humain lorsqu’elles nécessitent :
 
-## Classification
+- une interprétation narrative ;
+- une décision du MJ ;
+- une appréciation contextuelle ;
+- un arbitrage RP.
 
-### Petits vaisseaux
+## 6.2 Rôle de l’automatisation
 
-* Corvette ;
-* Frégate.
+L’automatisation est pertinente lorsqu’elle permet notamment de :
 
-### Vaisseaux moyens
+- réduire les tâches répétitives ;
+- éviter les erreurs de calcul ;
+- conserver un état cohérent ;
+- appliquer une conséquence déjà validée ;
+- faciliter la consultation ;
+- simplifier la gestion du jeu.
 
-* Destroyer ;
-* Croiseur léger ;
-* Croiseur ;
-* autres classes selon évolution du système.
+Une mécanique ne doit pas devenir artificiellement complexe simplement pour être entièrement automatisée.
 
-Chaque classe peut exister du **Tier I au Tier V** lorsque cela est applicable.
+## 6.3 Contrôle du MJ
 
-## Exploration et combat
+Le projet doit conserver des outils permettant aux MJ de contrôler les systèmes structurants du jeu.
 
-Les variantes de combat disposent généralement d'une capacité d'accueil de PJ inférieure aux variantes d'exploration de taille comparable.
+Le site doit faciliter leurs interventions plutôt que chercher à les remplacer.
 
-Cela ne signifie pas qu'elles nécessitent moins de spécialistes.
-
-Les armes, systèmes offensifs, blindages et structures renforcées occupent davantage de volume interne, ce qui réduit l'espace disponible pour les quartiers d'équipage et les installations habitables.
+Les détails des pouvoirs et outils MJ seront documentés dans les systèmes concernés.
 
 ---
 
-# 11. Déplacements spatiaux
+# 7. Objectifs généraux
 
-Le capitaine sélectionne la destination selon une hiérarchie :
+## 7.1 Joueurs
 
-**Secteur → Système → Destination**
+L’application doit permettre à un joueur de retrouver facilement :
 
-La localisation du vaisseau doit être clairement enregistrée.
+- son personnage ;
+- ses informations ;
+- ses RP ;
+- sa progression ;
+- son vaisseau et/ou son équipage lorsque pertinent ;
+- les informations du monde auxquelles il a accès ;
+- les outils nécessaires à ses actions.
 
-Les états tels que **Amarré** et **En orbite** doivent être gérés explicitement lorsque nécessaire.
+L’interface doit rester compréhensible même lorsque les mécaniques sous-jacentes sont complexes.
 
-## Technologies de saut
+## 7.2 MJ / administration
 
-Plusieurs systèmes de déplacement interstellaire existent ou sont prévus.
+L’application doit progressivement permettre de gérer les données du jeu sans devoir modifier directement le code pour les opérations courantes lorsque cela est raisonnablement possible.
 
-### Stations Imperium
+Les outils d’administration doivent privilégier :
 
-Moyen de transport très sûr.
+- la lisibilité ;
+- la rapidité ;
+- la cohérence ;
+- la sécurité ;
+- la limitation des tâches répétitives ;
+- la traçabilité lorsque nécessaire.
 
-Contraintes principales :
+## 7.3 Cohérence du monde
 
-* coûteux ;
-* infrastructure extrêmement longue à installer ;
-* infrastructure fixe ;
-* nécessite une phase de calcul pendant laquelle le vaisseau reste immobile.
+Les systèmes doivent fonctionner ensemble.
 
-### Trou de Ver
-
-Permet de rejoindre des destinations extrêmement éloignées.
-
-Il nécessite une longue préparation.
-
-Il ne constitue pas un moyen viable de fuite immédiate pendant un combat.
-
-### Générateur de faille
-
-Déplacement extrêmement rapide.
-
-Le passage comporte une faible probabilité de destruction.
-
-L'utilisation du système peut provoquer l'apparition de failles dimensionnelles dans des endroits imprévisibles de l'univers.
-
-## Propulseurs conventionnels
-
-Plusieurs familles de propulseurs doivent proposer de véritables compromis.
-
-Les premières technologies Humanis comprennent notamment :
-
-* Plasma ;
-* Ionique ;
-* troisième technologie à déterminer.
-
-Les propulseurs peuvent différer selon :
-
-* vitesse ;
-* consommation énergétique ;
-* discrétion ;
-* autres propriétés techniques.
-
-Il ne doit pas exister une technologie systématiquement meilleure dans tous les domaines.
-
----
-
-# 12. Combat spatial
-
-Les combats spatiaux fonctionnent par **tours simultanés**.
-
-Les joueurs choisissent leurs actions avant la résolution du tour.
-
-Lorsque les participants nécessaires sont prêts, le serveur résout les actions.
-
-Un système de **Ready Check** permet de déterminer lorsque les joueurs concernés ont terminé leurs choix.
-
-Le capitaine ou le MJ peut gérer un poste lorsqu'un participant est absent ou inactif.
-
-## Postes
-
-Les actions disponibles dépendent du poste occupé.
+Une modification concernant un système central doit prendre en compte ses dépendances éventuelles avec les autres systèmes.
 
 Exemples :
 
-* tir ;
-* esquive ;
-* réparation ;
-* renforcement ;
-* gestion des systèmes ;
-* autres actions spécialisées.
+- personnage ↔ dynastie ;
+- personnage ↔ vaisseau ;
+- personnage ↔ compétences ;
+- RP ↔ personnage ;
+- RP ↔ localisation ;
+- vaisseau ↔ équipage ;
+- carte ↔ voyages ;
+- faction ↔ économie ;
+- temps ↔ progression ;
+- combat ↔ vaisseaux.
 
-## Ciblage
+## 7.4 Maintenabilité
 
-À chaque tour, le capitaine définit la cible principale.
+Le projet doit rester maintenable malgré son augmentation progressive de taille.
 
-Lorsqu'un bouclier adverse est actif, une attaque normale touche d'abord le bouclier, même lorsqu'un système interne particulier est ciblé.
+Éviter :
 
-Certaines armes peuvent cependant :
-
-* ignorer le bouclier ;
-* ignorer le blindage ;
-* ignorer les deux ;
-* appliquer des effets temporaires.
-
-Exemple d'effet temporaire :
-
-**Réduction de Vitesse pendant X tours.**
-
-Les statistiques nécessaires à la prise de décision doivent être visibles lorsque le gameplay exige que les joueurs puissent les connaître.
-
----
-
-# 13. Lore
-
-Le Lore constitue une section structurée du site.
-
-Les catégories principales sont :
-
-## Histoire Galactique
-
-Organisation par chapitres.
-
-Un seul chapitre peut être développé ou ouvert initialement selon l'avancement du jeu.
-
-## Factions
-
-Chaque faction dispose de sa propre fiche.
-
-## Espèces
-
-Catégories prévues :
-
-* espèces conscientes ;
-* faune terrestre ;
-* faune spatiale.
-
-## Religions
-
-Catégories prévues :
-
-* Foi organisée ;
-* Cultes ;
-* Rumeurs ;
-* Mythes ;
-* Légendes.
-
-## Découvertes & Technologies
-
-Section destinée aux technologies et découvertes connues ou débloquées au cours du jeu.
-
-Les informations disponibles doivent pouvoir dépendre de l'état du monde et de la progression du RP.
+- la duplication inutile ;
+- les règles dispersées dans plusieurs endroits ;
+- les valeurs importantes non documentées ;
+- les fonctions différentes réalisant le même travail ;
+- les fichiers devenant massifs sans nécessité ;
+- les correctifs temporaires accumulés ;
+- la surarchitecture.
 
 ---
 
-# 14. Architecture de l'application
+# 8. Stack technique actuelle
 
-L'application doit être organisée en modules clairement séparés.
+La stack technique doit être vérifiée sur GitHub lorsqu’elle est nécessaire à une intervention.
 
-Principales sections :
+Au moment de la rédaction, le projet utilise :
 
-* Accueil ;
-* Membres ;
-* Personnages ;
-* Dynasties ;
-* Vaisseaux ;
-* Lore ;
-* Évènements ;
-* Compte ;
-* Missions ;
-* systèmes liés au gameplay ;
-* administration / MJ.
+- **React** ;
+- **React DOM** ;
+- **TypeScript** ;
+- **Vite** ;
+- modules ES.
 
-Une fonctionnalité ne doit pas être placée dans un fichier sans rapport simplement parce que ce fichier existe déjà.
+Le projet utilise actuellement TypeScript en mode strict.
 
-À mesure que le projet grandit, les responsabilités doivent être séparées.
+Le build de production est effectué avec Vite.
 
 ---
 
-# 15. Routing
+# 9. Structure technique actuelle
 
-Les pages principales doivent progressivement disposer de véritables routes.
+La structure exacte du dépôt peut évoluer.
 
-Exemples de structure cible :
+Toujours consulter GitHub avant une modification structurelle.
+
+L’organisation actuelle repose notamment sur :
+
+```text
+/
+├── .github/
+│   └── workflows/
+├── public/
+├── src/
+│   ├── features/
+│   ├── utils/
+│   ├── world/
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── router.ts
+│   └── styles.css
+├── CHANGELOG.md
+├── PROJECT.md
+├── README.md
+├── package.json
+├── tsconfig.json
+└── tsconfig.app.json
+```
+
+Cette représentation est indicative.
+
+Le dépôt GitHub reste la source de vérité concernant la structure réelle.
+
+---
+
+# 10. Organisation fonctionnelle actuelle
+
+Le projet utilise déjà une organisation par fonctionnalités dans `src/features/`.
+
+Les modules observés comprennent notamment :
+
+- `account` ;
+- `characters` ;
+- `combat` ;
+- `dynasty` ;
+- `events` ;
+- `lore` ;
+- `members` ;
+- `missions` ;
+- `rp` ;
+- `ships`.
+
+Les données et fonctions liées au monde et à la navigation spatiale sont notamment regroupées sous :
+
+`src/world/`
+
+Les fonctions utilitaires transversales doivent rester dans des modules appropriés plutôt que dans des composants sans rapport.
+
+---
+
+# 11. `App.tsx`
+
+`src/App.tsx` constitue actuellement le principal point d’orchestration de l’application.
+
+Il gère encore une quantité importante :
+
+- d’état global ;
+- de navigation ;
+- de sélection ;
+- de carte ;
+- de coordination entre modules.
+
+Cela décrit l’état actuel du projet, pas nécessairement son architecture définitive.
+
+Ne pas lancer une refonte de `App.tsx` uniquement parce que ce fichier est important.
+
+Si son découpage devient nécessaire, cette refonte devra être décidée et réalisée explicitement.
+
+---
+
+# 12. Routing actuel
+
+Le projet dispose d’un routing léger développé spécifiquement pour son architecture actuelle.
+
+Le système repose notamment sur :
+
+`src/router.ts`
+
+et sur l’**History API** du navigateur.
+
+Il ne dépend actuellement pas d’un framework de routing externe tel que React Router.
+
+## 12.1 Fonctions actuellement prises en charge
+
+Le routeur permet notamment :
+
+- `pushState` ;
+- `replaceState` ;
+- gestion du bouton précédent/suivant ;
+- restauration d’une route après chargement ;
+- normalisation des routes ;
+- génération de slugs ;
+- prise en compte du `BASE_URL` de Vite.
+
+## 12.2 Routes principales
+
+Les routes actuellement gérées comprennent notamment des chemins pour :
 
 ```text
 /
 ├── /pont
 ├── /carte
-│   ├── /secteurs/:id
-│   └── /systemes/:id/...
+├── /carte/secteurs/:id
+├── /carte/systemes/:id
+├── /carte/systemes/:id/objets/:id
 ├── /membres
-├── /membres/:id
 ├── /personnages/:id
 ├── /dynasties/:id
 ├── /vaisseaux/:id
+├── /vaisseaux/:id/configuration
 ├── /rp/:id
 ├── /combat/:id
+├── /lore/...
 ├── /evenements
 ├── /compte
-├── /lore
-│   ├── /histoire
-│   ├── /factions
-│   ├── /especes
-│   ├── /religions
-│   └── /technologies
 └── /admin
 ```
 
+Cette liste doit être considérée comme descriptive de l’état actuel.
+
+Elle peut évoluer avec le projet.
+
+## 12.3 Principe du routing
+
 Le routing doit permettre :
 
-* d'utiliser les boutons précédent/suivant du navigateur ;
-* de rafraîchir une page sans perdre la destination actuelle ;
-* de partager un lien vers une page ou une fiche ;
-* d'éviter de gérer toute la navigation uniquement par affichage/masquage de blocs HTML.
+- d’utiliser précédent / suivant ;
+- de rafraîchir une page ;
+- de partager un lien ;
+- d’accéder directement à une fiche lorsque cela est prévu ;
+- de conserver une navigation cohérente.
 
-Le système de routing doit rester proportionné à l'architecture technique réelle du projet.
+Le système doit rester proportionné aux besoins du projet.
 
-Ne pas introduire un framework lourd uniquement pour obtenir du routing si une solution légère suffit.
+Ne pas introduire automatiquement un framework de routing plus lourd si la solution actuelle répond correctement au besoin.
 
 ---
 
-# 16. Règles d'architecture
+# 13. GitHub Pages
 
-## Séparation des responsabilités
+Le projet est actuellement déployé via **GitHub Pages**.
 
-Dans la mesure du possible, séparer :
+Le déploiement est automatisé par GitHub Actions lors d’un push sur `main`.
+
+Le workflow :
+
+1. récupère le projet ;
+2. installe Node.js ;
+3. exécute `npm ci` ;
+4. construit le projet avec Vite ;
+5. publie le contenu de `dist`.
+
+Le build GitHub Pages utilise actuellement une base :
+
+`/GaiaRP/`
+
+---
+
+# 14. Compatibilité avec le sous-dossier GitHub Pages
+
+Le projet doit fonctionner à la fois :
+
+- en développement local sous `/` ;
+- sous le chemin `/GaiaRP/` utilisé par GitHub Pages.
+
+Les assets publics utilisent actuellement un résolveur basé sur :
+
+`import.meta.env.BASE_URL`
+
+via :
+
+`src/utils/assets.ts`
+
+Ne pas réintroduire de chemins absolus cassant le déploiement sous `/GaiaRP/`.
+
+---
+
+# 15. Compatibilité des routes avec GitHub Pages
+
+Le routing par History API doit tenir compte des limites d’un hébergement statique comme GitHub Pages.
+
+Le projet possède un mécanisme permettant de restaurer les routes directes lors du chargement de la SPA.
+
+Toute modification importante du routing doit vérifier au minimum :
+
+- navigation interne ;
+- précédent / suivant ;
+- rafraîchissement ;
+- lien direct ;
+- fonctionnement local ;
+- fonctionnement sous GitHub Pages.
+
+---
+
+# 16. Architecture : principes permanents
+
+## 16.1 Séparation des responsabilités
+
+Lorsque cela est raisonnable, séparer :
 
 **Données → Logique → Interface**
 
-Une donnée ne doit pas être dupliquée dans plusieurs endroits simplement pour faciliter son affichage.
+Éviter de placer de grandes quantités de données métier directement dans des composants d’interface si une structure dédiée est plus appropriée.
 
-Une modification d'une donnée centrale doit être répercutée partout où elle est utilisée.
+## 16.2 Source unique
 
-## Source unique
+Une même information centrale ne doit pas être maintenue indépendamment dans plusieurs endroits.
 
-Lorsqu'une information possède un identifiant unique, cet identifiant doit servir de référence.
+Lorsqu’un objet possède un identifiant stable, les relations doivent privilégier cet identifiant plutôt que son nom affiché.
 
-Éviter de créer plusieurs copies indépendantes du même personnage, vaisseau, faction, membre ou autre objet.
+Un changement de nom ne doit pas casser inutilement les relations.
 
-## Identifiants
+## 16.3 Modularité
 
-Les objets persistants importants doivent posséder un identifiant stable.
+Les fonctionnalités importantes doivent rester identifiables dans l’architecture.
 
-Les relations entre objets doivent utiliser ces identifiants plutôt que leur nom affiché lorsque cela est possible.
+Un système ne doit pas être ajouté à un fichier sans rapport uniquement parce que cet emplacement est pratique à court terme.
 
-Un changement de nom ne doit pas casser les relations existantes.
+## 16.4 Réutilisation raisonnable
 
-## Compatibilité
+Avant de créer une nouvelle fonction ou logique, vérifier si un comportement équivalent existe déjà.
 
-Lors d'une modification :
+Préférer une réutilisation claire à une duplication.
 
-* ne pas supprimer silencieusement une fonctionnalité existante ;
-* préserver les données existantes lorsque cela est raisonnablement possible ;
-* identifier les éventuelles migrations nécessaires ;
-* vérifier les systèmes dépendants avant de modifier une structure centrale.
+Ne pas créer d’abstraction générique prématurée sans besoin concret.
 
-## Pas de duplication fonctionnelle
+## 16.5 Pas de surarchitecture
 
-Avant d'ajouter une nouvelle fonction, vérifier qu'une fonction équivalente n'existe pas déjà.
+Le projet doit rester proportionné à ses besoins.
 
-Préférer réutiliser ou généraliser une fonction existante plutôt que créer plusieurs implémentations du même comportement.
+Ne pas introduire automatiquement :
 
-## Modularité
+- une nouvelle bibliothèque ;
+- un framework supplémentaire ;
+- une couche d’abstraction ;
+- un service externe ;
+- une architecture complexe ;
 
-Une fonctionnalité importante doit pouvoir évoluer sans nécessiter la modification de toute l'application.
-
-Les systèmes fortement liés peuvent communiquer, mais leurs responsabilités doivent rester identifiables.
-
----
-
-# 17. Interface utilisateur
-
-L'interface doit rester compréhensible sans nécessiter de connaître le fonctionnement interne du site.
-
-Les informations techniques utiles au développement ne doivent pas apparaître à l'utilisateur sauf lorsqu'elles possèdent également une utilité de gameplay.
-
-Les interfaces similaires doivent conserver des comportements similaires.
-
-Exemples :
-
-* mêmes conventions pour les boutons Retour ;
-* mêmes comportements pour les sélecteurs ;
-* mêmes conventions pour les fiches ;
-* mêmes représentations pour les états ;
-* navigation cohérente entre Personnage, Dynastie, Vaisseau et Membre.
-
-Les états importants peuvent utiliser des indicateurs visuels.
-
-Pour les valeurs possédant des seuils :
-
-* état normal ;
-* avertissement jaune ;
-* danger rouge.
-
-La couleur ne doit pas être le seul moyen de transmettre une information importante lorsque cela peut poser un problème de compréhension.
+lorsqu’une solution plus simple répond correctement au besoin.
 
 ---
 
-# 18. Permissions et visibilité
+# 17. Données du jeu
 
-Toutes les informations ne sont pas nécessairement accessibles à tous les utilisateurs.
+Les données structurantes doivent autant que possible être séparées de leur affichage.
 
-Le système doit pouvoir distinguer au minimum :
+Le projet utilise déjà plusieurs fichiers et structures de données dédiés.
 
-* visiteur ;
-* membre connecté ;
-* joueur concerné ;
-* MJ / administration.
+Cette approche doit être poursuivie lorsque pertinente.
 
-À terme, certaines informations pourront également dépendre :
-
-* de la faction ;
-* du personnage ;
-* des découvertes ;
-* du rang ;
-* des connaissances RP ;
-* des permissions spécifiques.
-
-Une information cachée ne doit pas simplement être masquée visuellement si elle est réellement confidentielle. Elle ne doit pas être envoyée au client lorsque l'architecture permettra de l'éviter.
+Une règle importante ne doit pas être dupliquée dans plusieurs composants uniquement pour faciliter son affichage.
 
 ---
 
-# 19. États du projet
+# 18. Documentation du projet
 
-Les fonctionnalités peuvent avoir plusieurs niveaux de maturité.
+La documentation fait partie du projet.
 
-Une fonctionnalité incomplète ne doit pas être présentée comme terminée uniquement parce qu'une interface existe.
+La structure documentaire cible comporte au minimum :
 
-Lors du développement, distinguer autant que possible :
+```text
+/
+├── PROJECT.md
+├── SCOPE.md
+├── SECURITY.md
+├── CHECKLIST.md
+├── README.md
+└── docs/
+```
 
-* fonctionnel ;
-* partiellement fonctionnel ;
-* interface uniquement ;
-* prévu ;
-* abandonné.
-
-Une idée prévue pour le futur ne doit pas être implémentée implicitement lors d'une modification sans validation préalable.
-
----
-
-# 20. Règles de modification du projet
-
-Avant une modification importante :
-
-1. identifier les fichiers concernés ;
-2. identifier les systèmes dépendants ;
-3. conserver les comportements existants qui ne sont pas explicitement modifiés ;
-4. effectuer la modification ;
-5. tester le comportement modifié ;
-6. vérifier les principales régressions potentielles.
-
-Une demande ciblée ne constitue pas une autorisation à refondre les systèmes adjacents.
-
-Si une refonte semble préférable, elle doit être proposée séparément.
+D’autres documents seront ajoutés progressivement.
 
 ---
 
-# 21. Versions
+# 19. Rôle des documents principaux
 
-Le projet utilise des versions de développement et des versions stables.
+## `PROJECT.md`
 
-Une version stable correspond à une base considérée comme suffisamment fiable pour être conservée comme référence.
+Cadre général et permanent.
 
-Les versions de développement servent à tester les nouvelles fonctionnalités avant intégration.
+Il contient :
 
-Une version invalidée ne doit pas être réutilisée comme nouvelle base simplement parce que son numéro est plus élevé.
+- vision ;
+- architecture générale ;
+- conventions ;
+- méthode de travail ;
+- règles structurelles.
 
-La dernière version fonctionnelle validée prime sur la version portant le numéro le plus récent.
+## `SCOPE.md`
 
-Le changelog doit décrire les modifications réellement effectuées.
+Détermine notamment :
 
----
+- ce qui appartient au projet ;
+- ce qui appartient à la version actuelle ;
+- les fonctionnalités incluses ;
+- les exclusions ;
+- les objectifs ;
+- les contraintes ;
+- les critères d’acceptation.
 
-# 22. Philosophie de développement
+## `SECURITY.md`
 
-Le projet est développé progressivement.
+Documente notamment :
 
-Les priorités sont :
+- les risques ;
+- l’authentification ;
+- les permissions ;
+- les données ;
+- les secrets ;
+- les services ;
+- les sauvegardes ;
+- les incidents ;
+- les tests de sécurité.
 
-1. fonctionnement correct ;
-2. conservation des fonctionnalités existantes ;
-3. clarté pour l'utilisateur ;
-4. maintenabilité ;
-5. extensibilité ;
-6. optimisation lorsque celle-ci devient nécessaire.
+## `CHECKLIST.md`
 
-Éviter la sur-ingénierie.
+Suit l’avancement global du projet.
 
-Une architecture plus complexe n'est souhaitable que lorsqu'elle résout un problème réel ou prépare une évolution déjà identifiée.
+Elle doit être mise à jour au fur et à mesure.
 
-Les systèmes doivent rester suffisamment flexibles pour accueillir de nouvelles factions, espèces, technologies, vaisseaux et mécaniques sans devoir reconstruire les fondations du projet.
+Les éléments non applicables doivent être explicitement identifiés `N/A` lorsque pertinent.
 
----
+## `README.md`
 
-# 23. Roadmap fonctionnelle actuelle
+Document destiné principalement à présenter le projet et permettre sa prise en main générale.
 
-État approximatif des principaux systèmes :
-
-* Squelette général : avancé ;
-* Page Membres : fonctionnelle / en développement ;
-* Panneau Personnage : largement avancé ;
-* Panneau Vaisseau : en développement ;
-* Dynasties : premières fondations ;
-* Lore : structure principale créée ;
-* Histoire Galactique : commencée ;
-* Factions : structure créée ;
-* Espèces : structure créée ;
-* Religions : structure créée ;
-* Découvertes & Technologies : à développer ;
-* Économie : conception en cours ;
-* Missions : conception / intégration progressive ;
-* Voyages : conception en cours ;
-* Combat spatial : règles principales en cours de définition ;
-* Administration MJ : développement progressif ;
-* Routing : première version fonctionnelle, à étendre avec les futures pages détaillées.
+Il ne remplace pas les documents internes de conception.
 
 ---
 
-# 24. Règle fondamentale
+# 20. Documentation spécialisée
 
-**Ne jamais considérer le code actuel comme la définition du fonctionnement voulu.**
+Les mécaniques complexes doivent progressivement être déplacées vers des documents spécialisés.
 
-Le code représente l'état actuel de l'implémentation.
+Exemples probables :
 
-Ce document représente les décisions de conception validées.
+```text
+docs/
+├── DESIGN_RULES.md
+├── MEMBERS.md
+├── CHARACTERS.md
+├── DYNASTIES.md
+├── SKILLS.md
+├── TIME_AND_RP.md
+├── RP_SYSTEM.md
+├── SHIPS.md
+├── SPACE_TRAVEL.md
+├── SPACE_COMBAT.md
+├── ECONOMY.md
+├── MISSIONS.md
+├── WORLD_MAP.md
+├── LORE.md
+├── PERMISSIONS.md
+└── ...
+```
 
-Lorsqu'une contradiction apparaît entre une ancienne implémentation et une règle explicitement définie dans ce document, la règle du projet doit servir de référence, après vérification qu'elle est toujours d'actualité.
+Cette liste n’impose pas la création immédiate de ces fichiers.
+
+Ils doivent être créés uniquement lorsque leur contenu est travaillé.
+
+---
+
+# 21. Ne pas inventer de règles
+
+Lorsqu’une règle nécessaire au développement n’est pas documentée :
+
+1. vérifier les documents du projet ;
+2. vérifier le code actuel ;
+3. vérifier les décisions récentes ;
+4. vérifier les anciennes discussions si nécessaire.
+
+Si la réponse reste réellement inconnue, ne pas inventer.
+
+Demander une décision ou proposer plusieurs possibilités clairement identifiées comme telles.
+
+---
+
+# 22. Ne pas développer une suggestion
+
+Une suggestion peut être formulée lorsqu’elle permet d’identifier :
+
+- une incohérence ;
+- un risque ;
+- une amélioration UX ;
+- une amélioration technique ;
+- un problème de sécurité ;
+- un oubli probable ;
+- une simplification intéressante.
+
+Mais une suggestion ne constitue jamais une autorisation de développement.
+
+Attendre une validation explicite lorsqu’elle modifie le comportement ou le périmètre.
+
+---
+
+# 23. Aucune génération implicite
+
+Ne jamais lancer automatiquement :
+
+- une modification du code ;
+- une création de fichier ;
+- une suppression ;
+- une génération d’archive ;
+- une génération de contenu ;
+- une génération d’image ;
+- une refonte ;
+
+simplement parce qu’une idée est discutée.
+
+Une discussion, une analyse ou une validation conceptuelle ne constitue pas une demande d’exécution.
+
+---
+
+# 24. Modes de travail
+
+Deux modes peuvent être utilisés :
+
+- `ZIP COMPLET`
+- `PAS À PAS`
+
+Le mode utilisé précédemment pour le projet est conservé tant qu’un changement n’est pas explicitement demandé.
+
+Le mode de travail ne doit jamais être changé automatiquement.
+
+---
+
+# 25. Mode ZIP COMPLET
+
+Lorsque le travail est demandé sous forme de ZIP complet :
+
+- récupérer ou utiliser la version GitHub actuelle comme base ;
+- ne pas repartir d’une ancienne archive ;
+- modifier uniquement ce qui est nécessaire ;
+- préserver les fonctionnalités non concernées ;
+- vérifier autant que possible le projet ;
+- fournir une archive complète.
+
+Une ancienne archive éventuellement fournie doit être considérée comme une pièce de contexte sauf si l’utilisateur indique explicitement qu’elle devient la nouvelle base.
+
+---
+
+# 26. Mode PAS À PAS
+
+Si le travail est explicitement réalisé en mode pas à pas, chaque modification doit indiquer :
+
+- chemin exact ;
+- fichier exact ;
+- emplacement précis ;
+- action ;
+- contenu ;
+- courte explication.
+
+Actions :
+
+- `CRÉER`
+- `AJOUTER`
+- `REMPLACER`
+- `SUPPRIMER`
+
+Lorsqu’un contenu existant doit être remplacé, utiliser directement `REMPLACER`.
+
+Ne jamais supposer que l’utilisateur sait où placer un morceau de code.
+
+---
+
+# 27. Niveau d’explication
+
+Les explications doivent être :
+
+- courtes ;
+- concrètes ;
+- liées à l’étape en cours ;
+- compréhensibles sans connaissance implicite avancée.
+
+Le niveau technique de l’utilisateur évolue et ne doit pas être artificiellement sous-estimé.
+
+En revanche, une difficulté ou un risque réel ne doit pas être masqué pour simplifier l’explication.
+
+---
+
+# 28. Ne pas mélanger les projets
+
+RP SF possède :
+
+- ses propres règles ;
+- sa propre architecture ;
+- son propre lore ;
+- ses propres données ;
+- ses propres contraintes.
+
+Ne jamais importer automatiquement une solution ou une convention provenant d’un autre projet.
+
+Une approche utilisée ailleurs peut être proposée, mais son intégration doit être décidée spécifiquement pour RP SF.
+
+---
+
+# 29. UX / UI — principes généraux
+
+L’interface doit rester :
+
+- moderne ;
+- cohérente ;
+- lisible ;
+- science-fiction ;
+- fonctionnelle ;
+- immersive sans sacrifier l’ergonomie.
+
+La cohérence visuelle entre les différentes sections est importante.
+
+Des composants remplissant le même rôle doivent autant que possible conserver des comportements similaires.
+
+---
+
+# 30. Lisibilité
+
+Privilégier :
+
+- une taille de texte confortable ;
+- une hiérarchie visuelle claire ;
+- des espacements cohérents ;
+- des actions facilement identifiables ;
+- des états compréhensibles.
+
+Éviter de condenser artificiellement l’interface uniquement pour afficher davantage d’informations.
+
+---
+
+# 31. Responsive
+
+Les interfaces doivent être conçues pour rester utilisables sur différentes tailles d’écran lorsque cela est pertinent.
+
+Une interface complexe destinée au bureau ne doit pas simplement être réduite jusqu’à devenir inutilisable sur mobile.
+
+Le comportement mobile des systèmes complexes doit être réfléchi au cas par cas.
+
+---
+
+# 32. Règles de design spécialisées
+
+Les conventions détaillées concernant notamment :
+
+- avatars ;
+- grands avatars ;
+- mini-avatars ;
+- illustrations ;
+- vaisseaux ;
+- panneaux ;
+- cartes ;
+- couleurs ;
+- typographie ;
+- composants ;
+
+doivent progressivement être centralisées dans une documentation de design dédiée.
+
+Ne pas surcharger `PROJECT.md` de règles graphiques spécifiques à un seul composant.
+
+---
+
+# 33. Lore
+
+Le lore fait partie intégrante du projet.
+
+Ne jamais inventer une information canonique pour compléter une interface ou un document.
+
+Lorsqu’une information n’est pas encore définie :
+
+- l’indiquer comme telle ;
+- ou proposer des possibilités séparément.
+
+Une proposition n’est canonique qu’après validation.
+
+---
+
+# 34. Lore et mécaniques
+
+Distinguer :
+
+- les faits de l’univers ;
+- les règles de jeu ;
+- les représentations techniques ou simplifications de l’application.
+
+Une contrainte technique ne doit pas modifier silencieusement le lore.
+
+Inversement, toutes les règles narratives n’ont pas nécessairement besoin d’une automatisation informatique.
+
+---
+
+# 35. Permissions et confidentialité
+
+Le projet prévoit différents niveaux ou contextes d’accès.
+
+Les permissions détaillées doivent être documentées séparément.
+
+Principe général :
+
+**masquer une information dans l’interface ne constitue pas une protection de sécurité.**
+
+Lorsqu’une donnée doit réellement être confidentielle, sa protection doit être réalisée au niveau technique approprié.
+
+---
+
+# 36. Sécurité
+
+`SECURITY.md` constitue la référence détaillée de sécurité.
+
+Les principes généraux suivants s’appliquent cependant en permanence :
+
+- aucun secret réel dans Git ;
+- aucun secret confidentiel dans le frontend ;
+- validation des entrées non fiables ;
+- contrôle des permissions au niveau adapté ;
+- protection des interfaces administratives ;
+- limitation des accès au nécessaire ;
+- prise en compte des données personnelles ;
+- sauvegardes lorsque nécessaires ;
+- sécurité considérée dès la conception.
+
+---
+
+# 37. Dépendances
+
+Avant d’ajouter une dépendance importante, évaluer :
+
+- son utilité réelle ;
+- sa maintenance ;
+- sa licence ;
+- sa sécurité ;
+- son coût éventuel ;
+- sa pérennité ;
+- sa difficulté de remplacement.
+
+Le projet utilise actuellement relativement peu de dépendances principales.
+
+Éviter d’alourdir inutilement cette base.
+
+---
+
+# 38. Corrections
+
+Lorsqu’un bug apparaît :
+
+1. rechercher sa cause ;
+2. éviter d’empiler des contournements temporaires ;
+3. corriger la cause lorsque raisonnablement possible ;
+4. vérifier les systèmes liés ;
+5. tester la régression éventuelle.
+
+Si une ancienne modification était mauvaise, le signaler et la corriger proprement.
+
+---
+
+# 39. Modifications importantes
+
+Avant une modification structurelle importante :
+
+1. consulter la version actuelle sur GitHub ;
+2. identifier les fichiers concernés ;
+3. identifier les dépendances ;
+4. vérifier la documentation du système ;
+5. conserver les comportements qui ne doivent pas changer ;
+6. effectuer la modification ;
+7. tester ;
+8. mettre à jour la documentation si nécessaire.
+
+Une demande ciblée n’autorise pas une refonte générale.
+
+---
+
+# 40. Tests
+
+Une fonctionnalité n’est pas terminée simplement parce que son interface s’affiche.
+
+Selon le système, vérifier notamment :
+
+- cas nominal ;
+- erreurs ;
+- cas limites ;
+- navigation ;
+- responsive ;
+- permissions ;
+- données ;
+- interactions avec les autres systèmes ;
+- régressions.
+
+Pour le routing, vérifier systématiquement les comportements spécifiques définis dans la section correspondante.
+
+---
+
+# 41. État des fonctionnalités
+
+Les fonctionnalités peuvent être :
+
+- fonctionnelles ;
+- partiellement fonctionnelles ;
+- prototypes ;
+- interfaces uniquement ;
+- prévues ;
+- abandonnées.
+
+Ne pas présenter une interface comme une fonctionnalité terminée si la logique correspondante n’existe pas encore.
+
+Ne pas implémenter une fonctionnalité future simplement parce qu’un placeholder existe déjà.
+
+---
+
+# 42. Changelog et versions
+
+`CHANGELOG.md` doit décrire les modifications réellement effectuées.
+
+Le numéro de version sert à identifier un état du projet.
+
+Il ne doit pas être utilisé pour remplacer la règle principale :
+
+**la version technique de référence est la version actuellement présente sur `main`.**
+
+Les anciennes versions servent à comprendre l’historique ou récupérer ponctuellement une information lorsque nécessaire, pas à déterminer automatiquement la base de travail.
+
+---
+
+# 43. Documentation après développement
+
+Lorsqu’une modification change durablement :
+
+- une règle métier ;
+- une convention ;
+- l’architecture ;
+- une dépendance ;
+- un comportement important ;
+- une contrainte ;
+
+mettre à jour le document correspondant.
+
+Une règle importante ne doit pas rester uniquement dans une conversation.
+
+---
+
+# 44. Restructuration documentaire actuelle
+
+La documentation historique du projet contient actuellement un mélange de :
+
+- règles générales ;
+- architecture ;
+- mécaniques de jeu ;
+- roadmap ;
+- décisions temporaires.
+
+Cette documentation est progressivement reconstruite.
+
+Ordre prévu :
+
+1. `PROJECT.md` ;
+2. `SCOPE.md` ;
+3. `SECURITY.md` ;
+4. `CHECKLIST.md` ;
+5. documentation spécialisée des différents modules.
+
+Chaque système spécialisé sera repris séparément.
+
+Pendant cette restructuration, l’absence temporaire d’une règle dans un nouveau document ne signifie pas que cette règle est supprimée.
+
+---
+
+# 45. Règle de prudence
+
+En cas de doute :
+
+**ne pas inventer et ne pas revenir arbitrairement à une ancienne version.**
+
+Pour l’état du projet, consulter GitHub.
+
+Pour le comportement souhaité, consulter les décisions et la documentation les plus récentes.
+
+Si une décision manque réellement, la demander.
+
+---
+
+# 46. Objectif final
+
+RP SF doit progressivement devenir un projet :
+
+- cohérent ;
+- maintenable ;
+- documenté ;
+- testable ;
+- sécurisé de façon adaptée ;
+- compréhensible ;
+- évolutif sans surarchitecture ;
+- fidèle au lore et aux règles validées ;
+- utilisable par les joueurs et MJ ;
+- repris facilement sans dépendre d’informations présentes uniquement dans d’anciennes conversations.
+
+Le projet doit pouvoir continuer à grandir sans que chaque nouvelle fonctionnalité fragilise les systèmes déjà établis.
